@@ -83,8 +83,6 @@ public class MelonChartParser extends MusicChartParser{
 	
 	private String melonChartParsingTitle = "멜론 차트 파싱중..";
 	private String melonChartParsingMessage = "멜론 차트 100곡에 대한 정보를 불러오는 중 입니다 :)";
-
-	public int chart = 1;
 	
 	public MelonChartParser() { // 초기화 작업을 진행함
 		songCount = 0;				// 파싱한 노래 개수(초기값은 0)
@@ -115,13 +113,15 @@ public class MelonChartParser extends MusicChartParser{
 				// 연결 후 웹페이지를 긁어옴
 				Document melonDocument = melonConnection.get();
 
-				// 1~100위에 대한 정보를 불러옴, 순위와 곡의 상세한 정보를 뽑기 위한 링크를 뽑는 용도로 사용
-				Elements data1st100 = melonDocument.select("table").first().select("tbody > tr");
+				// 1~50위에 대한 정보를 불러옴, 순위와 곡의 상세한 정보를 뽑기 위한 링크를 뽑는 용도로 사용
+				Elements data1st50 = melonDocument.select("tr.lst50");
+				
+				// 51~100위에 대한 정보를 불러옴, 순위와 곡의 상세한 정보를 뽑기 위한 링크를 뽑는 용도로 사용
+				Elements data51st100 = melonDocument.select("tr.lst100");
 
 				chartList = new JSONArray();
 
-				for (Element elem : data1st100) { // 1~100위에 대한 내용 파싱
-
+				for (Element elem : data1st50) { // 1~50위에 대한 내용 파싱
 					// JSONObject에 데이터를 넣기 위한 작업
 					HashMap<String, Object> songAllInfo = new HashMap<String, Object>();
 
@@ -129,7 +129,7 @@ public class MelonChartParser extends MusicChartParser{
 					songAllInfo.put("songId", elem.attr("data-song-no").toString());
 
 					// key : rank, value : 순위
-					songAllInfo.put("rank", Integer.toString(chart++));
+					songAllInfo.put("rank", elem.select("span.rank").first().text());
 
 					// key : smallImageUrl, value : 노래 이미지(사이즈 작음) 링크 (큰 사이즈 이미지는 detailDataParsing에서 다룸)
 					songAllInfo.put("smallImageUrl", elem.select("a > img").first().attr("src").toString());
@@ -170,14 +170,64 @@ public class MelonChartParser extends MusicChartParser{
 					songCount++;
 					//progressMonitor.setProgress(songCount);
 				}
+			
+				for (Element elem : data51st100) { // 51~100위에 대한 내용 파싱
+					// JSONObject에 데이터를 넣기 위한 작업
+					HashMap<String, Object> songAllInfo = new HashMap<String, Object>();
 
+					// key : songId, value : 노래 아이디 - 상세 정보를 파싱할 때 필요함
+					songAllInfo.put("songId", elem.attr("data-song-no").toString());
+
+					// key : rank, value : 순위
+					songAllInfo.put("rank", elem.select("span.rank").first().text());
+
+					// key : smallImageUrl, value : 노래 이미지(사이즈 작음) 링크 (큰 사이즈 이미지는
+					// detailDataParsing에서 다룸)
+					songAllInfo.put("smallImageUrl", elem.select("a > img").first().attr("src").toString());
+
+					// key : title, value : 노래 제목
+					songAllInfo.put("title", elem.select("div.ellipsis > span > a").first().text().toString());
+
+					// key : artist, value : 가수 이름
+					songAllInfo.put("artist", elem.select("div.ellipsis").get(1).select("a").first().text().toString());
+
+					// key : albumName, value : 앨범 이름
+					songAllInfo.put("albumName", elem.select("div.ellipsis").get(2).select("a").text().toString());
+
+					// 노래의 좋아요 개수를 뽑아내기 위한 url을 만듬, 멜론은 좋아요 개수를 따로 불러오는 방식이라 단순 크롤링으로는 불러와지지 않기 때문
+					String likeNumUrl = "https://www.melon.com/commonlike/getSongLike.json?contsIds=" + songAllInfo.get("songId").toString();
+
+					// 노래의 좋아요 개수를 뽑아내기 위한 url에 연결 후 JSON을 받아옴
+					Document likeNumDocument = Jsoup.connect(likeNumUrl).header("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3")
+							.header("Sec-Fetch-User", "?1")
+							.header("Upgrade-Insecure-Requests", "1")
+							.header("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36")
+							.ignoreContentType(true).get();
+
+					// JSONParser로 파싱하여 JSONObject로 변환하고, HashMap에 추가함
+					// key : likeNum, value : 좋아요 개수
+					JSONParser parser = new JSONParser();
+					JSONObject obj = (JSONObject) parser.parse(likeNumDocument.text());
+					songAllInfo.put("likeNum", ((JSONObject) (((JSONArray) obj.get("contsLike")).get(0))).get("SUMMCNT").toString());
+
+					// 값들을 JSONObject로 변환
+					JSONObject jsonSongInfo = new JSONObject(songAllInfo);
+
+					// JSONArray에 값 추가, 노래 개수 증가
+					chartList.add(jsonSongInfo);
+					songCount++;
+					
+					//progressMonitor.setProgress(songCount);
+				}
+
+				
 				// 파싱 결과 출력(테스트용)
-
+				/*
 				for (Object o : chartList) {
 					if (o instanceof JSONObject)
 						System.out.println(((JSONObject) o));
 				}
-
+				*/
 			} // try
 			catch (HttpStatusException e) { // 멜론의 경우 Request Header를 같이 보내주어도 너무 자주 파싱을 시도할 시에 일시적 차단을 하므로 그에 대한 처리
 				e.printStackTrace();

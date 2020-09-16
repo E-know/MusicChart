@@ -9,11 +9,14 @@ import java.time.format.DateTimeFormatter;
 public class ChartPrimaryPanel extends JPanel{
     private SitePanel pnlSitePanel;
     private JButton btnRefresh, btnSite_M, btnSite_B, btnSite_G, btnSearch;
-    private JLabel lblTime;
+    private JLabel lblTime, lblChart;
     private JComboBox<String> strCombo;
 
     private ButtonListener  ButtonRefresh, ButtonSearch,
             ButtonMelon, ButtonBugs, ButtonGenie;
+
+    private String strSearchMusic;
+    private String strMelonSite, strBugsSite, strGenieSite;
 
     private String[] strSearchCategory = {"Name", "Artist"};
 
@@ -28,6 +31,20 @@ public class ChartPrimaryPanel extends JPanel{
     String formatted_Genie = current.format(formatter);
     //refreshTime
 
+    //get/set
+    public String getStrMelonSite()        {return strMelonSite;}
+    public String getStrSearchMusic()      {return strSearchMusic;}
+    public String getStrBugsSite()         {return strBugsSite;}
+    public String getStrGenieSite()        {return strGenieSite;}
+
+    public void setStrMelonSite(String strMelonSite)          {
+        this.strMelonSite = strMelonSite;}
+    public void setStrSearchMusic(String strSearchMusic)      {
+        this.strSearchMusic = strSearchMusic;}
+    public void setStrBugsSite(String strBugsSite)            {
+        this.strBugsSite = strBugsSite;}
+    public void setStrGenieSite(String strGenieSite)          {
+        this.strGenieSite = strGenieSite;}
 
     public ChartPrimaryPanel(){
 
