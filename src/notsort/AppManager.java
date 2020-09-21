@@ -1,5 +1,5 @@
 import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
+import view.CommentUI;
 
 import javax.swing.*;
 import java.awt.*;
