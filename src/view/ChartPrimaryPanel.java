@@ -2,7 +2,6 @@ package view;
 
 import notsort.AppManager;
 import notsort.MakeComment;
-import notsort.SitePanel;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;

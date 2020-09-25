@@ -1,4 +1,4 @@
-package notsort;
+package view;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -8,6 +8,9 @@ import java.net.URL;
 import java.util.Comparator;
 import javax.swing.*;
 import javax.swing.table.*;
+
+import notsort.AppManager;
+import notsort.MusicChartParser;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
