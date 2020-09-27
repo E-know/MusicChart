@@ -1,4 +1,7 @@
-package notsort;
+package view;
+
+import notsort.AppManager;
+import notsort.MakeComment;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;

@@ -1,6 +1,7 @@
 package notsort;
 
 import org.json.simple.JSONArray;
+import view.ChartPrimaryPanel;
 import view.CommentUI;
 
 import javax.swing.*;
