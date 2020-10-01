@@ -1,4 +1,4 @@
-package notsort;
+package model;
 
 import java.util.HashMap;
 
@@ -20,7 +20,7 @@ import java.awt.*;
  *
  **/
 
-public class MelonChartParser extends MusicChartParser{
+public class MelonChartParser extends MusicChartParser {
 
 	/*
 	 * MelonChartParser Description (KO_KR)

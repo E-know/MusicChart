@@ -1,4 +1,4 @@
-package notsort;
+package model;
 
 import java.awt.*;
 import java.util.HashMap;
