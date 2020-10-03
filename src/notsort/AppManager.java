@@ -21,8 +21,8 @@ public class AppManager {
     private BugsChartParser detailBugs;
     private GenieChartParser detailGenie;
 
-    private AppManager(){
-    	s_instance = this;
+    private AppManager() {
+        s_instance = this;
 
         Site_M_B_G = 1;
         chartData = new JSONArray[4];
@@ -38,18 +38,18 @@ public class AppManager {
         detailGenie = null;
     }
 
-    public JPanel getPrimaryPanel(){
-        if(primaryPanel == null) {
-            primaryPanel = new JPanel(){
-                public void paintComponent(Graphics g){
+    public JPanel getPrimaryPanel() {
+        if (primaryPanel == null) {
+            primaryPanel = new JPanel() {
+                public void paintComponent(Graphics g) {
                     ImageIcon icon = new ImageIcon("Image\\background.jpg");
-                    g.drawImage(icon.getImage(),0,0,null);
+                    g.drawImage(icon.getImage(), 0, 0, null);
                     setOpaque(false);
                     super.paintComponent(g);
                 }
             };
             primaryPanel.setLayout(null);
-            primaryPanel.setPreferredSize(new Dimension(1280,960));
+            primaryPanel.setPreferredSize(new Dimension(1280, 960));
             primaryPanel.setBackground(Color.BLACK);
         }
         return primaryPanel;
@@ -58,8 +58,9 @@ public class AppManager {
     public CommentUI getPnlCommentUI() {
         return pnlCommentUI;
     }
+
     public ChartPrimaryPanel getPnlChartPrimary() {
-        if(pnlChartPrimary == null){
+        if (pnlChartPrimary == null) {
             pnlChartPrimary = new ChartPrimaryPanel();
             pnlChartPrimary.setVisible(true);
             pnlChartPrimary.setLayout(null);
@@ -67,24 +68,27 @@ public class AppManager {
         return pnlChartPrimary;
     }
 
-    public void setSite_M_B_G(int M_B_G){
+    public void setSite_M_B_G(int M_B_G) {
         Site_M_B_G = M_B_G;
     }
+
     public int getSite_M_B_G() {
         return Site_M_B_G;
     }
 
     public MelonChartParser getMelonChartParser() {
-		return melon;
-	}
-    public BugsChartParser getBugsChartParser() {
-		return bugs;
-	}
-	public GenieChartParser getGenieChartParser() {
-		return genie;
-	}
+        return melon;
+    }
 
-	public MusicChartParser getParser() {
+    public BugsChartParser getBugsChartParser() {
+        return bugs;
+    }
+
+    public GenieChartParser getGenieChartParser() {
+        return genie;
+    }
+
+    public MusicChartParser getParser() {
         switch (Site_M_B_G) {
             case 1:
                 return melon;
@@ -93,12 +97,12 @@ public class AppManager {
             case 3:
                 return genie;
             default:
-            	return null;
+                return null;
         }
     }
-    
+
     public void DataPassing(Component parentComponent) {
-    	System.out.println("Parsing Data");
+        System.out.println("Parsing Data");
         switch (Site_M_B_G) {
             case 1:
                 melon.chartDataParsing(parentComponent);
@@ -112,23 +116,23 @@ public class AppManager {
         }
     }
 
-    public void detailDataPassing(int rank, JSONArray chartListData, Component parentComponent){
+    public void detailDataPassing(int rank, JSONArray chartListData, Component parentComponent) {
         System.out.println("Parsing Detail Data");
-        switch(Site_M_B_G){
+        switch (Site_M_B_G) {
             case 1:
-                if(detailMelon == null) detailMelon = new MelonChartParser();
+                if (detailMelon == null) detailMelon = new MelonChartParser();
                 detailMelon.songDetailDataParsing(rank, chartListData, parentComponent);
                 //Parsing Method
                 break;
             case 2:
-                if(detailBugs == null)
+                if (detailBugs == null)
                     detailBugs = new BugsChartParser();
                 detailBugs.songDetailDataParsing(rank, chartListData, parentComponent);
                 System.out.println("Bugs Detail Parse");
                 //Parsing Method
                 break;
             case 3:
-                if(detailGenie == null)
+                if (detailGenie == null)
                     detailGenie = new GenieChartParser();
                 detailGenie.songDetailDataParsing(rank, chartListData, parentComponent);
                 System.out.println("Genie Detail Parse");
@@ -163,37 +167,38 @@ public class AppManager {
         }
         return null;
     }
-    
+
     public void setJSONArray(JSONArray arr, int index) {
-    	switch(index) {
-    	case 0:
-    		chartData[0] = arr;
-    		return;
-    	case 1:
-    		chartData[1] = arr;
-    		return;
-    	case 2:
-    		chartData[2] = arr;
-    		return;
-    	default:
-    		throw new IndexOutOfBoundsException("the length of chartData is 3");
-    	}
+        switch (index) {
+            case 0:
+                chartData[0] = arr;
+                return;
+            case 1:
+                chartData[1] = arr;
+                return;
+            case 2:
+                chartData[2] = arr;
+                return;
+            default:
+                throw new IndexOutOfBoundsException("the length of chartData is 3");
+        }
     }
+
     public JSONArray getJSONArray(int index) {
-    	switch(index) {
-    	case 1:
-    		return chartData[1];
-    	case 2:
-    		return chartData[2];
-    	case 3:
-    		return chartData[3];
-    	default:
-    		throw new IndexOutOfBoundsException("the length of chartData is 3");
-    	}
+        switch (index) {
+            case 1:
+                return chartData[1];
+            case 2:
+                return chartData[2];
+            case 3:
+                return chartData[3];
+            default:
+                throw new IndexOutOfBoundsException("the length of chartData is 3");
+        }
     }
 
     public JSONArray getJSONArray() {
-        switch(Site_M_B_G) {
+        switch (Site_M_B_G) {
             case 0:
                 return chartData[1];
             case 1:
@@ -209,8 +214,8 @@ public class AppManager {
         return chartData[Site_M_B_G];
     }
 
-    public void addToPrimaryPanel(JPanel pnlAdd){
-        if(primaryPanel == null){
+    public void addToPrimaryPanel(JPanel pnlAdd) {
+        if (primaryPanel == null) {
             primaryPanel = new JPanel();
             primaryPanel.setVisible(true);
             primaryPanel.setLayout(null);
@@ -219,8 +224,8 @@ public class AppManager {
         primaryPanel.add(pnlAdd);
     }
 
-    public void PopUpCommentUI(int rank){
-        if(pnlCommentUI == null) {
+    public void PopUpCommentUI(int rank) {
+        if (pnlCommentUI == null) {
             pnlCommentUI = new CommentUI();
             primaryPanel.add(pnlCommentUI);
         }
@@ -229,14 +234,14 @@ public class AppManager {
         pnlChartPrimary.setVisible(false);
     }
 
-    public void BackToChartPrimaryPanel(){
+    public void BackToChartPrimaryPanel() {
         primaryPanel.repaint();
         pnlCommentUI.setVisible(false);
         pnlChartPrimary.setVisible(true);
     }
 
     public static AppManager getS_instance() {
-        if(s_instance == null) s_instance = new AppManager();
+        if (s_instance == null) s_instance = new AppManager();
         return s_instance;
     }
 }

@@ -173,12 +173,14 @@ public class MelonChartParser extends MusicChartParser{
 					//progressMonitor.setProgress(songCount);
 				}
 
+				/*
 				// 파싱 결과 출력(테스트용)
 
 				for (Object o : chartList) {
 					if (o instanceof JSONObject)
 						System.out.println(((JSONObject) o));
 				}
+				 */
 
 			} // try
 			catch (HttpStatusException e) { // 멜론의 경우 Request Header를 같이 보내주어도 너무 자주 파싱을 시도할 시에 일시적 차단을 하므로 그에 대한 처리
