@@ -1,4 +1,4 @@
-package notsort;
+package DB;
 
 import org.json.simple.JSONArray;
 
@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Random;
+import notsort.*;
 
 public class MakeComment {
     private File Folder;

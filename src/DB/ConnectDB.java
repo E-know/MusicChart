@@ -1,4 +1,4 @@
-package notsort;
+package DB;
 
 import java.sql.*;
 
@@ -8,7 +8,7 @@ public class ConnectDB {
         PreparedStatement pstmt = null;
         Statement stmt = null;
         ResultSet rs;
-        String url = "jdbc:mysql://127.0.0.1:3306/charts_db?&serverTimezone=Asia/Seoul&useSSL=false";
+        String url = "jdbc:mysql://localhost:3306/charts_db?&serverTimezone=Asia/Seoul&useSSL=false";
         String userid = "root";
         String pwd = "root";
         // 1.드라이버 로딩
