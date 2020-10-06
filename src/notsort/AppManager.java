@@ -1,9 +1,6 @@
 package notsort;
 
-import model.BugsChartParser;
-import model.GenieChartParser;
-import model.MelonChartParser;
-import model.MusicChartParser;
+import model.*;
 import org.json.simple.JSONArray;
 import view.ChartPrimaryPanel;
 import view.CommentUI;
