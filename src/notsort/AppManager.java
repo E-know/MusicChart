@@ -1,5 +1,6 @@
 package notsort;
 
+import model.*;
 import org.json.simple.JSONArray;
 import view.ChartPrimaryPanel;
 import view.CommentUI;
