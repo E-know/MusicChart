@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.*;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.net.MalformedURLException;
@@ -25,10 +26,10 @@ public class SitePanel extends JPanel {
 	private String strChartName;
 	
 	//음악 차트를 담는 표
-	private JTable tableChart;
+	public JTable tableChart;
 	
 	//표의 모델(셀의 크기, 개수, 표시 자료형 등을 결정)
-	private ChartModel tableModel;
+	public ChartModel tableModel;
 	
 	//표에서 정렬 및 필터링 기능을 담당
 	private TableRowSorter<ChartModel> tableSorter;
@@ -267,7 +268,11 @@ public class SitePanel extends JPanel {
 			return false;
 		}
 	} //ChartModel 클래스 끝
-	
+
+	public void addClickListener(MouseListener listenForMouse) {
+		tableChart.addMouseListener((listenForMouse));
+	}
+
 	// - - - - - ClickListener 클래스 - - - - -
 	private class ClickListener implements MouseListener {
 		@Override

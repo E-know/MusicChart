@@ -5,6 +5,7 @@ import notsort.*;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import view.ChartPrimaryPanel;
 import view.CommentUI;
 
 import javax.imageio.ImageIO;
@@ -20,59 +21,87 @@ import java.util.ArrayList;
 
 public class CommentUIController {
 
-    private JTextField          txtComment,txtPassword;
-    private JButton             btnRegister,btnDelete,btnBack;
-    private ArrayList<String>   arrComment;
-    private ArrayList<String>   arrPassword;
-    private JList               listComment;
-    private DefaultListModel    modelList;
-    private String              strTitle,strArtist,strReadTitle;
+    private CommentUI theCommentUI;
 
-    private class ButtonListener implements ActionListener{
+    public CommentUIController(CommentUI theCommentUI) {
+        this.theCommentUI = theCommentUI;
+        this.theCommentUI.addBtnRegisterListener(new ButtonRegisterListener());
+        this.theCommentUI.addBtnDeleteListener(new ButtonDeleteListener());
+        this.theCommentUI.addBtnBackListener(new ButtonBackListener());
+    }
+
+    private class ButtonRegisterListener implements ActionListener{
+        private Component _viewLoading;
+        public ButtonRegisterListener() { }
+        public ButtonRegisterListener(Component parentComponent){
+            _viewLoading = parentComponent;
+        }
+
         @Override
         public void actionPerformed(ActionEvent e) {
-            Object obj = e.getSource();
-            if(obj == btnRegister && !txtComment.getText().equals("") ){
-                File file = new File("comments\\" + strReadTitle + ".txt");
+            if(!theCommentUI.txtComment.getText().equals("") ){
+                File file = new File("comments\\" + theCommentUI.strReadTitle + ".txt");
                 try {
                     FileWriter fw = new FileWriter(file,true);
-                    fw.write(txtComment.getText() + "\r");
-                    if( txtPassword.getText().equals("") )
+                    fw.write(theCommentUI.txtComment.getText() + "\r");
+                    if( theCommentUI.txtPassword.getText().equals("") )
                         fw.write("0000\r");
                     else
-                        fw.write(txtPassword.getText() + "\r");
+                        fw.write(theCommentUI.txtPassword.getText() + "\r");
                     fw.flush();
                     fw.close();
-                    modelList.addElement(txtComment.getText());
+                    theCommentUI.modelList.addElement(theCommentUI.txtComment.getText());
 
-                    arrComment.add(txtComment.getText());
-                    if( txtPassword.getText().equals("") )
-                        arrPassword.add("0000");
+                    theCommentUI.arrComment.add(theCommentUI.txtComment.getText());
+                    if( theCommentUI.txtPassword.getText().equals("") )
+                        theCommentUI.arrPassword.add("0000");
                     else
-                        arrPassword.add(txtPassword.getText());
+                        theCommentUI.arrPassword.add(theCommentUI.txtPassword.getText());
 
-                    txtComment.setText("");
-                    txtPassword.setText("");
+                    theCommentUI.txtComment.setText("");
+                    theCommentUI.txtPassword.setText("");
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
 
             }//obj == btnRegister
-            if(obj == btnDelete){
-                if(Integer.parseInt(txtPassword.getText()) == Integer.parseInt(arrPassword.get(listComment.getSelectedIndex()))){
-                    System.out.println("Same Password! At : " + String.valueOf(listComment.getSelectedIndex()));
-                    arrPassword.remove(listComment.getSelectedIndex());
-                    arrComment.remove(listComment.getSelectedIndex());
-                    CommentUI.removeAtTxt(listComment.getSelectedIndex());
-                    modelList.removeElementAt(listComment.getSelectedIndex());
-                }
-                txtPassword.setText("");
-            }
-            if(obj == btnBack){
-                CommentUI.clearAll();
-                AppManager.getS_instance().BackToChartPrimaryPanel();
-                System.out.println("Back To ChartPrimary");
-            }
+
         }//actionPerfomed
-    }//ButtonRegister
+    }//ButtonRegisterListener
+
+    private class ButtonDeleteListener implements ActionListener{
+        private Component _viewLoading;
+        public ButtonDeleteListener() { }
+        public ButtonDeleteListener(Component parentComponent){
+            _viewLoading = parentComponent;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if(Integer.parseInt(theCommentUI.txtPassword.getText()) == Integer.parseInt(theCommentUI.arrPassword.get(theCommentUI.listComment.getSelectedIndex()))){
+                System.out.println("Same Password! At : " + String.valueOf(theCommentUI.listComment.getSelectedIndex()));
+                theCommentUI.arrPassword.remove(theCommentUI.listComment.getSelectedIndex());
+                theCommentUI.arrComment.remove(theCommentUI.listComment.getSelectedIndex());
+                theCommentUI.removeAtTxt(theCommentUI.listComment.getSelectedIndex());
+                theCommentUI.modelList.removeElementAt(theCommentUI.listComment.getSelectedIndex());
+            }
+            theCommentUI.txtPassword.setText("");
+        }//actionPerfomed
+    }//ButtonDeleteListener
+
+    private class ButtonBackListener implements ActionListener{
+        private Component _viewLoading;
+        public ButtonBackListener() { }
+        public ButtonBackListener(Component parentComponent){
+            _viewLoading = parentComponent;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            theCommentUI.clearAll();
+            AppManager.getS_instance().BackToChartPrimaryPanel();
+            System.out.println("Back To ChartPrimary");
+        }//actionPerfomed
+    }//ButtonBackListener
+
 }

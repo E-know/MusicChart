@@ -1,5 +1,8 @@
 package notsort;
 
+import controller.ChartPrimaryPanelController;
+import controller.CommentUIController;
+import controller.SitePanelController;
 import org.json.simple.JSONArray;
 import view.ChartPrimaryPanel;
 import view.CommentUI;
@@ -20,6 +23,8 @@ public class AppManager {
     private MelonChartParser detailMelon;
     private BugsChartParser detailBugs;
     private GenieChartParser detailGenie;
+    private ChartPrimaryPanelController theChartPrimaryPanelController;
+    private CommentUIController theCommentUIController;
 
     private AppManager(){
     	s_instance = this;
@@ -61,6 +66,7 @@ public class AppManager {
     public ChartPrimaryPanel getPnlChartPrimary() {
         if(pnlChartPrimary == null){
             pnlChartPrimary = new ChartPrimaryPanel();
+            theChartPrimaryPanelController = new ChartPrimaryPanelController(pnlChartPrimary);
             pnlChartPrimary.setVisible(true);
             pnlChartPrimary.setLayout(null);
         }
@@ -222,6 +228,7 @@ public class AppManager {
     public void PopUpCommentUI(int rank){
         if(pnlCommentUI == null) {
             pnlCommentUI = new CommentUI();
+            theCommentUIController = new CommentUIController(pnlCommentUI);
             primaryPanel.add(pnlCommentUI);
         }
         pnlCommentUI.reNewalInfo(rank);

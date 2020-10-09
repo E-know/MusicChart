@@ -19,13 +19,14 @@ import java.util.ArrayList;
 public class CommentUI extends JPanel {
 
     private JPanel              pnlCommentField,pnlMusicInfo;
-    private JTextField          txtComment,txtPassword;
+    public JTextField          txtComment,txtPassword;
     private JButton             btnRegister,btnDelete,btnBack;
-    private ArrayList<String>   arrComment;
-    private ArrayList<String>   arrPassword;
-    private JList               listComment;
-    private DefaultListModel    modelList;
-    private String              strTitle,strArtist,strReadTitle;
+    public ArrayList<String>   arrComment;
+    public ArrayList<String>   arrPassword;
+    public JList               listComment;
+    public DefaultListModel    modelList;
+    private String              strTitle,strArtist;
+    public String              strReadTitle;
     private JLabel              lblStrTitle,lblStrArtist;
     private JLabel              lblTitle,lblArtist,lblImage;
     /*
@@ -231,7 +232,7 @@ public class CommentUI extends JPanel {
      *  몇 번째 index(파라미터)에서 삭제가 일어났는지 받아오고 난 후
      *  그 인덱스에 맞는 txt 파일을 삭제해주는 메소드
      * */
-    private void removeAtTxt(int index){
+    public void removeAtTxt(int index){
         System.out.println(index);
         File file = new File("comments\\" + strReadTitle + ".txt");
         ArrayList<String> dummy = new ArrayList<String>();
@@ -264,7 +265,7 @@ public class CommentUI extends JPanel {
      *Description of Method clearAll
      *   btnBack(ChartPrimaryPanel로 돌아가는 버튼)이 일어나면 싱글톤 패턴이기 때문에 원래 있던 정보는 모두다
      *  삭제가 되어야한다. 그러므로 모든 정보를 초기화 해주는 메소드드     * */
-    private void clearAll(){
+    public void clearAll(){
         txtPassword.setText("");
         txtComment.setText("");
         lblArtist.setText("");
@@ -274,6 +275,17 @@ public class CommentUI extends JPanel {
         arrComment.clear();
         arrPassword.clear();
     }
+
+    public void addBtnRegisterListener(ActionListener listenForBtnRegister) {
+        btnRegister.addActionListener((listenForBtnRegister));
+    }
+    public void addBtnDeleteListener(ActionListener listenForBtnDelete) {
+        btnDelete.addActionListener((listenForBtnDelete));
+    }
+    public void addBtnBackListener(ActionListener listenForBtnBack) {
+        btnBack.addActionListener((listenForBtnBack));
+    }
+
 
     private class ButtonListener implements ActionListener{
         @Override
@@ -306,6 +318,7 @@ public class CommentUI extends JPanel {
 
             }//obj == btnRegister
             if(obj == btnDelete){
+                /*
                 if(Integer.parseInt(txtPassword.getText()) == Integer.parseInt(arrPassword.get(listComment.getSelectedIndex()))){
                     System.out.println("Same Password! At : " + String.valueOf(listComment.getSelectedIndex()));
                     arrPassword.remove(listComment.getSelectedIndex());
@@ -314,6 +327,7 @@ public class CommentUI extends JPanel {
                     modelList.removeElementAt(listComment.getSelectedIndex());
                 }
                 txtPassword.setText("");
+                */
             }
             if(obj == btnBack){
                 clearAll();
