@@ -1,6 +1,7 @@
 package notsort;
 
 import model.*;
+import controller.*;
 
 import org.json.simple.JSONArray;
 import view.ChartPrimaryPanel;

@@ -1,7 +1,7 @@
 package controller;
 
 import notsort.AppManager;
-import notsort.MakeComment;
+import model.MakeComment;
 import view.ChartPrimaryPanel;
 import view.SitePanel;
 
