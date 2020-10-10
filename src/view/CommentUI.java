@@ -15,26 +15,27 @@ import java.awt.event.ActionListener;
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.sql.*;
 import java.util.ArrayList;
+import java.sql.*;
 
 public class CommentUI extends JPanel {
 
     private JPanel pnlCommentField, pnlMusicInfo;
-    private JTextField txtComment, txtPassword;
+    public JTextField txtComment, txtPassword;
     private JButton btnRegister, btnDelete, btnBack;
-    private ArrayList<String> arrComment;
-    private ArrayList<String> arrPassword;
-    private JList listComment;
-    private DefaultListModel modelList;
-    private String strTitle, strArtist, strReadTitle;
+    public ArrayList<String> arrComment;
+    public ArrayList<String> arrPassword;
+    public JList listComment;
+    public DefaultListModel modelList;
+    public String strTitle, strArtist, sqltitle;
     private JLabel lblStrTitle, lblStrArtist;
     private JLabel lblTitle, lblArtist, lblImage;
 
-    Connection con = null;
-    Statement stmt = null;
-    PreparedStatement pstmt = null;
-    ResultSet rs = null;
+    public Connection con = null;
+    public Statement stmt = null;
+    public PreparedStatement pstmt = null;
+    public ResultSet rs = null;
+
     /*
      * Description of Class
      *   음악 정보를 Paser에 AppManager를 통하여 직접 접근하여서 노래를 받아온다.
@@ -216,9 +217,13 @@ public class CommentUI extends JPanel {
      * */
     private void readComment() {
         con = ConnectDB.GetDB();
+        sqltitle = strTitle;
+        if (sqltitle.contains("'")) {
+            sqltitle = sqltitle.replace("'", ":");
+        }
         try {
             stmt = con.createStatement();
-            String sql = "SELECT comment, pwd FROM songinfo WHERE title = '" + strTitle + "'";
+            String sql = "SELECT comment, pwd FROM songinfo WHERE title = '" + sqltitle + "'";
             rs = stmt.executeQuery(sql);
             while (rs.next()) {
                 String comment = rs.getString("comment");
@@ -230,6 +235,7 @@ public class CommentUI extends JPanel {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
 
 //        File file;
 //        System.out.println("Read " + strTitle + ".txt File");
@@ -256,7 +262,7 @@ public class CommentUI extends JPanel {
      *  몇 번째 index(파라미터)에서 삭제가 일어났는지 받아오고 난 후
      *  그 인덱스에 맞는 txt 파일을 삭제해주는 메소드
      * */
-//    private void removeAtTxt(int index){
+//    public void removeAtTxt(int index){
 //        System.out.println(index);
 //        File file = new File("comments\\" + strReadTitle + ".txt");
 //        ArrayList<String> dummy = new ArrayList<String>();
@@ -289,7 +295,7 @@ public class CommentUI extends JPanel {
      *Description of Method clearAll
      *   btnBack(ChartPrimaryPanel로 돌아가는 버튼)이 일어나면 싱글톤 패턴이기 때문에 원래 있던 정보는 모두다
      *  삭제가 되어야한다. 그러므로 모든 정보를 초기화 해주는 메소드드     * */
-    private void clearAll() {
+    public void clearAll() {
         txtPassword.setText("");
         txtComment.setText("");
         lblArtist.setText("");
@@ -300,87 +306,68 @@ public class CommentUI extends JPanel {
         arrPassword.clear();
     }
 
+    public void addBtnRegisterListener(ActionListener listenForBtnRegister) {
+        btnRegister.addActionListener((listenForBtnRegister));
+    }
+
+    public void addBtnDeleteListener(ActionListener listenForBtnDelete) {
+        btnDelete.addActionListener((listenForBtnDelete));
+    }
+
+    public void addBtnBackListener(ActionListener listenForBtnBack) {
+        btnBack.addActionListener((listenForBtnBack));
+    }
+
+
     private class ButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             Object obj = e.getSource();
             if (obj == btnRegister && !txtComment.getText().equals("")) {
-//                File file = new File("comments\\" + strReadTitle + ".txt");
-//                try {
-//                    FileWriter fw = new FileWriter(file,true);
-//                    fw.write(txtComment.getText() + "\r");
-//                    if( txtPassword.getText().equals("") )
-//                        fw.write("0000\r");
-//                    else
-//                        fw.write(txtPassword.getText() + "\r");
-//                    fw.flush();
-//                    fw.close();
-//                    modelList.addElement(txtComment.getText());
-//
-//                    arrComment.add(txtComment.getText());
-//                    if( txtPassword.getText().equals("") )
-//                        arrPassword.add("0000");
-//                    else
-//                        arrPassword.add(txtPassword.getText());
-//
-//                    txtComment.setText("");
-//                    txtPassword.setText("");
-//                } catch (IOException ex) {
-//                    ex.printStackTrace();
-//                }
-                con = ConnectDB.GetDB();
+                /*
+                File file = new File("comments\\" + strReadTitle + ".txt");
                 try {
-                    String sql = "INSERT INTO songinfo VALUES (?, ?, ?, ?, ?, ?)";
-                    pstmt = con.prepareStatement(sql);
-                    pstmt.setString(1, strTitle);
-                    pstmt.setString(2, strArtist);
-                    pstmt.setString(3, AppManager.getS_instance().getParser().getAlbumName(strTitle));
-                    pstmt.setInt(4, AppManager.getS_instance().getSite_M_B_G());
-                    pstmt.setString(5, txtComment.getText());
-                    pstmt.setString(6, txtPassword.getText());
-                    pstmt.executeUpdate();
+                    FileWriter fw = new FileWriter(file,true);
+                    fw.write(txtComment.getText() + "\r");
+                    if( txtPassword.getText().equals("") )
+                        fw.write("0000\r");
+                    else
+                        fw.write(txtPassword.getText() + "\r");
+                    fw.flush();
+                    fw.close();
                     modelList.addElement(txtComment.getText());
 
                     arrComment.add(txtComment.getText());
-                    if (txtPassword.getText().equals(""))
+                    if( txtPassword.getText().equals("") )
                         arrPassword.add("0000");
                     else
                         arrPassword.add(txtPassword.getText());
+
                     txtComment.setText("");
                     txtPassword.setText("");
-                } catch (SQLException e1) {
-                    e1.printStackTrace();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
                 }
+                */
             }//obj == btnRegister
             if (obj == btnDelete) {
-                if (Integer.parseInt(txtPassword.getText()) == Integer.parseInt(arrPassword.get(listComment.getSelectedIndex()))) {
+                /*
+                if(Integer.parseInt(txtPassword.getText()) == Integer.parseInt(arrPassword.get(listComment.getSelectedIndex()))){
                     System.out.println("Same Password! At : " + String.valueOf(listComment.getSelectedIndex()));
-//                    arrPassword.remove(listComment.getSelectedIndex());
-//                    arrComment.remove(listComment.getSelectedIndex());
-//                    removeAtTxt(listComment.getSelectedIndex());
-//                    modelList.removeElementAt(listComment.getSelectedIndex());
-
-
-                    con = ConnectDB.GetDB();
-                    try {
-                        arrPassword.remove(listComment.getSelectedIndex());
-                        arrComment.remove(listComment.getSelectedIndex());
-                        modelList.removeElementAt(listComment.getSelectedIndex());
-                        String sql = "DELETE FROM songinfo WHERE title = ? AND pwd = ?";
-                        pstmt = con.prepareStatement(sql);
-                        pstmt.setString(1, strTitle);
-                        pstmt.setString(2, txtPassword.getText());
-                        int temp = pstmt.executeUpdate();
-                    } catch (SQLException e1) {
-                        e1.printStackTrace();
-                    }
+                    arrPassword.remove(listComment.getSelectedIndex());
+                    arrComment.remove(listComment.getSelectedIndex());
+                    removeAtTxt(listComment.getSelectedIndex());
+                    modelList.removeElementAt(listComment.getSelectedIndex());
                 }
                 txtPassword.setText("");
+                */
             }
             if (obj == btnBack) {
+                /*
                 clearAll();
                 AppManager.getS_instance().BackToChartPrimaryPanel();
                 System.out.println("Back To ChartPrimary");
+                */
             }
         }//actionPerfomed
     }//ButtonRegister
