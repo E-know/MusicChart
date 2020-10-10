@@ -292,6 +292,7 @@ public class CommentUI extends JPanel {
         public void actionPerformed(ActionEvent e) {
             Object obj = e.getSource();
             if(obj == btnRegister && !txtComment.getText().equals("") ){
+                /*
                 File file = new File("comments\\" + strReadTitle + ".txt");
                 try {
                     FileWriter fw = new FileWriter(file,true);
@@ -315,7 +316,7 @@ public class CommentUI extends JPanel {
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
-
+                */
             }//obj == btnRegister
             if(obj == btnDelete){
                 /*
@@ -330,9 +331,11 @@ public class CommentUI extends JPanel {
                 */
             }
             if(obj == btnBack){
+                /*
                 clearAll();
                 AppManager.getS_instance().BackToChartPrimaryPanel();
                 System.out.println("Back To ChartPrimary");
+                */
             }
         }//actionPerfomed
     }//ButtonRegister
