@@ -27,7 +27,7 @@ public class CommentUI extends JPanel {
     private ArrayList<String> arrPassword;
     private JList listComment;
     private DefaultListModel modelList;
-    private String strTitle, strArtist, strReadTitle;
+    private String strTitle, strArtist, strReadTitle, sqltitle;
     private JLabel lblStrTitle, lblStrArtist;
     private JLabel lblTitle, lblArtist, lblImage;
 
@@ -176,6 +176,7 @@ public class CommentUI extends JPanel {
      * */
     private void addList() {
         for (String ptr : arrComment) {
+            System.out.println(ptr);
             modelList.addElement(ptr);
         }
         listComment.setModel(modelList);
@@ -216,9 +217,20 @@ public class CommentUI extends JPanel {
      * */
     private void readComment() {
         con = ConnectDB.GetDB();
+        //노래 제목에 '가 들어간 경우 sql쿼리문에게 따로 처리를 해줘야함
+        sqltitle = strTitle;
+        if(sqltitle.contains("'")){
+            System.out.println("sqltitle1: " + sqltitle);
+            sqltitle = sqltitle.replace("'",":");
+            System.out.println("sqltitle2: " + sqltitle);
+        }
+
         try {
             stmt = con.createStatement();
-            String sql = "SELECT comment, pwd FROM songinfo WHERE title = '" + strTitle + "'";
+            System.out.println("Comment sqltitle " + sqltitle);
+            String sql = "SELECT comment, pwd FROM songinfo WHERE title = '" + sqltitle + "'";
+
+            System.out.println("sql: " + sql);
             rs = stmt.executeQuery(sql);
             while (rs.next()) {
                 String comment = rs.getString("comment");
@@ -332,7 +344,7 @@ public class CommentUI extends JPanel {
                 try {
                     String sql = "INSERT INTO songinfo VALUES (?, ?, ?, ?, ?, ?)";
                     pstmt = con.prepareStatement(sql);
-                    pstmt.setString(1, strTitle);
+                    pstmt.setString(1, sqltitle);
                     pstmt.setString(2, strArtist);
                     pstmt.setString(3, AppManager.getS_instance().getParser().getAlbumName(strTitle));
                     pstmt.setInt(4, AppManager.getS_instance().getSite_M_B_G());
@@ -368,7 +380,7 @@ public class CommentUI extends JPanel {
                         modelList.removeElementAt(listComment.getSelectedIndex());
                         String sql = "DELETE FROM songinfo WHERE title = ? AND pwd = ?";
                         pstmt = con.prepareStatement(sql);
-                        pstmt.setString(1, strTitle);
+                        pstmt.setString(1, sqltitle);
                         pstmt.setString(2, txtPassword.getText());
                         int temp = pstmt.executeUpdate();
                     } catch (SQLException e1) {
@@ -384,7 +396,5 @@ public class CommentUI extends JPanel {
             }
         }//actionPerfomed
     }//ButtonRegister
-
-
 }//CommentUI
 
