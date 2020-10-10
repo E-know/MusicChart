@@ -11,7 +11,7 @@ import javax.swing.*;
 import javax.swing.table.*;
 
 import notsort.AppManager;
-import notsort.MusicChartParser;
+import model.MusicChartParser;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 

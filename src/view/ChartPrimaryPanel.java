@@ -3,7 +3,7 @@ package view;
 import controller.ChartPrimaryPanelController;
 import controller.SitePanelController;
 import notsort.AppManager;
-import notsort.MakeComment;
+import model.MakeComment;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;

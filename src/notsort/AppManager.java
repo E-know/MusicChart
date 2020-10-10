@@ -1,8 +1,7 @@
 package notsort;
 
-import controller.ChartPrimaryPanelController;
-import controller.CommentUIController;
-import controller.SitePanelController;
+import model.*;
+
 import org.json.simple.JSONArray;
 import view.ChartPrimaryPanel;
 import view.CommentUI;

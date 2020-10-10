@@ -1,5 +1,6 @@
-package notsort;
+package model;
 
+import notsort.AppManager;
 import org.json.simple.JSONArray;
 
 import java.awt.*;
@@ -32,7 +33,7 @@ public class MakeComment {
     private void makeRandomCommentTxt(Component parentComponent) {
         String singer, title, albumName;
         int Orig = AppManager.getS_instance().getSite_M_B_G();
-        for(int j = 1; j <= 3; j++) {
+        for (int j = 1; j <= 3; j++) {
             AppManager.getS_instance().setSite_M_B_G(j);
             AppManager.getS_instance().DataPassing(parentComponent);
             for (int k = 1; k <= 100; k++) {
@@ -69,7 +70,7 @@ public class MakeComment {
                                     break;
                                 }
                                 case 4: {
-                                    fw.write( "앨범 발매일만 기다렸습니다!\r");
+                                    fw.write("앨범 발매일만 기다렸습니다!\r");
                                     fw.write(Integer.toString((int) (Math.random() * 10000)) + "\r");
                                     break;
                                 }
@@ -97,15 +98,15 @@ public class MakeComment {
     }//makeRandomCommentTxt method
 
 
-    private String reDefineTitle(String title){
+    private String reDefineTitle(String title) {
         String result;
-        if(title == null)
+        if (title == null)
             return null;
-        result = title.replace("\'","");
-        if(result.indexOf("(") != -1)
+        result = title.replace("\'", "");
+        if (result.indexOf("(") != -1)
             result = result.substring(0, title.indexOf("("));
-        result = result.replace(" ","");
-        result = result.replace("\'","");
+        result = result.replace(" ", "");
+        result = result.replace("\'", "");
         return result;
     }
 }//MakeComment
