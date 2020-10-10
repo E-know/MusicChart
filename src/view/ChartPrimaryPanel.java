@@ -1,5 +1,7 @@
 package view;
 
+import controller.ChartPrimaryPanelController;
+import controller.SitePanelController;
 import notsort.AppManager;
 import model.MakeComment;
 
@@ -12,26 +14,28 @@ import java.time.format.DateTimeFormatter;
 
 
 public class ChartPrimaryPanel extends JPanel{
-    private SitePanel pnlSitePanel;
+    public SitePanel pnlSitePanel;
     private JButton btnRefresh, btnSite_M, btnSite_B, btnSite_G, btnSearch;
-    private JLabel lblTime;
-    private JComboBox<String> strCombo;
+    public JLabel lblTime;
+    public JComboBox<String> strCombo;
 
     private ButtonListener  ButtonRefresh, ButtonSearch,
             ButtonMelon, ButtonBugs, ButtonGenie;
 
     private String[] strSearchCategory = {"Name", "Artist"};
 
-    private JTextField txtSearch;
+    public JTextField txtSearch;
 
 
-    LocalDateTime current = LocalDateTime.now();
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+    public LocalDateTime current = LocalDateTime.now();
+    public DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
 
-    String formatted_Melon = current.format(formatter);
-    String formatted_Bugs = current.format(formatter);
-    String formatted_Genie = current.format(formatter);
+    public String formatted_Melon = current.format(formatter);
+    public String formatted_Bugs = current.format(formatter);
+    public String formatted_Genie = current.format(formatter);
     //refreshTime
+
+    private SitePanelController theSitePanelController;
 
 
     public ChartPrimaryPanel(){
@@ -92,6 +96,7 @@ public class ChartPrimaryPanel extends JPanel{
         add(btnSite_G);
 
         pnlSitePanel = new SitePanel();
+        theSitePanelController = new SitePanelController(pnlSitePanel); //사이트 패널 컨트롤러 추가 선언
         pnlSitePanel.setBounds(100,140,1080,700);
         LineBorder SiteBorder = new LineBorder(Color.BLACK,3);
         pnlSitePanel.setBorder(SiteBorder);
@@ -115,6 +120,25 @@ public class ChartPrimaryPanel extends JPanel{
     }//constructor
 
 
+    public void addBtnRefreshListener(ActionListener listenForBtnRefresh) {
+        btnRefresh.addActionListener((listenForBtnRefresh));
+    }
+
+    public void addBtnMelonListener(ActionListener listenForBtnMelon) {
+        btnSite_M.addActionListener((listenForBtnMelon));
+    }
+
+    public void addBtnBugsListener(ActionListener listenForBtnBugs) {
+        btnSite_B.addActionListener((listenForBtnBugs));
+    }
+
+    public void addBtnGenieListener(ActionListener listenForBtnGenie) {
+        btnSite_G.addActionListener((listenForBtnGenie));
+    }
+
+    public void addKeyActionListener(KeyListener listenForKey) {
+        txtSearch.addKeyListener((listenForKey));
+    }
 
     private class ButtonListener implements ActionListener {
         private Component _viewLoading;
@@ -127,6 +151,8 @@ public class ChartPrimaryPanel extends JPanel{
         public void actionPerformed(ActionEvent e) {
             Object obj = e.getSource();
             if (obj == btnRefresh) {
+
+                /*
                 current = LocalDateTime.now();
                 formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
                 switch (AppManager.getS_instance().getSite_M_B_G()){
@@ -150,8 +176,11 @@ public class ChartPrimaryPanel extends JPanel{
                         AppManager.getS_instance().DataPassing(_viewLoading);
                         break;
                 }
+                */
+
             }//refresh 새로 파싱해옴//파싱시간도 갱신
             if (obj == btnSite_M) {
+                /*
                 if(AppManager.getS_instance().getSite_M_B_G() == 1) return;
                 AppManager.getS_instance().setSite_M_B_G(1);
                 if(!AppManager.getS_instance().getParser().isParsed()) AppManager.getS_instance().DataPassing(_viewLoading);
@@ -160,8 +189,10 @@ public class ChartPrimaryPanel extends JPanel{
                 lblTime.setText("Renewal time : " + formatted_Melon);
                 txtSearch.setText("");
                 pnlSitePanel.filter(null,2);
+                */
             }
             if (obj == btnSite_B) {
+                /*
                 if(AppManager.getS_instance().getSite_M_B_G() == 2) return;
                 AppManager.getS_instance().setSite_M_B_G(2);
                 if(!AppManager.getS_instance().getParser().isParsed()) AppManager.getS_instance().DataPassing(_viewLoading);
@@ -170,8 +201,10 @@ public class ChartPrimaryPanel extends JPanel{
                 lblTime.setText("Renewal time : " + formatted_Bugs);
                 txtSearch.setText("");
                 pnlSitePanel.filter(null,2);
+                */
             }
             if (obj == btnSite_G) {
+                /*
                 if(AppManager.getS_instance().getSite_M_B_G() == 3) return;
                 AppManager.getS_instance().setSite_M_B_G(3);
                 if(!AppManager.getS_instance().getParser().isParsed()) AppManager.getS_instance().DataPassing(_viewLoading);
@@ -180,6 +213,7 @@ public class ChartPrimaryPanel extends JPanel{
                 lblTime.setText("Renewal time : " + formatted_Genie);
                 txtSearch.setText("");
                 pnlSitePanel.filter(null,2);
+                */
             }
             //멜론, 벅스, 지니 버튼에 따라 저장해 놓은 데이터를 새로 갖고옴
             //저장되있던 불러온 시간도 같이 갖고옴
@@ -199,11 +233,13 @@ public class ChartPrimaryPanel extends JPanel{
             Object obj = e.getSource();
 
             if(obj == txtSearch){
+                /*
                 //strSearchCategory = {"Name", "Artist"};
                 if(0 == strCombo.getSelectedIndex())//Name
                     pnlSitePanel.filter(txtSearch.getText(),2);
                 if(1 == strCombo.getSelectedIndex())//Artist
                     pnlSitePanel.filter(txtSearch.getText(),3);
+                */
             }//comboBox 0, 1일때 sitepanel의 filter에서 검색
 
         }//KeyReleased
