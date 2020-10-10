@@ -39,7 +39,7 @@ public class MakeComment {
 
     private void makeRandomCommentDB(Component parentComponent) {
         con = ConnectDB.GetDB();
-        String singer, title, albumName, sqltitle;
+        String singer, title, albumName;
         String comment = "";
         String passwd = "";
         int Orig = AppManager.getS_instance().getSite_M_B_G();
@@ -51,17 +51,9 @@ public class MakeComment {
                 title = AppManager.getS_instance().getParser().getTitle(k);
                 singer = AppManager.getS_instance().getParser().getArtistName(k);
                 albumName = AppManager.getS_instance().getParser().getAlbumName(k);
-
-                sqltitle = title;
-                if(sqltitle.contains("'")){//노래 제목에 '가 들어간 경우 sql쿼리문에게 따로 처리를 해줘야함
-                    //System.out.println("sqltitle1: "+sqltitle);
-                    sqltitle = sqltitle.replace("'",":");
-                    //System.out.println("sqltitle2: "+sqltitle);
-                }
-
                 try {
                     stmt = con.createStatement();
-                    String sql = "SELECT * FROM songinfo WHERE title = '" + sqltitle + "' AND siteid = " + j + "";
+                    String sql = "SELECT * FROM songinfo WHERE title = '" + title + "' AND siteid = " + j + "";
                     ResultSet rs = stmt.executeQuery(sql);
                     if (!rs.next()) {
                         int rndNum1 = (int) (Math.random() * 5) + 1;
@@ -107,7 +99,7 @@ public class MakeComment {
                             try {
                                 sql = "INSERT INTO songinfo VALUES (?, ?, ?, ?, ?, ?)";
                                 pstmt = con.prepareStatement(sql);
-                                pstmt.setString(1, sqltitle);
+                                pstmt.setString(1, title);
                                 pstmt.setString(2, singer);
                                 pstmt.setString(3, albumName);
                                 pstmt.setInt(4, j);
