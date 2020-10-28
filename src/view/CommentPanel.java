@@ -29,12 +29,10 @@ public class CommentPanel extends JPanel {
     public DefaultListModel modelList;
     public String strTitle, strArtist, sqltitle;
 
-    private JLabel lblStrTitle, lblStrArtist;
     private JLabel lblTitle, lblArtist, lblImage;
 
     public Connection con = null;
     public Statement stmt = null;
-    public PreparedStatement pstmt = null;
     public ResultSet rs = null;
 
     /*
@@ -66,7 +64,7 @@ public class CommentPanel extends JPanel {
 
     private void setLblArtist(){
         lblArtist = new JLabel();
-        lblArtist.setBounds(110, 90, 700, 60);
+        lblArtist.setBounds(10, 90, 700, 60);
         lblArtist.setFont(new Font("서울남산체 B", Font.PLAIN, 40));
         lblArtist.setHorizontalAlignment(SwingConstants.LEFT);
         pnlMusicInfo.add(lblArtist);
@@ -75,7 +73,7 @@ public class CommentPanel extends JPanel {
 
     private void setLblTitle(){
         lblTitle = new JLabel();
-        lblTitle.setBounds(110, 10, 700, 60);
+        lblTitle.setBounds(10, 10, 700, 60);
         lblTitle.setHorizontalAlignment(SwingConstants.LEFT);
         lblTitle.setFont(new Font("서울남산체 B", Font.PLAIN, 40));
         lblTitle.setBackground(Color.black);
@@ -126,14 +124,6 @@ public class CommentPanel extends JPanel {
         btnBack.addActionListener(new ButtonListener());
         add(btnBack);
 
-        Font fnt1 = new Font("한강남산체 M", Font.BOLD, 30);
-
-        lblStrTitle = new JLabel("Title : ");
-        lblStrTitle.setFont(fnt1);
-        lblStrTitle.setBounds(10, 10, 100, 60);
-        lblStrTitle.setHorizontalAlignment(SwingConstants.LEFT);
-        pnlMusicInfo.add(lblStrTitle);
-
         lblImage = new JLabel();
         lblImage.setBounds(800, 0, 160, 160);
         pnlMusicInfo.add(lblImage);
@@ -154,13 +144,13 @@ public class CommentPanel extends JPanel {
         if (strRefinedTitle.indexOf("(") != -1) {
             strRefinedTitle = strRefinedTitle.substring(0, strRefinedTitle.indexOf("("));
         }
-        lblTitle.setText(strRefinedTitle);
+        lblTitle.setText("Title : " + strRefinedTitle);
 
         String strRefinedArtist = strArtist;
         if (strRefinedArtist.indexOf("(") != -1) {
             strRefinedArtist = strRefinedArtist.substring(0, strRefinedArtist.indexOf("("));
         }
-        lblArtist.setText(strRefinedArtist);
+        lblArtist.setText("Artist : " + strRefinedArtist);
         Image image = null;
         URL url;
 
