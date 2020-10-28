@@ -61,7 +61,7 @@ public class CommentPanel extends JPanel {
 
         setPositionPnlMusicInfo();
 
-       setPositionPnlComment();
+        setPositionPnlComment();
 
         txtComment = new JTextField();
         txtComment.setBounds(32, 696, 800, 40);
@@ -97,7 +97,6 @@ public class CommentPanel extends JPanel {
 
         arrComment = new ArrayList<>();
         arrPassword = new ArrayList<>();
-        listComment = new JList();
 
         modelList = new DefaultListModel();
     }//Constructor
@@ -107,7 +106,7 @@ public class CommentPanel extends JPanel {
      *   pnlMusicInfo 위에 올라가는 이미지와 String을 정해주는 메소드
      * */
 
-    private void setPositionPnlMusicInfo(){
+    private void setPositionPnlMusicInfo() {
         pnlMusicInfo = new JPanel();
         pnlMusicInfo.setBackground(new Color(255, 255, 255, 50));
         pnlMusicInfo.setBounds(32, 32, 960, 160);
@@ -118,7 +117,7 @@ public class CommentPanel extends JPanel {
         setPositionLblArtist();
     }
 
-    private void setPositionLblArtist(){
+    private void setPositionLblArtist() {
         lblArtist = new JLabel();
         lblArtist.setBounds(10, 90, 700, 60);
         lblArtist.setFont(new Font("서울남산체 B", Font.PLAIN, 40));
@@ -126,7 +125,7 @@ public class CommentPanel extends JPanel {
         pnlMusicInfo.add(lblArtist);
     }
 
-    private void setPositionLblTitle(){
+    private void setPositionLblTitle() {
         lblTitle = new JLabel();
         lblTitle.setBounds(10, 10, 700, 60);
         lblTitle.setHorizontalAlignment(SwingConstants.LEFT);
@@ -135,12 +134,21 @@ public class CommentPanel extends JPanel {
         pnlMusicInfo.add(lblTitle);
     }
 
-    private void setPositionPnlComment(){
+    private void setPositionPnlComment() {
         pnlComment = new JPanel();
         pnlComment.setBackground(Color.white);
         pnlComment.setBounds(32, 224, 960, 440);
         pnlComment.setLayout(null);
         add(pnlComment);
+
+        setPositionListComment();
+    }
+
+    private void setPositionListComment(){
+        listComment = new JList();
+        listComment.setFont(new Font("서울한강체 M", Font.PLAIN, 20));
+        listComment.setBounds(0, 0, 960, 400);
+        pnlComment.add(listComment);
     }
 
     private void addMusicInfo(int rank) {
@@ -181,9 +189,6 @@ public class CommentPanel extends JPanel {
             modelList.addElement(ptr);
         }
         listComment.setModel(modelList);
-        listComment.setFont(new Font("서울한강체 M", Font.PLAIN, 20));
-        listComment.setBounds(0, 0, 960, 400);
-        pnlComment.add(listComment);
     }
 
     /*Description of Method reNewalInfo
@@ -250,9 +255,11 @@ public class CommentPanel extends JPanel {
     public void addBtnRegisterListener(ActionListener listenForBtnRegister) {
         btnRegister.addActionListener((listenForBtnRegister));
     }
+
     public void addBtnDeleteListener(ActionListener listenForBtnDelete) {
         btnDelete.addActionListener((listenForBtnDelete));
     }
+
     public void addBtnBackListener(ActionListener listenForBtnBack) {
         btnBack.addActionListener((listenForBtnBack));
     }
