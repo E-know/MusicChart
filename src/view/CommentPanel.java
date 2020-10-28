@@ -59,7 +59,7 @@ public class CommentPanel extends JPanel {
         setBounds(128, 96, 1024, 768);
         setLayout(null);
 
-        setPnlMusicInfo();
+        setPositionPnlMusicInfo();
 
        setPositionPnlComment();
 
@@ -107,7 +107,7 @@ public class CommentPanel extends JPanel {
      *   pnlMusicInfo 위에 올라가는 이미지와 String을 정해주는 메소드
      * */
 
-    private void setPnlMusicInfo(){
+    private void setPositionPnlMusicInfo(){
         pnlMusicInfo = new JPanel();
         pnlMusicInfo.setBackground(new Color(255, 255, 255, 50));
         pnlMusicInfo.setBounds(32, 32, 960, 160);
