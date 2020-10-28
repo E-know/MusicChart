@@ -51,35 +51,6 @@ public class CommentPanel extends JPanel {
      *  투명 패널을 지니고 있다.
      * */
 
-    private void setPnlMusicInfo(){
-        pnlMusicInfo = new JPanel();
-        pnlMusicInfo.setBackground(new Color(255, 255, 255, 50));
-        pnlMusicInfo.setBounds(32, 32, 960, 160);
-        pnlMusicInfo.setLayout(null);
-        this.add(pnlMusicInfo);
-
-        setLblTitle();
-        setLblArtist();
-    }
-
-    private void setLblArtist(){
-        lblArtist = new JLabel();
-        lblArtist.setBounds(10, 90, 700, 60);
-        lblArtist.setFont(new Font("서울남산체 B", Font.PLAIN, 40));
-        lblArtist.setHorizontalAlignment(SwingConstants.LEFT);
-        pnlMusicInfo.add(lblArtist);
-    }
-
-
-    private void setLblTitle(){
-        lblTitle = new JLabel();
-        lblTitle.setBounds(10, 10, 700, 60);
-        lblTitle.setHorizontalAlignment(SwingConstants.LEFT);
-        lblTitle.setFont(new Font("서울남산체 B", Font.PLAIN, 40));
-        lblTitle.setBackground(Color.black);
-        pnlMusicInfo.add(lblTitle);
-    }
-
     public CommentPanel() {
         setPreferredSize(new Dimension(1024, 768));
         setBackground(new Color(0, 0, 0, 25));
@@ -139,6 +110,35 @@ public class CommentPanel extends JPanel {
      *Description of Method addMusicInfo
      *   pnlMusicInfo 위에 올라가는 이미지와 String을 정해주는 메소드
      * */
+
+    private void setPnlMusicInfo(){
+        pnlMusicInfo = new JPanel();
+        pnlMusicInfo.setBackground(new Color(255, 255, 255, 50));
+        pnlMusicInfo.setBounds(32, 32, 960, 160);
+        pnlMusicInfo.setLayout(null);
+        this.add(pnlMusicInfo);
+
+        setLblTitle();
+        setLblArtist();
+    }
+
+    private void setLblArtist(){
+        lblArtist = new JLabel();
+        lblArtist.setBounds(10, 90, 700, 60);
+        lblArtist.setFont(new Font("서울남산체 B", Font.PLAIN, 40));
+        lblArtist.setHorizontalAlignment(SwingConstants.LEFT);
+        pnlMusicInfo.add(lblArtist);
+    }
+
+    private void setLblTitle(){
+        lblTitle = new JLabel();
+        lblTitle.setBounds(10, 10, 700, 60);
+        lblTitle.setHorizontalAlignment(SwingConstants.LEFT);
+        lblTitle.setFont(new Font("서울남산체 B", Font.PLAIN, 40));
+        lblTitle.setBackground(Color.black);
+        pnlMusicInfo.add(lblTitle);
+    }
+
     private void addMusicInfo(int rank) {
         String strRefinedTitle = strTitle;
         if (strRefinedTitle.indexOf("(") != -1) {
