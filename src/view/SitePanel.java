@@ -1,7 +1,6 @@
 package view;
 
 import java.awt.*;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.net.MalformedURLException;
@@ -10,7 +9,7 @@ import java.util.Comparator;
 import javax.swing.*;
 import javax.swing.table.*;
 
-import notsort.AppManager;
+import main.AppManager;
 import model.MusicChartParser;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;

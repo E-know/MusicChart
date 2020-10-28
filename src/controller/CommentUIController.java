@@ -1,24 +1,14 @@
 package controller;
 
 import DB.*;
-import notsort.*;
+import main.AppManager;
 // TODO: 2020-09-21 It must delete
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import view.ChartPrimaryPanel;
 import view.CommentUI;
 
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import javax.xml.stream.events.Comment;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.*;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
 import java.sql.*;
 
 public class CommentUIController {

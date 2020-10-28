@@ -3,19 +3,10 @@ package controller;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Comparator;
 import javax.swing.*;
-import javax.swing.table.*;
 
-import notsort.*;
-import controller.*;
-import model.*;
-import view.ChartPrimaryPanel;
+import main.AppManager;
 import view.SitePanel;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 
 public class SitePanelController {
 

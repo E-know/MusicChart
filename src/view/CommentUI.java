@@ -1,11 +1,10 @@
 package view;
 
 import DB.*;
-import notsort.*;
-// TODO: 2020-09-21 It must delete 
+import main.AppManager;
+// TODO: 2020-09-21 It must delete
 
 import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
