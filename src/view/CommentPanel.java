@@ -43,7 +43,6 @@ public class CommentPanel extends JPanel {
      *   노래를 받아오는 rank 는 SitePanel 에서 몇번 째 노래를 클릭했는지 받아온다.
      * */
 
-
     /*
      *Description of Constructor
      *   사용된 폰트
@@ -60,23 +59,17 @@ public class CommentPanel extends JPanel {
         pnlMusicInfo.setBounds(32, 32, 960, 160);
         pnlMusicInfo.setLayout(null);
         this.add(pnlMusicInfo);
-        setLblStrArtist();
-        setLblStrTitle();
+
+        setLblTitle();
     }
 
-    private void setLblStrArtist(){
-        lblStrArtist = new JLabel("Artist : ");
-        lblStrArtist.setFont(new Font("한강남산체 M", Font.BOLD, 30));
-        lblStrArtist.setBounds(10, 90, 160, 60);
-        lblStrArtist.setHorizontalAlignment(SwingConstants.LEFT);
-        pnlMusicInfo.add(lblStrArtist);
-    }
 
-    private void setLblStrTitle(){
+    private void setLblTitle(){
         lblTitle = new JLabel();
         lblTitle.setBounds(110, 10, 700, 60);
         lblTitle.setHorizontalAlignment(SwingConstants.LEFT);
         lblTitle.setFont(new Font("서울남산체 B", Font.PLAIN, 40));
+        lblTitle.setBackground(Color.black);
         pnlMusicInfo.add(lblTitle);
     }
 
