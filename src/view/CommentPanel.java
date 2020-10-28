@@ -19,13 +19,16 @@ import java.sql.*;
 public class CommentPanel extends JPanel {
 
     private JPanel pnlCommentField, pnlMusicInfo;
-    public JTextField txtComment, txtPassword;
     private JButton btnRegister, btnDelete, btnBack;
+
+    public JTextField txtComment, txtPassword;
     public ArrayList<String> arrComment;
     public ArrayList<String> arrPassword;
+
     public JList listComment;
     public DefaultListModel modelList;
     public String strTitle, strArtist, sqltitle;
+
     private JLabel lblStrTitle, lblStrArtist;
     private JLabel lblTitle, lblArtist, lblImage;
 
@@ -50,6 +53,15 @@ public class CommentPanel extends JPanel {
      *  기본적인 UI에 대한 기본 설정을 해준다.
      *  투명 패널을 지니고 있다.
      * */
+
+    private void setPnlMusicInfo(){
+        pnlMusicInfo = new JPanel();
+        pnlMusicInfo.setBackground(new Color(255, 255, 255, 50));
+        pnlMusicInfo.setBounds(32, 32, 960, 160);
+        pnlMusicInfo.setLayout(null);
+        this.add(pnlMusicInfo);
+    }
+
     public CommentPanel() {
         setPreferredSize(new Dimension(1024, 768));
         setBackground(new Color(0, 0, 0, 25));
@@ -58,11 +70,7 @@ public class CommentPanel extends JPanel {
         setBounds(128, 96, 1024, 768);
         setLayout(null);
 
-        pnlMusicInfo = new JPanel();
-        pnlMusicInfo.setBackground(new Color(255, 255, 255, 50));
-        pnlMusicInfo.setBounds(32, 32, 960, 160);
-        pnlMusicInfo.setLayout(null);
-        add(pnlMusicInfo);
+        setPnlMusicInfo();
 
         pnlCommentField = new JPanel();
         pnlCommentField.setBackground(Color.white);
