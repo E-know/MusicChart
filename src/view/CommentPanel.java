@@ -18,7 +18,7 @@ import java.sql.*;
 
 public class CommentPanel extends JPanel {
 
-    private JPanel pnlCommentField, pnlMusicInfo;
+    private JPanel pnlComment, pnlMusicInfo;
     private JButton btnRegister, btnDelete, btnBack;
 
     public JTextField txtComment, txtPassword;
@@ -61,11 +61,11 @@ public class CommentPanel extends JPanel {
 
         setPnlMusicInfo();
 
-        pnlCommentField = new JPanel();
-        pnlCommentField.setBackground(Color.white);
-        pnlCommentField.setBounds(32, 224, 960, 440);
-        pnlCommentField.setLayout(null);
-        add(pnlCommentField);
+        pnlComment = new JPanel();
+        pnlComment.setBackground(Color.white);
+        pnlComment.setBounds(32, 224, 960, 440);
+        pnlComment.setLayout(null);
+        add(pnlComment);
 
         txtComment = new JTextField();
         txtComment.setBounds(32, 696, 800, 40);
@@ -181,7 +181,7 @@ public class CommentPanel extends JPanel {
         listComment.setModel(modelList);
         listComment.setFont(new Font("서울한강체 M", Font.PLAIN, 20));
         listComment.setBounds(0, 0, 960, 400);
-        pnlCommentField.add(listComment);
+        pnlComment.add(listComment);
     }
 
     /*Description of Method reNewalInfo
