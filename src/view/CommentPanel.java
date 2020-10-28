@@ -59,9 +59,9 @@ public class CommentPanel extends JPanel {
         setBounds(128, 96, 1024, 768);
         setLayout(null);
 
-        setPositionPnlMusicInfo();
+        setInitializationPnlMusicInfo();
 
-        setPositionPnlComment();
+        setInitializationPnlComment();
 
         txtComment = new JTextField();
         txtComment.setBounds(32, 696, 800, 40);
@@ -106,18 +106,18 @@ public class CommentPanel extends JPanel {
      *   pnlMusicInfo 위에 올라가는 이미지와 String을 정해주는 메소드
      * */
 
-    private void setPositionPnlMusicInfo() {
+    private void setInitializationPnlMusicInfo() { //Called by Constructor
         pnlMusicInfo = new JPanel();
         pnlMusicInfo.setBackground(new Color(255, 255, 255, 50));
         pnlMusicInfo.setBounds(32, 32, 960, 160);
         pnlMusicInfo.setLayout(null);
         this.add(pnlMusicInfo);
 
-        setPositionLblTitle();
-        setPositionLblArtist();
+        setInitializationLblTitle();
+        setInitializationLblArtist();
     }
 
-    private void setPositionLblArtist() {
+    private void setInitializationLblArtist() { // Called by setInitializationPnlMusicInfo
         lblArtist = new JLabel();
         lblArtist.setBounds(10, 90, 700, 60);
         lblArtist.setFont(new Font("서울남산체 B", Font.PLAIN, 40));
@@ -125,7 +125,7 @@ public class CommentPanel extends JPanel {
         pnlMusicInfo.add(lblArtist);
     }
 
-    private void setPositionLblTitle() {
+    private void setInitializationLblTitle() { // Called by setInitializationPnlMusicInfo
         lblTitle = new JLabel();
         lblTitle.setBounds(10, 10, 700, 60);
         lblTitle.setHorizontalAlignment(SwingConstants.LEFT);
@@ -134,17 +134,17 @@ public class CommentPanel extends JPanel {
         pnlMusicInfo.add(lblTitle);
     }
 
-    private void setPositionPnlComment() {
+    private void setInitializationPnlComment() { // Called by Constructor
         pnlComment = new JPanel();
         pnlComment.setBackground(Color.white);
         pnlComment.setBounds(32, 224, 960, 440);
         pnlComment.setLayout(null);
         add(pnlComment);
 
-        setPositionListComment();
+        setInitializationListComment();
     }
 
-    private void setPositionListComment(){
+    private void setInitializationListComment(){ //Called by setInitializationPnlComment
         listComment = new JList();
         listComment.setFont(new Font("서울한강체 M", Font.PLAIN, 20));
         listComment.setBounds(0, 0, 960, 400);
