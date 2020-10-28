@@ -61,11 +61,7 @@ public class CommentPanel extends JPanel {
 
         setPnlMusicInfo();
 
-        pnlComment = new JPanel();
-        pnlComment.setBackground(Color.white);
-        pnlComment.setBounds(32, 224, 960, 440);
-        pnlComment.setLayout(null);
-        add(pnlComment);
+       setPositionPnlComment();
 
         txtComment = new JTextField();
         txtComment.setBounds(32, 696, 800, 40);
@@ -139,7 +135,13 @@ public class CommentPanel extends JPanel {
         pnlMusicInfo.add(lblTitle);
     }
 
-
+    private void setPositionPnlComment(){
+        pnlComment = new JPanel();
+        pnlComment.setBackground(Color.white);
+        pnlComment.setBounds(32, 224, 960, 440);
+        pnlComment.setLayout(null);
+        add(pnlComment);
+    }
 
     private void addMusicInfo(int rank) {
         String strRefinedTitle = strTitle;
