@@ -2,8 +2,6 @@ package controller;
 
 import DB.*;
 import main.AppManager;
-// TODO: 2020-09-21 It must delete
-
 import view.CommentUI;
 
 import java.awt.*;

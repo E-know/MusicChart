@@ -2,7 +2,6 @@ package view;
 
 import DB.*;
 import main.AppManager;
-// TODO: 2020-09-21 It must delete
 
 import org.json.simple.JSONArray;
 
