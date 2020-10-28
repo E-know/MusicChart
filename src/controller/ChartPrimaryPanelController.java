@@ -1,10 +1,12 @@
 package controller;
 
+import controller.*;
+import view.*;
+import model.*;
 import notsort.AppManager;
 import notsort.MakeComment;
 import view.ChartPrimaryPanel;
 import view.SitePanel;
-
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
@@ -148,7 +150,7 @@ public class ChartPrimaryPanelController {
                     theChartPrimaryPanel.pnlSitePanel.filter(theChartPrimaryPanel.txtSearch.getText(),2);
                 if(1 == theChartPrimaryPanel.strCombo.getSelectedIndex())//Artist
                     theChartPrimaryPanel.pnlSitePanel.filter(theChartPrimaryPanel.txtSearch.getText(),3);
-            }//comboBox 0, 1ÀÏ¶§ sitepanelÀÇ filter¿¡¼­ °Ë»ö
+            }//comboBox 0, 1Ã€ÃÂ¶Â§ sitepanelÃ€Ã‡ filterÂ¿Â¡Â¼Â­ Â°Ã‹Â»Ã¶
 
         }//KeyReleased
 

@@ -1,112 +1,109 @@
 package model;
 
-import notsort.AppManager;
+import DB.ConnectDB;
 import org.json.simple.JSONArray;
+
+import java.sql.*;
+import notsort.AppManager;
 
 import java.awt.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Random;
 
 public class MakeComment {
-    private File Folder;
-    private JSONArray arrChartList;
+    Connection con = null;
+    Statement stmt = null;
+    PreparedStatement pstmt = null;
 
     public MakeComment(Component parentComponent) {
-        Folder = new File("comments");
-
-        if (!Folder.exists()) {
-            try {
-                Folder.mkdir();
-                System.out.println("Making Folder is complete");
-            } catch (Exception e) {
-                e.getStackTrace();
-            }
-        } else
-            System.out.println("Folder is already exist");
-
-        makeRandomCommentTxt(parentComponent);
-
-
+        makeRandomCommentDB(parentComponent);
     }//MakeComment | Constructor
 
-    private void makeRandomCommentTxt(Component parentComponent) {
-        String singer, title, albumName;
+    private void makeRandomCommentDB(Component parentComponent) {
+        con = ConnectDB.GetDB();
+        String singer, title, albumName, sqltitle;
+        String comment = "";
+        String passwd = "";
         int Orig = AppManager.getS_instance().getSite_M_B_G();
-        for (int j = 1; j <= 3; j++) {
+
             AppManager.getS_instance().setSite_M_B_G(j);
             AppManager.getS_instance().DataPassing(parentComponent);
             for (int k = 1; k <= 100; k++) {
-
-                singer = AppManager.getS_instance().getParser().getArtistName(k);
                 title = AppManager.getS_instance().getParser().getTitle(k);
+                singer = AppManager.getS_instance().getParser().getArtistName(k);
                 albumName = AppManager.getS_instance().getParser().getAlbumName(k);
-
-                File file = new File("comments\\" + reDefineTitle(title) + ".txt");
-                if (!file.exists()) {
-                    try {
-                        FileWriter fw = new FileWriter(file, true);
-                        int rndNum1 = (int) (Math.random() * 10) + 1;
+                sqltitle = title;
+                if(sqltitle.contains("'")){
+                    sqltitle = sqltitle.replace("'",":");
+                }
+                try {
+                    stmt = con.createStatement();
+                    String sql = "SELECT * FROM songinfo WHERE title = '" + sqltitle + "' AND siteid = " + j + "";
+                    ResultSet rs = stmt.executeQuery(sql);
+                    if (!rs.next()) {
+                        int rndNum1 = (int) (Math.random() * 5) + 1;
                         int rndNum2;
                         // rndNum1 = How many make comment
                         // rndNum2 = What comment
 
                         for (int i = 0; i < rndNum1; i++) {
-                            rndNum2 = (int) (Math.random() * 10) + 1;
+                            rndNum2 = (int) (Math.random() * 6) + 1;
                             switch (rndNum2 % 10) {
                                 case 1: {
-                                    fw.write(singer + "´Â ¿ª½Ã ¹Ï°í µé¾î¾ßÁö\r");
-                                    fw.write(Integer.toString((int) (Math.random() * 10000)) + "\r");
+                                    comment = singer + "ëŠ” ì—­ì‹œ ë¯¿ê³  ë“¤ì–´ì•¼ì§€";
                                     break;
                                 }//case 1
                                 case 2: {
-                                    fw.write("ÀÌ¹ø " + title + " ³Ê¹« ÁÁÀº °Í °°¾Æ¿ä\r");
-                                    fw.write(Integer.toString((int) (Math.random() * 10000)) + "\r");
+                                    comment = "ì´ë²ˆ " + title + " ë„ˆë¬´ ì¢‹ì€ ê²ƒ ê°™ì•„ìš”";
                                     break;
                                 }//case 2
                                 case 3: {
-                                    fw.write("ÀÌ¹ø ¾Ù¹ü " + albumName + " ³Ê¹« ÁÁ¾Æ¿ä\r");
-                                    fw.write(Integer.toString((int) (Math.random() * 10000)) + "\r");
+                                    comment = "ì´ë²ˆ ì•¨ë²” " + albumName + " ë„ˆë¬´ ì¢‹ì•„ìš”";
                                     break;
                                 }
                                 case 4: {
-                                    fw.write("¾Ù¹ü ¹ß¸ÅÀÏ¸¸ ±â´Ù·È½À´Ï´Ù!\r");
-                                    fw.write(Integer.toString((int) (Math.random() * 10000)) + "\r");
+                                    comment = "ì•¨ë²” ë°œë§¤ì¼ë§Œ ê¸°ë‹¤ë ¸ìŠµë‹ˆë‹¤!";
                                     break;
                                 }
                                 case 5: {
-                                    fw.write("5252~" + singer + " ±â´Ù·È´Ù±¸\r");
-                                    fw.write(Integer.toString((int) (Math.random() * 10000)) + "\r");
+                                    comment = "5252~" + singer + " ê¸°ë‹¤ë ¸ë‹¤êµ¬";
                                     break;
                                 }
                                 case 6: {
-                                    fw.write("'" + albumName + "'¾Ù¹ü ¼ö·ÏµÈ ³ë·¡ ´Ù ÁÁÀº °Í °°¾Æ¿ä.\r");
-                                    fw.write(Integer.toString((int) (Math.random() * 10000)) + "\r");
+                                    comment = "'" + albumName + "'ì•¨ë²” ìˆ˜ë¡ëœ ë…¸ëž˜ ë‹¤ ì¢‹ì€ ê²ƒ ê°™ì•„ìš”.";
                                     break;
                                 }
                             }//switch
+                            Random rand = new Random();
+                            passwd = "";
+                            for (int p = 0; p < 4; p++) {
+                                //0~9 ê¹Œì§€ ë‚œìˆ˜ ìƒì„±
+                                String ran = Integer.toString(rand.nextInt(10));
+                                passwd += ran;
+                            }//4ìžë¦¬ ë¹„ë°€ë²ˆí˜¸ ì„¤ì •
+                            try {
+                                sql = "INSERT INTO songinfo VALUES (?, ?, ?, ?, ?, ?)";
+                                pstmt = con.prepareStatement(sql);
+                                pstmt.setString(1, sqltitle);
+                                pstmt.setString(2, singer);
+                                pstmt.setString(3, albumName);
+                                pstmt.setInt(4, j);
+                                pstmt.setString(5, comment);
+                                pstmt.setString(6, passwd);
+                                pstmt.executeUpdate();
+                            } catch (Exception e1) {
+                                System.out.println("ì¿¼ë¦¬ ì½ê¸° ì‹¤íŒ¨ :" + e1);
+                            }
                         }//for
-                        fw.flush();
-                        fw.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
                     }
-                }// file is not exist
+                } catch (Exception e) {
+                    System.out.println(title + singer + albumName);
+                    System.out.println("ì¿¼ë¦¬ ì½ê¸° ì‹¤íŒ¨ :" + e);
+                }
             }//for(k)
         }//for(j)
         AppManager.getS_instance().setSite_M_B_G(Orig);
-    }//makeRandomCommentTxt method
-
-
-    private String reDefineTitle(String title) {
-        String result;
-        if (title == null)
-            return null;
-        result = title.replace("\'", "");
-        if (result.indexOf("(") != -1)
-            result = result.substring(0, title.indexOf("("));
-        result = result.replace(" ", "");
-        result = result.replace("\'", "");
-        return result;
     }
 }//MakeComment
