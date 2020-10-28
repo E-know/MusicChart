@@ -4,7 +4,7 @@ import controller.*;
 import model.*;
 import org.json.simple.JSONArray;
 import view.ChartPrimaryPanel;
-import view.CommentUI;
+import view.CommentPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,14 +16,14 @@ public class AppManager {
     private BugsChartParser bugs;
     private GenieChartParser genie;
     private JSONArray[] chartData;
-    private CommentUI pnlCommentUI;
+    private CommentPanel pnlCommentPanel;
     private ChartPrimaryPanel pnlChartPrimary;
     private JPanel primaryPanel;
     private MelonChartParser detailMelon;
     private BugsChartParser detailBugs;
     private GenieChartParser detailGenie;
     private ChartPrimaryPanelController theChartPrimaryPanelController;
-    private CommentUIController theCommentUIController;
+    private CommentPanelController theCommentPanelController;
 
     private AppManager(){
     	s_instance = this;
@@ -59,8 +59,8 @@ public class AppManager {
         return primaryPanel;
     }
 
-    public CommentUI getPnlCommentUI() {
-        return pnlCommentUI;
+    public CommentPanel getPnlCommentUI() {
+        return pnlCommentPanel;
     }
     public ChartPrimaryPanel getPnlChartPrimary() {
         if(pnlChartPrimary == null){
@@ -225,19 +225,19 @@ public class AppManager {
     }
 
     public void PopUpCommentUI(int rank){
-        if(pnlCommentUI == null) {
-            pnlCommentUI = new CommentUI();
-            theCommentUIController = new CommentUIController(pnlCommentUI);
-            primaryPanel.add(pnlCommentUI);
+        if(pnlCommentPanel == null) {
+            pnlCommentPanel = new CommentPanel();
+            theCommentPanelController = new CommentPanelController(pnlCommentPanel);
+            primaryPanel.add(pnlCommentPanel);
         }
-        pnlCommentUI.reNewalInfo(rank);
-        pnlCommentUI.setVisible(true);
+        pnlCommentPanel.reNewalInfo(rank);
+        pnlCommentPanel.setVisible(true);
         pnlChartPrimary.setVisible(false);
     }
 
     public void BackToChartPrimaryPanel(){
         primaryPanel.repaint();
-        pnlCommentUI.setVisible(false);
+        pnlCommentPanel.setVisible(false);
         pnlChartPrimary.setVisible(true);
     }
 

@@ -16,7 +16,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.sql.*;
 
-public class CommentUI extends JPanel {
+public class CommentPanel extends JPanel {
 
     private JPanel pnlCommentField, pnlMusicInfo;
     public JTextField txtComment, txtPassword;
@@ -50,7 +50,7 @@ public class CommentUI extends JPanel {
      *  기본적인 UI에 대한 기본 설정을 해준다.
      *  투명 패널을 지니고 있다.
      * */
-    public CommentUI() {
+    public CommentPanel() {
         setPreferredSize(new Dimension(1024, 768));
         setBackground(new Color(0, 0, 0, 25));
         setLayout(null);
