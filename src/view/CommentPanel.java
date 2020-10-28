@@ -118,11 +118,11 @@ public class CommentPanel extends JPanel {
         pnlMusicInfo.setLayout(null);
         this.add(pnlMusicInfo);
 
-        setLblTitle();
-        setLblArtist();
+        setPositonLblTitle();
+        setPositonLblArtist();
     }
 
-    private void setLblArtist(){
+    private void setPositonLblArtist(){
         lblArtist = new JLabel();
         lblArtist.setBounds(10, 90, 700, 60);
         lblArtist.setFont(new Font("서울남산체 B", Font.PLAIN, 40));
@@ -130,7 +130,7 @@ public class CommentPanel extends JPanel {
         pnlMusicInfo.add(lblArtist);
     }
 
-    private void setLblTitle(){
+    private void setPositonLblTitle(){
         lblTitle = new JLabel();
         lblTitle.setBounds(10, 10, 700, 60);
         lblTitle.setHorizontalAlignment(SwingConstants.LEFT);
@@ -138,6 +138,8 @@ public class CommentPanel extends JPanel {
         lblTitle.setBackground(Color.black);
         pnlMusicInfo.add(lblTitle);
     }
+
+
 
     private void addMusicInfo(int rank) {
         String strRefinedTitle = strTitle;
