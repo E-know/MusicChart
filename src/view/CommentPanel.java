@@ -55,21 +55,12 @@ public class CommentPanel extends JPanel {
         setPreferredSize(new Dimension(1024, 768));
         setBackground(new Color(0, 0, 0, 25));
         setLayout(null);
-
         setBounds(128, 96, 1024, 768);
         setLayout(null);
 
         setInitializationPnlMusicInfo();
 
         setInitializationPnlComment();
-
-        txtComment = new JTextField();
-        txtComment.setBounds(32, 696, 800, 40);
-        add(txtComment);
-
-        txtPassword = new JTextField();
-        txtPassword.setBounds(832, 676, 80, 20);
-        add(txtPassword);
 
         btnRegister = new JButton("Register");
         btnRegister.setBounds(832, 696, 160, 40);
@@ -137,11 +128,14 @@ public class CommentPanel extends JPanel {
     private void setInitializationPnlComment() { // Called by Constructor
         pnlComment = new JPanel();
         pnlComment.setBackground(Color.white);
-        pnlComment.setBounds(32, 224, 960, 440);
+        pnlComment.setBounds(32, 260, 960, 640);
+        pnlComment.setBackground(Color.black);
         pnlComment.setLayout(null);
         add(pnlComment);
 
         setInitializationListComment();
+        setInitializationTxtComment();
+        setInitializationTxtPassword();
     }
 
     private void setInitializationListComment(){ //Called by setInitializationPnlComment
@@ -149,6 +143,18 @@ public class CommentPanel extends JPanel {
         listComment.setFont(new Font("서울한강체 M", Font.PLAIN, 20));
         listComment.setBounds(0, 0, 960, 400);
         pnlComment.add(listComment);
+    }
+
+    private void setInitializationTxtComment(){
+        txtComment = new JTextField();
+        txtComment.setBounds(0, 435, 800, 40);
+        pnlComment.add(txtComment);
+    }
+
+    private void setInitializationTxtPassword(){
+        txtPassword = new JTextField();
+        txtPassword.setBounds(800, 415, 80, 20);
+        pnlComment.add(txtPassword);
     }
 
     private void addMusicInfo(int rank) {
