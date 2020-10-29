@@ -25,8 +25,8 @@ public class CommentPanel extends JPanel {
     public ArrayList<String> arrComment;
     public ArrayList<String> arrPassword;
 
-    public JList listComment;
-    public DefaultListModel modelList;
+    public JList<String> listComment;
+    public DefaultListModel<String> modelList;
     public String strTitle, strArtist, sqltitle;
 
     private JLabel lblTitle, lblArtist, lblImage;
@@ -63,10 +63,6 @@ public class CommentPanel extends JPanel {
         setInitializationPnlComment();
 
         setInitializationBtnBack();
-
-        arrComment = new ArrayList<>();
-        arrPassword = new ArrayList<>();
-        modelList = new DefaultListModel();
     }//Constructor
 
     /*
@@ -124,6 +120,10 @@ public class CommentPanel extends JPanel {
     }
 
     private void setInitializationListComment(){ //Called by setInitializationPnlComment
+        arrComment = new ArrayList<>();
+        arrPassword = new ArrayList<>();
+        modelList = new DefaultListModel<String>();
+
         listComment = new JList<String>();
         listComment.setFont(new Font("서울한강체 M", Font.PLAIN, 20));
         listComment.setBounds(0, 0, 960, 400);
