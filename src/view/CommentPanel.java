@@ -64,13 +64,8 @@ public class CommentPanel extends JPanel {
 
         setInitializationBtnBack();
 
-        lblImage = new JLabel();
-        lblImage.setBounds(800, 0, 160, 160);
-        pnlMusicInfo.add(lblImage);
-
         arrComment = new ArrayList<>();
         arrPassword = new ArrayList<>();
-
         modelList = new DefaultListModel();
     }//Constructor
 
@@ -88,6 +83,7 @@ public class CommentPanel extends JPanel {
 
         setInitializationLblTitle();
         setInitializationLblArtist();
+        setInitializationLblImage();
     }
 
     private void setInitializationLblArtist() { // Called by setInitializationPnlMusicInfo
@@ -105,6 +101,12 @@ public class CommentPanel extends JPanel {
         lblTitle.setFont(new Font("서울남산체 B", Font.PLAIN, 40));
         lblTitle.setBackground(Color.black);
         pnlMusicInfo.add(lblTitle);
+    }
+
+    private void setInitializationLblImage(){
+        lblImage = new JLabel();
+        lblImage.setBounds(800, 0, 160, 160);
+        pnlMusicInfo.add(lblImage);
     }
 
     private void setInitializationPnlComment() { // Called by Constructor
