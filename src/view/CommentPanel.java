@@ -3,8 +3,6 @@ package view;
 import DB.*;
 import main.AppManager;
 
-import org.json.simple.JSONArray;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -78,7 +76,7 @@ public class CommentPanel extends JPanel {
         add(btnBack);
     }
 
-    // PnlMusicInfo에 대한 초기 설정 = 밑에 함수들은 PnlMusicInfo에 붙은 것들이다============================================
+    // PnlMusicInfo에 대한 초기 설정 = 밑에 함수들은 PnlMusicInfo에 붙은 것들이다=======================================
     private void setInitializationPnlMusicInfo() { //Called by Constructor
         pnlMusicInfo = new JPanel();
         pnlMusicInfo.setBackground(new Color(255, 255, 255, 50));
@@ -114,7 +112,7 @@ public class CommentPanel extends JPanel {
         pnlMusicInfo.add(lblImage);
     }
 
-    // PnlComment에 대한 초기 설정 = 밑 함수들은 PnlComment에 붙은 것들이다.=============================================
+    // PnlComment에 대한 초기 설정 = 밑 함수들은 PnlComment에 붙은 것들이다.============================================
     private void setInitializationPnlComment() { // Called by Constructor
         pnlComment = new JPanel();
         pnlComment.setBounds(32, 260, 960, 640);
@@ -168,73 +166,54 @@ public class CommentPanel extends JPanel {
         btnDelete.addActionListener(new ButtonListener());
         pnlComment.add(btnDelete);
     }
+    
+    //==================================================================================================================
 
-    private void addMusicInfo(int rank) {
-        String strRefinedTitle = strTitle;
-        if (strRefinedTitle.indexOf("(") != -1) {
-            strRefinedTitle = strRefinedTitle.substring(0, strRefinedTitle.indexOf("("));
-        }
-        lblTitle.setText("Title : " + strRefinedTitle);
-
-        String strRefinedArtist = strArtist;
-        if (strRefinedArtist.indexOf("(") != -1) {
-            strRefinedArtist = strRefinedArtist.substring(0, strRefinedArtist.indexOf("("));
-        }
-        lblArtist.setText("Artist : " + strRefinedArtist);
-        Image image = null;
-        URL url;
+    private void inputMusicInfoToPnlMusicInfo(int rank) {
+        lblTitle.setText("Title : " + AppManager.getS_instance().getParser().getTitle(rank));
+        lblArtist.setText("Artist : " + AppManager.getS_instance().getParser().getArtistName(rank));
 
         try {
-            url = new URL(AppManager.getS_instance().getDetailParser().getImageUrl());
-            System.out.println(url);
-            image = ImageIO.read(url);
-            image = image.getScaledInstance(160, 160, Image.SCALE_SMOOTH);
+            AppManager.getS_instance().detailDataPassing(rank,AppManager.getS_instance().getParser().getChartList(),this);
+            URL url = new URL(AppManager.getS_instance().getDetailParser().getImageUrl(rank));
+            Image image = ImageIO.read(url).getScaledInstance(160,160,Image.SCALE_SMOOTH);
+            lblImage.setIcon(new ImageIcon(image));
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        lblImage.setIcon(new ImageIcon(image));
+    }
 
-    }//addMusicInfo
-
-    /*
-     *Description of Method addList
-     *   Txt 파일에서 읽어온 ArrryList - Comment 를 JList에 올려주는 함수
-     * */
-    private void addList() {
+    private void inputCommentToListComment() {
         for (String ptr : arrComment) {
             modelList.addElement(ptr);
         }
         listComment.setModel(modelList);
     }
 
+    public void popUpCommentPanel(){
+        this.setVisible(true);
+    }
+
     /*Description of Method reNewalInfo
      *  Site Panel에서 받아온 rank를 기반으로 Parser에 직접접근하여 정보를 업데이트 해준다.
      * */
     public void reNewalInfo(int rank) {
-        this.setVisible(true);
-        strTitle = AppManager.getS_instance().getParser().getTitle(rank);
-        strArtist = AppManager.getS_instance().getParser().getArtistName(rank);
+        popUpCommentPanel();
+        inputMusicInfoToPnlMusicInfo(rank);
 
-        JSONArray chartListData = AppManager.getS_instance().getParser().getChartList();
-        System.out.println("Detail Parsing is Start");
-
-        AppManager.getS_instance().detailDataPassing(rank, chartListData, this);
-
-        System.out.println("Detail Parsing is End");
-
-        readComment();
-        addList();
-        addMusicInfo(rank);
+        readComment(rank);
+        inputCommentToListComment();
+        inputMusicInfoToPnlMusicInfo(rank);
     }
 
     /*Description of Method readComment
      *   덧글과 각 비밀번호가 적혀있는 txt 파일을 읽어와 각각의 ArrayList에 저장하는 메소드
      * */
-    private void readComment() {
+    private void readComment(int rank) {
         con = ConnectDB.GetDB();
-        sqltitle = strTitle;
+        sqltitle = AppManager.getS_instance().getParser().getTitle(rank);
         if (sqltitle.contains("'")) {
             sqltitle = sqltitle.replace("'", ":");
         }
@@ -252,7 +231,6 @@ public class CommentPanel extends JPanel {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
     }//readComment
 
     /*
