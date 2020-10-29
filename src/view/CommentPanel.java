@@ -62,12 +62,7 @@ public class CommentPanel extends JPanel {
 
         setInitializationPnlComment();
 
-        btnBack = new JButton("Back");
-        btnBack.setBounds(964, 0, 60, 30);
-        btnBack.setFont(new Font("배달의민족 을지로체 TTF", Font.PLAIN, 12));
-        btnBack.setBackground(Color.WHITE);
-        btnBack.addActionListener(new ButtonListener());
-        add(btnBack);
+        setInitializationBtnBack();
 
         lblImage = new JLabel();
         lblImage.setBounds(800, 0, 160, 160);
@@ -160,6 +155,15 @@ public class CommentPanel extends JPanel {
         btnDelete.setFont(new Font("한강남산체 M", Font.PLAIN, 13));
         btnDelete.addActionListener(new ButtonListener());
         pnlComment.add(btnDelete);
+    }
+
+    private void setInitializationBtnBack(){
+        btnBack = new JButton("Back");
+        btnBack.setBounds(964, 0, 60, 30);
+        btnBack.setFont(new Font("배달의민족 을지로체 TTF", Font.PLAIN, 12));
+        btnBack.setBackground(Color.WHITE);
+        btnBack.addActionListener(new ButtonListener());
+        add(btnBack);
     }
 
     private void addMusicInfo(int rank) {
