@@ -30,7 +30,6 @@ public class CommentPanel extends JPanel {
     private JLabel lblTitle, lblArtist, lblImage;
 
     public Connection con = null;
-    public Statement stmt = null;
     public ResultSet rs = null;
 
     /*
@@ -193,9 +192,6 @@ public class CommentPanel extends JPanel {
         listComment.setModel(modelList);
     }
 
-    /*Description of Method reNewalInfo
-     *  Site Panel에서 받아온 rank를 기반으로 Parser에 직접접근하여 정보를 업데이트 해준다.
-     * */
     public void popUpCommentPanel(int rank) {
         this.setVisible(true);
 
@@ -207,13 +203,13 @@ public class CommentPanel extends JPanel {
      *   덧글과 각 비밀번호가 적혀있는 txt 파일을 읽어와 각각의 ArrayList에 저장하는 메소드
      * */
     private void readComment(int rank) {
-        con = ConnectDB.GetDB();
+        Connection con = ConnectDB.GetDB();
         sqltitle = AppManager.getS_instance().getParser().getTitle(rank);
         if (sqltitle.contains("'")) {
             sqltitle = sqltitle.replace("'", ":");
         }
         try {
-            stmt = con.createStatement();
+            Statement stmt = con.createStatement();
             String sql = "SELECT comment, pwd FROM songinfo WHERE title = '" + sqltitle + "'";
             rs = stmt.executeQuery(sql);
             while (rs.next()) {
