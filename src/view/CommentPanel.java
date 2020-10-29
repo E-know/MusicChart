@@ -69,7 +69,16 @@ public class CommentPanel extends JPanel {
      *Description of Method addMusicInfo
      *   pnlMusicInfo 위에 올라가는 이미지와 String을 정해주는 메소드
      * */
+    private void setInitializationBtnBack() {
+        btnBack = new JButton("Back");
+        btnBack.setBounds(964, 0, 60, 30);
+        btnBack.setFont(new Font("배달의민족 을지로체 TTF", Font.PLAIN, 12));
+        btnBack.setBackground(Color.WHITE);
+        btnBack.addActionListener(new ButtonListener());
+        add(btnBack);
+    }
 
+    // PnlMusicInfo에 대한 초기 설정 = 밑에 함수들은 PnlMusicInfo에 붙은 것들이다============================================
     private void setInitializationPnlMusicInfo() { //Called by Constructor
         pnlMusicInfo = new JPanel();
         pnlMusicInfo.setBackground(new Color(255, 255, 255, 50));
@@ -99,16 +108,17 @@ public class CommentPanel extends JPanel {
         pnlMusicInfo.add(lblTitle);
     }
 
-    private void setInitializationLblImage(){
+    private void setInitializationLblImage() {
         lblImage = new JLabel();
         lblImage.setBounds(800, 0, 160, 160);
         pnlMusicInfo.add(lblImage);
     }
 
+    // PnlComment에 대한 초기 설정 = 밑 함수들은 PnlComment에 붙은 것들이다.=============================================
     private void setInitializationPnlComment() { // Called by Constructor
         pnlComment = new JPanel();
         pnlComment.setBounds(32, 260, 960, 640);
-        pnlComment.setBackground(new Color(0,0,0,0));
+        pnlComment.setBackground(new Color(0, 0, 0, 0));
         pnlComment.setLayout(null);
         add(pnlComment);
 
@@ -119,7 +129,7 @@ public class CommentPanel extends JPanel {
         setInitializationBtnDelete();
     }
 
-    private void setInitializationListComment(){ //Called by setInitializationPnlComment
+    private void setInitializationListComment() { //Called by setInitializationPnlComment
         arrComment = new ArrayList<>();
         arrPassword = new ArrayList<>();
         modelList = new DefaultListModel<String>();
@@ -130,19 +140,19 @@ public class CommentPanel extends JPanel {
         pnlComment.add(listComment);
     }
 
-    private void setInitializationTxtComment(){
+    private void setInitializationTxtComment() {
         txtComment = new JTextField();
         txtComment.setBounds(0, 435, 800, 40);
         pnlComment.add(txtComment);
     }
 
-    private void setInitializationTxtPassword(){
+    private void setInitializationTxtPassword() {
         txtPassword = new JTextField();
         txtPassword.setBounds(800, 415, 80, 20);
         pnlComment.add(txtPassword);
     }
 
-    private void setInitializationBtnRegister(){
+    private void setInitializationBtnRegister() {
         btnRegister = new JButton("Register");
         btnRegister.setBounds(800, 435, 160, 40);
         btnRegister.setBackground(Color.WHITE);
@@ -150,22 +160,13 @@ public class CommentPanel extends JPanel {
         pnlComment.add(btnRegister);
     }
 
-    private void setInitializationBtnDelete(){
+    private void setInitializationBtnDelete() {
         btnDelete = new JButton("Delete");
         btnDelete.setBounds(880, 415, 80, 20);
         btnDelete.setBackground(Color.WHITE);
         btnDelete.setFont(new Font("한강남산체 M", Font.PLAIN, 13));
         btnDelete.addActionListener(new ButtonListener());
         pnlComment.add(btnDelete);
-    }
-
-    private void setInitializationBtnBack(){
-        btnBack = new JButton("Back");
-        btnBack.setBounds(964, 0, 60, 30);
-        btnBack.setFont(new Font("배달의민족 을지로체 TTF", Font.PLAIN, 12));
-        btnBack.setBackground(Color.WHITE);
-        btnBack.addActionListener(new ButtonListener());
-        add(btnBack);
     }
 
     private void addMusicInfo(int rank) {
