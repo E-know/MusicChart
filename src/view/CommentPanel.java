@@ -62,13 +62,6 @@ public class CommentPanel extends JPanel {
 
         setInitializationPnlComment();
 
-        btnDelete = new JButton("Delete");
-        btnDelete.setBounds(912, 676, 80, 20);
-        btnDelete.setBackground(Color.WHITE);
-        btnDelete.setFont(new Font("한강남산체 M", Font.PLAIN, 13));
-        btnDelete.addActionListener(new ButtonListener());
-        add(btnDelete);
-
         btnBack = new JButton("Back");
         btnBack.setBounds(964, 0, 60, 30);
         btnBack.setFont(new Font("배달의민족 을지로체 TTF", Font.PLAIN, 12));
@@ -121,9 +114,8 @@ public class CommentPanel extends JPanel {
 
     private void setInitializationPnlComment() { // Called by Constructor
         pnlComment = new JPanel();
-        pnlComment.setBackground(Color.white);
         pnlComment.setBounds(32, 260, 960, 640);
-        pnlComment.setBackground(Color.black);
+        pnlComment.setBackground(new Color(0,0,0,0));
         pnlComment.setLayout(null);
         add(pnlComment);
 
@@ -131,6 +123,7 @@ public class CommentPanel extends JPanel {
         setInitializationTxtComment();
         setInitializationTxtPassword();
         setInitializationBtnRegister();
+        setInitializationBtnDelete();
     }
 
     private void setInitializationListComment(){ //Called by setInitializationPnlComment
@@ -158,6 +151,15 @@ public class CommentPanel extends JPanel {
         btnRegister.setBackground(Color.WHITE);
         btnRegister.addActionListener(new ButtonListener());
         pnlComment.add(btnRegister);
+    }
+
+    private void setInitializationBtnDelete(){
+        btnDelete = new JButton("Delete");
+        btnDelete.setBounds(880, 415, 80, 20);
+        btnDelete.setBackground(Color.WHITE);
+        btnDelete.setFont(new Font("한강남산체 M", Font.PLAIN, 13));
+        btnDelete.addActionListener(new ButtonListener());
+        pnlComment.add(btnDelete);
     }
 
     private void addMusicInfo(int rank) {
