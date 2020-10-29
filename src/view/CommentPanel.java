@@ -185,27 +185,22 @@ public class CommentPanel extends JPanel {
         }
     }
 
-    private void inputCommentToListComment() {
+    private void inputCommentToListComment(int rank) {
+        readComment(rank);
         for (String ptr : arrComment) {
             modelList.addElement(ptr);
         }
         listComment.setModel(modelList);
     }
 
-    public void popUpCommentPanel(){
-        this.setVisible(true);
-    }
-
     /*Description of Method reNewalInfo
      *  Site Panel에서 받아온 rank를 기반으로 Parser에 직접접근하여 정보를 업데이트 해준다.
      * */
-    public void reNewalInfo(int rank) {
-        popUpCommentPanel();
-        inputMusicInfoToPnlMusicInfo(rank);
+    public void popUpCommentPanel(int rank) {
+        this.setVisible(true);
 
-        readComment(rank);
-        inputCommentToListComment();
         inputMusicInfoToPnlMusicInfo(rank);
+        inputCommentToListComment(rank);
     }
 
     /*Description of Method readComment

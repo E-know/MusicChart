@@ -230,7 +230,7 @@ public class AppManager {
             theCommentPanelController = new CommentPanelController(pnlCommentPanel);
             primaryPanel.add(pnlCommentPanel);
         }
-        pnlCommentPanel.reNewalInfo(rank);
+        pnlCommentPanel.popUpCommentPanel(rank);
         pnlCommentPanel.setVisible(true);
         pnlChartPrimary.setVisible(false);
     }
