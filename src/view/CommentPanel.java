@@ -62,12 +62,6 @@ public class CommentPanel extends JPanel {
 
         setInitializationPnlComment();
 
-        btnRegister = new JButton("Register");
-        btnRegister.setBounds(832, 696, 160, 40);
-        btnRegister.setBackground(Color.WHITE);
-        btnRegister.addActionListener(new ButtonListener());
-        add(btnRegister);
-
         btnDelete = new JButton("Delete");
         btnDelete.setBounds(912, 676, 80, 20);
         btnDelete.setBackground(Color.WHITE);
@@ -136,6 +130,7 @@ public class CommentPanel extends JPanel {
         setInitializationListComment();
         setInitializationTxtComment();
         setInitializationTxtPassword();
+        setInitializationBtnRegister();
     }
 
     private void setInitializationListComment(){ //Called by setInitializationPnlComment
@@ -155,6 +150,14 @@ public class CommentPanel extends JPanel {
         txtPassword = new JTextField();
         txtPassword.setBounds(800, 415, 80, 20);
         pnlComment.add(txtPassword);
+    }
+
+    private void setInitializationBtnRegister(){
+        btnRegister = new JButton("Register");
+        btnRegister.setBounds(800, 435, 160, 40);
+        btnRegister.setBackground(Color.WHITE);
+        btnRegister.addActionListener(new ButtonListener());
+        pnlComment.add(btnRegister);
     }
 
     private void addMusicInfo(int rank) {
