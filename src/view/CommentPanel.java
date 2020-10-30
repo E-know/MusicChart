@@ -185,7 +185,7 @@ public class CommentPanel extends JPanel {
     }
 
     private void inputCommentToListComment(int rank) {
-        readComment(rank);
+        readCommentFromDB(rank);
         for (String ptr : arrComment) {
             modelList.addElement(ptr);
         }
@@ -202,7 +202,7 @@ public class CommentPanel extends JPanel {
     /*Description of Method readComment
      *   덧글과 각 비밀번호가 적혀있는 txt 파일을 읽어와 각각의 ArrayList에 저장하는 메소드
      * */
-    private void readComment(int rank) {
+    private void readCommentFromDB(int rank) {
         Connection con = ConnectDB.GetDB();
         sqltitle = AppManager.getS_instance().getParser().getTitle(rank);
         if (sqltitle.contains("'")) {
