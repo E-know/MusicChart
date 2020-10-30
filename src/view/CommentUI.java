@@ -1,11 +1,9 @@
 package view;
 
 import DB.*;
-import notsort.*;
-// TODO: 2020-09-21 It must delete 
+import main.AppManager;
 
 import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -38,19 +36,19 @@ public class CommentUI extends JPanel {
 
     /*
      * Description of Class
-     *   À½¾Ç Á¤º¸¸¦ Paser¿¡ AppManager¸¦ ÅëÇÏ¿© Á÷Á¢ Á¢±ÙÇÏ¿©¼­ ³ë·¡¸¦ ¹Ş¾Æ¿Â´Ù.
-     *   ³ë·¡¸¦ ¹Ş¾Æ¿À´Â rank ´Â SitePanel ¿¡¼­ ¸î¹ø Â° ³ë·¡¸¦ Å¬¸¯Çß´ÂÁö ¹Ş¾Æ¿Â´Ù.
+     *   ìŒì•… ì •ë³´ë¥¼ Paserì— AppManagerë¥¼ í†µí•˜ì—¬ ì§ì ‘ ì ‘ê·¼í•˜ì—¬ì„œ ë…¸ë˜ë¥¼ ë°›ì•„ì˜¨ë‹¤.
+     *   ë…¸ë˜ë¥¼ ë°›ì•„ì˜¤ëŠ” rank ëŠ” SitePanel ì—ì„œ ëª‡ë²ˆ ì§¸ ë…¸ë˜ë¥¼ í´ë¦­í–ˆëŠ”ì§€ ë°›ì•„ì˜¨ë‹¤.
      * */
 
 
     /*
      *Description of Constructor
-     *   »ç¿ëµÈ ÆùÆ®
-     *      ÇÑ°­³²»êÃ¼ M
-     *      ¹è´ŞÀÇ¹ÎÁ· À»Áö·ÎÃ¼ TTF
-     *      ¼­¿ï³²»êÃ¼ B / M
-     *  ±âº»ÀûÀÎ UI¿¡ ´ëÇÑ ±âº» ¼³Á¤À» ÇØÁØ´Ù.
-     *  Åõ¸í ÆĞ³ÎÀ» Áö´Ï°í ÀÖ´Ù.
+     *   ì‚¬ìš©ëœ í°íŠ¸
+     *      í•œê°•ë‚¨ì‚°ì²´ M
+     *      ë°°ë‹¬ì˜ë¯¼ì¡± ì„ì§€ë¡œì²´ TTF
+     *      ì„œìš¸ë‚¨ì‚°ì²´ B / M
+     *  ê¸°ë³¸ì ì¸ UIì— ëŒ€í•œ ê¸°ë³¸ ì„¤ì •ì„ í•´ì¤€ë‹¤.
+     *  íˆ¬ëª… íŒ¨ë„ì„ ì§€ë‹ˆê³  ìˆë‹¤.
      * */
     public CommentUI() {
         setPreferredSize(new Dimension(1024, 768));
@@ -89,13 +87,13 @@ public class CommentUI extends JPanel {
         btnDelete = new JButton("Delete");
         btnDelete.setBounds(912, 676, 80, 20);
         btnDelete.setBackground(Color.WHITE);
-        btnDelete.setFont(new Font("ÇÑ°­³²»êÃ¼ M", Font.PLAIN, 13));
+        btnDelete.setFont(new Font("í•œê°•ë‚¨ì‚°ì²´ M", Font.PLAIN, 13));
         btnDelete.addActionListener(new ButtonListener());
         add(btnDelete);
 
         btnBack = new JButton("Back");
         btnBack.setBounds(964, 0, 60, 30);
-        btnBack.setFont(new Font("¹è´ŞÀÇ¹ÎÁ· À»Áö·ÎÃ¼ TTF", Font.PLAIN, 12));
+        btnBack.setFont(new Font("ë°°ë‹¬ì˜ë¯¼ì¡± ì„ì§€ë¡œì²´ TTF", Font.PLAIN, 12));
         btnBack.setBackground(Color.WHITE);
         btnBack.addActionListener(new ButtonListener());
         add(btnBack);
@@ -104,16 +102,16 @@ public class CommentUI extends JPanel {
         lblTitle = new JLabel();
         lblTitle.setBounds(110, 10, 700, 60);
         lblTitle.setHorizontalAlignment(SwingConstants.LEFT);
-        lblTitle.setFont(new Font("¼­¿ï³²»êÃ¼ B", Font.PLAIN, 40));
+        lblTitle.setFont(new Font("ì„œìš¸ë‚¨ì‚°ì²´ B", Font.PLAIN, 40));
         pnlMusicInfo.add(lblTitle);
 
         lblArtist = new JLabel();
         lblArtist.setBounds(110, 90, 700, 60);
-        lblArtist.setFont(new Font("¼­¿ï³²»êÃ¼ B", Font.PLAIN, 40));
+        lblArtist.setFont(new Font("ì„œìš¸ë‚¨ì‚°ì²´ B", Font.PLAIN, 40));
         lblArtist.setHorizontalAlignment(SwingConstants.LEFT);
         pnlMusicInfo.add(lblArtist);
 
-        Font fnt1 = new Font("ÇÑ°­³²»êÃ¼ M", Font.BOLD, 30);
+        Font fnt1 = new Font("í•œê°•ë‚¨ì‚°ì²´ M", Font.BOLD, 30);
 
         lblStrArtist = new JLabel("Artist : ");
         lblStrArtist.setFont(fnt1);
@@ -140,7 +138,7 @@ public class CommentUI extends JPanel {
 
     /*
      *Description of Method addMusicInfo
-     *   pnlMusicInfo À§¿¡ ¿Ã¶ó°¡´Â ÀÌ¹ÌÁö¿Í StringÀ» Á¤ÇØÁÖ´Â ¸Ş¼Òµå
+     *   pnlMusicInfo ìœ„ì— ì˜¬ë¼ê°€ëŠ” ì´ë¯¸ì§€ì™€ Stringì„ ì •í•´ì£¼ëŠ” ë©”ì†Œë“œ
      * */
     private void addMusicInfo(int rank) {
         String strRefinedTitle = strTitle;
@@ -173,20 +171,20 @@ public class CommentUI extends JPanel {
 
     /*
      *Description of Method addList
-     *   Txt ÆÄÀÏ¿¡¼­ ÀĞ¾î¿Â ArrryList - Comment ¸¦ JList¿¡ ¿Ã·ÁÁÖ´Â ÇÔ¼ö
+     *   Txt íŒŒì¼ì—ì„œ ì½ì–´ì˜¨ ArrryList - Comment ë¥¼ JListì— ì˜¬ë ¤ì£¼ëŠ” í•¨ìˆ˜
      * */
     private void addList() {
         for (String ptr : arrComment) {
             modelList.addElement(ptr);
         }
         listComment.setModel(modelList);
-        listComment.setFont(new Font("¼­¿ïÇÑ°­Ã¼ M", Font.PLAIN, 20));
+        listComment.setFont(new Font("ì„œìš¸í•œê°•ì²´ M", Font.PLAIN, 20));
         listComment.setBounds(0, 0, 960, 400);
         pnlCommentField.add(listComment);
     }
 
     /*Description of Method reNewalInfo
-     *  Site Panel¿¡¼­ ¹Ş¾Æ¿Â rank¸¦ ±â¹İÀ¸·Î Parser¿¡ Á÷Á¢Á¢±ÙÇÏ¿© Á¤º¸¸¦ ¾÷µ¥ÀÌÆ® ÇØÁØ´Ù.
+     *  Site Panelì—ì„œ ë°›ì•„ì˜¨ rankë¥¼ ê¸°ë°˜ìœ¼ë¡œ Parserì— ì§ì ‘ì ‘ê·¼í•˜ì—¬ ì •ë³´ë¥¼ ì—…ë°ì´íŠ¸ í•´ì¤€ë‹¤.
      * */
     public void reNewalInfo(int rank) {
         this.setVisible(true);
@@ -200,20 +198,13 @@ public class CommentUI extends JPanel {
 
         System.out.println("Detail Parsing is End");
 
-//        strReadTitle = strTitle;
-//        strReadTitle = strReadTitle.replace("\'", "");
-//        if (strReadTitle.indexOf("(") != -1)
-//            strReadTitle = strReadTitle.substring(0, strReadTitle.indexOf("("));
-//        strReadTitle = strReadTitle.replace(" ", "");
-//        strReadTitle = strReadTitle.replace("\'", "");
-
         readComment();
         addList();
         addMusicInfo(rank);
     }
 
     /*Description of Method readComment
-     *   µ¡±Û°ú °¢ ºñ¹Ğ¹øÈ£°¡ ÀûÇôÀÖ´Â txt ÆÄÀÏÀ» ÀĞ¾î¿Í °¢°¢ÀÇ ArrayList¿¡ ÀúÀåÇÏ´Â ¸Ş¼Òµå
+     *   ë§ê¸€ê³¼ ê° ë¹„ë°€ë²ˆí˜¸ê°€ ì í˜€ìˆëŠ” txt íŒŒì¼ì„ ì½ì–´ì™€ ê°ê°ì˜ ArrayListì— ì €ì¥í•˜ëŠ” ë©”ì†Œë“œ
      * */
     private void readComment() {
         con = ConnectDB.GetDB();
@@ -236,65 +227,12 @@ public class CommentUI extends JPanel {
             e.printStackTrace();
         }
 
-
-//        File file;
-//        System.out.println("Read " + strTitle + ".txt File");
-//        file = new File("comments\\" + strReadTitle + ".txt");
-//        try {
-//            FileReader fr = new FileReader(file);
-//            BufferedReader inFiles = new BufferedReader(fr);
-//            String strline = "";
-//            while( (strline = inFiles.readLine()) != null) {
-//                arrComment.add(strline);
-//                arrPassword.add(inFiles.readLine());
-//            }
-//            fr.close();
-//        }catch (Exception e) {
-//            e.printStackTrace();
-//        }
-
     }//readComment
 
     /*
-     *Description of Method removeAtTxt
-     *  Parameter : int - index
-     *  btnDelete°¡ ÀÛµ¿ÇÏ¸é TxtÆÄÀÏ¿¡µµ Á¤º¸¸¦ »èÁ¦ÇØ¾ß ÇÏ¹Ç·Î
-     *  ¸î ¹øÂ° index(ÆÄ¶ó¹ÌÅÍ)¿¡¼­ »èÁ¦°¡ ÀÏ¾î³µ´ÂÁö ¹Ş¾Æ¿À°í ³­ ÈÄ
-     *  ±× ÀÎµ¦½º¿¡ ¸Â´Â txt ÆÄÀÏÀ» »èÁ¦ÇØÁÖ´Â ¸Ş¼Òµå
-     * */
-//    public void removeAtTxt(int index){
-//        System.out.println(index);
-//        File file = new File("comments\\" + strReadTitle + ".txt");
-//        ArrayList<String> dummy = new ArrayList<String>();
-//        try{
-//            FileReader fr = new FileReader(file);
-//            BufferedReader inFile = new BufferedReader(fr);
-//            for(int i = 0 ; i < index * 2 ; i++){
-//                dummy.add(inFile.readLine() + "\r");
-//            }
-//            inFile.readLine();
-//            inFile.readLine();
-//            String strTemp;
-//            while( (strTemp = inFile.readLine()) != null){
-//                dummy.add(strTemp + "\r");
-//            }
-//            FileWriter fw = new FileWriter(file,false);
-//            for(String str : dummy){
-//                fw.write(str);
-//            }
-//            fw.flush();
-//
-//            fw.close();
-//            fr.close();
-//        }
-//        catch (Exception e){
-//            e.printStackTrace();
-//        }
-//    }
-    /*
      *Description of Method clearAll
-     *   btnBack(ChartPrimaryPanel·Î µ¹¾Æ°¡´Â ¹öÆ°)ÀÌ ÀÏ¾î³ª¸é ½Ì±ÛÅæ ÆĞÅÏÀÌ±â ¶§¹®¿¡ ¿ø·¡ ÀÖ´ø Á¤º¸´Â ¸ğµÎ´Ù
-     *  »èÁ¦°¡ µÇ¾î¾ßÇÑ´Ù. ±×·¯¹Ç·Î ¸ğµç Á¤º¸¸¦ ÃÊ±âÈ­ ÇØÁÖ´Â ¸Ş¼Òµåµå     * */
+     *   btnBack(ChartPrimaryPanelë¡œ ëŒì•„ê°€ëŠ” ë²„íŠ¼)ì´ ì¼ì–´ë‚˜ë©´ ì‹±ê¸€í†¤ íŒ¨í„´ì´ê¸° ë•Œë¬¸ì— ì›ë˜ ìˆë˜ ì •ë³´ëŠ” ëª¨ë‘ë‹¤
+     *  ì‚­ì œê°€ ë˜ì–´ì•¼í•œë‹¤. ê·¸ëŸ¬ë¯€ë¡œ ëª¨ë“  ì •ë³´ë¥¼ ì´ˆê¸°í™” í•´ì£¼ëŠ” ë©”ì†Œë“œë“œ     * */
     public void clearAll() {
         txtPassword.setText("");
         txtComment.setText("");
@@ -309,11 +247,9 @@ public class CommentUI extends JPanel {
     public void addBtnRegisterListener(ActionListener listenForBtnRegister) {
         btnRegister.addActionListener((listenForBtnRegister));
     }
-
     public void addBtnDeleteListener(ActionListener listenForBtnDelete) {
         btnDelete.addActionListener((listenForBtnDelete));
     }
-
     public void addBtnBackListener(ActionListener listenForBtnBack) {
         btnBack.addActionListener((listenForBtnBack));
     }

@@ -1,15 +1,9 @@
 package controller;
 
-import notsort.*;
-import controller.*;
-import view.*;
-import model.*;
-
-import javax.swing.*;
-import javax.swing.border.LineBorder;
+import main.AppManager;
+import view.ChartPrimaryPanel;
 import java.awt.*;
 import java.awt.event.*;
-import java.security.PrivateKey;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -148,7 +142,7 @@ public class ChartPrimaryPanelController {
                     theChartPrimaryPanel.pnlSitePanel.filter(theChartPrimaryPanel.txtSearch.getText(),2);
                 if(1 == theChartPrimaryPanel.strCombo.getSelectedIndex())//Artist
                     theChartPrimaryPanel.pnlSitePanel.filter(theChartPrimaryPanel.txtSearch.getText(),3);
-            }//comboBox 0, 1ÀÏ¶§ sitepanelÀÇ filter¿¡¼­ °Ë»ö
+            }//comboBox 0, 1Ã€ÃÂ¶Â§ sitepanelÃ€Ã‡ filterÂ¿Â¡Â¼Â­ Â°Ã‹Â»Ã¶
 
         }//KeyReleased
 

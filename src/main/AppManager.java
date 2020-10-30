@@ -1,4 +1,4 @@
-package notsort;
+package main;
 
 import controller.*;
 import model.*;
