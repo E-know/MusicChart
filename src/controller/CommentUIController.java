@@ -9,11 +9,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
 
+<<<<<<< Updated upstream:src/controller/CommentUIController.java
 public class CommentUIController {
     Connection con = null;
     Statement stmt = null;
     PreparedStatement pstmt = null;
     ResultSet rs = null;
+=======
+public class CommentPanelController {
+    PreparedStatement _pstmt = null;
+>>>>>>> Stashed changes:src/controller/CommentPanelController.java
 
 
     private CommentUI theCommentUI;
@@ -35,6 +40,7 @@ public class CommentUIController {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+<<<<<<< Updated upstream:src/controller/CommentUIController.java
             if (!theCommentUI.txtComment.getText().equals("")) {
                 con = ConnectDB.GetDB();
                 try {
@@ -56,6 +62,28 @@ public class CommentUIController {
                         theCommentUI.arrPassword.add(theCommentUI.txtPassword.getText());
                     theCommentUI.txtComment.setText("");
                     theCommentUI.txtPassword.setText("");
+=======
+            if (!theCommentPanel._txtComment.getText().equals("")) {
+                try {
+                    String sql = "INSERT INTO songinfo VALUES (?, ?, ?, ?, ?, ?)";
+                    _pstmt = ConnectDB.GetDB().prepareStatement(sql);
+                    _pstmt.setString(1, theCommentPanel._sqlTitle);
+                    _pstmt.setString(2, theCommentPanel._strArtist);
+                    _pstmt.setString(3, AppManager.getS_instance().getParser().getAlbumName(theCommentPanel._strTitle));
+                    _pstmt.setInt(4, AppManager.getS_instance().getSite_M_B_G());
+                    _pstmt.setString(5, theCommentPanel._txtComment.getText());
+                    _pstmt.setString(6, theCommentPanel._txtPassword.getText());
+                    _pstmt.executeUpdate();
+                    theCommentPanel._modelList.addElement(theCommentPanel._txtComment.getText());
+
+                    theCommentPanel._arrComment.add(theCommentPanel._txtComment.getText());
+                    if (theCommentPanel._txtPassword.getText().equals(""))
+                        theCommentPanel._arrPassword.add("0000");
+                    else
+                        theCommentPanel._arrPassword.add(theCommentPanel._txtPassword.getText());
+                    theCommentPanel._txtComment.setText("");
+                    theCommentPanel._txtPassword.setText("");
+>>>>>>> Stashed changes:src/controller/CommentPanelController.java
                 } catch (SQLException e1) {
                     e1.printStackTrace();
                 }
@@ -72,6 +100,7 @@ public class CommentUIController {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+<<<<<<< Updated upstream:src/controller/CommentUIController.java
             if (Integer.parseInt(theCommentUI.txtPassword.getText()) == Integer.parseInt(theCommentUI.arrPassword.get(theCommentUI.listComment.getSelectedIndex()))) {
                 System.out.println("Same Password! At : " + String.valueOf(theCommentUI.listComment.getSelectedIndex()));
                 theCommentUI.con = ConnectDB.GetDB();
@@ -84,12 +113,30 @@ public class CommentUIController {
                     pstmt.setString(1, theCommentUI.sqltitle);
                     pstmt.setString(2, theCommentUI.txtPassword.getText());
                     int temp = pstmt.executeUpdate();
+=======
+            if (Integer.parseInt(theCommentPanel._txtPassword.getText()) == Integer.parseInt(theCommentPanel._arrPassword.get(theCommentPanel._listComment.getSelectedIndex()))) {
+                System.out.println("Same Password! At : " + String.valueOf(theCommentPanel._listComment.getSelectedIndex()));
+                theCommentPanel._con = ConnectDB.GetDB();
+                try {
+                    theCommentPanel._arrPassword.remove(theCommentPanel._listComment.getSelectedIndex());
+                    theCommentPanel._arrComment.remove(theCommentPanel._listComment.getSelectedIndex());
+                    theCommentPanel._modelList.removeElementAt(theCommentPanel._listComment.getSelectedIndex());
+                    String sql = "DELETE FROM songinfo WHERE title = ? AND pwd = ?";
+                    _pstmt = ConnectDB.GetDB().prepareStatement(sql);
+                    _pstmt.setString(1, theCommentPanel._sqlTitle);
+                    _pstmt.setString(2, theCommentPanel._txtPassword.getText());
+                    int temp = _pstmt.executeUpdate();
+>>>>>>> Stashed changes:src/controller/CommentPanelController.java
                 } catch (SQLException e1) {
                     e1.printStackTrace();
                 }
             }
 
+<<<<<<< Updated upstream:src/controller/CommentUIController.java
             theCommentUI.txtPassword.setText("");
+=======
+            theCommentPanel._txtPassword.setText("");
+>>>>>>> Stashed changes:src/controller/CommentPanelController.java
         }//actionPerfomed
     }//ButtonDeleteListener
 
