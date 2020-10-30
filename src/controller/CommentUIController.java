@@ -12,45 +12,45 @@ import java.io.*;
 
 public class CommentUIController {
 
-    private CommentUI theCommentUI;
+    private CommentUI the_Comment_UI;
 
-    public CommentUIController(CommentUI theCommentUI) {
-        this.theCommentUI = theCommentUI;
-        this.theCommentUI.addBtnRegisterListener(new ButtonRegisterListener());
-        this.theCommentUI.addBtnDeleteListener(new ButtonDeleteListener());
-        this.theCommentUI.addBtnBackListener(new ButtonBackListener());
+    public CommentUIController(CommentUI the_Comment_UI) {
+        this.the_Comment_UI = the_Comment_UI;
+        this.the_Comment_UI.addBtnRegisterListener(new ButtonRegisterListener());
+        this.the_Comment_UI.addBtnDeleteListener(new ButtonDeleteListener());
+        this.the_Comment_UI.addBtnBackListener(new ButtonBackListener());
     }
 
     private class ButtonRegisterListener implements ActionListener{
-        private Component _viewLoading;
+        private Component view_Loading;
         public ButtonRegisterListener() { }
         public ButtonRegisterListener(Component parentComponent){
-            _viewLoading = parentComponent;
+            view_Loading = parentComponent;
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            if(!theCommentUI.txtComment.getText().equals("") ){
-                File file = new File("comments\\" + theCommentUI.strReadTitle + ".txt");
+            if(!the_Comment_UI.txtComment.getText().equals("") ){
+                File file = new File("comments\\" + the_Comment_UI.strReadTitle + ".txt");
                 try {
                     FileWriter fw = new FileWriter(file,true);
-                    fw.write(theCommentUI.txtComment.getText() + "\r");
-                    if( theCommentUI.txtPassword.getText().equals("") )
+                    fw.write(the_Comment_UI.txtComment.getText() + "\r");
+                    if( the_Comment_UI.txtPassword.getText().equals("") )
                         fw.write("0000\r");
                     else
-                        fw.write(theCommentUI.txtPassword.getText() + "\r");
+                        fw.write(the_Comment_UI.txtPassword.getText() + "\r");
                     fw.flush();
                     fw.close();
-                    theCommentUI.modelList.addElement(theCommentUI.txtComment.getText());
+                    the_Comment_UI.modelList.addElement(the_Comment_UI.txtComment.getText());
 
-                    theCommentUI.arrComment.add(theCommentUI.txtComment.getText());
-                    if( theCommentUI.txtPassword.getText().equals("") )
-                        theCommentUI.arrPassword.add("0000");
+                    the_Comment_UI.arrComment.add(the_Comment_UI.txtComment.getText());
+                    if( the_Comment_UI.txtPassword.getText().equals("") )
+                        the_Comment_UI.arrPassword.add("0000");
                     else
-                        theCommentUI.arrPassword.add(theCommentUI.txtPassword.getText());
+                        the_Comment_UI.arrPassword.add(the_Comment_UI.txtPassword.getText());
 
-                    theCommentUI.txtComment.setText("");
-                    theCommentUI.txtPassword.setText("");
+                    the_Comment_UI.txtComment.setText("");
+                    the_Comment_UI.txtPassword.setText("");
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
@@ -61,35 +61,35 @@ public class CommentUIController {
     }//ButtonRegisterListener
 
     private class ButtonDeleteListener implements ActionListener{
-        private Component _viewLoading;
+        private Component view_Loading;
         public ButtonDeleteListener() { }
         public ButtonDeleteListener(Component parentComponent){
-            _viewLoading = parentComponent;
+            view_Loading = parentComponent;
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            if(Integer.parseInt(theCommentUI.txtPassword.getText()) == Integer.parseInt(theCommentUI.arrPassword.get(theCommentUI.listComment.getSelectedIndex()))){
-                System.out.println("Same Password! At : " + String.valueOf(theCommentUI.listComment.getSelectedIndex()));
-                theCommentUI.arrPassword.remove(theCommentUI.listComment.getSelectedIndex());
-                theCommentUI.arrComment.remove(theCommentUI.listComment.getSelectedIndex());
-                theCommentUI.removeAtTxt(theCommentUI.listComment.getSelectedIndex());
-                theCommentUI.modelList.removeElementAt(theCommentUI.listComment.getSelectedIndex());
+            if(Integer.parseInt(the_Comment_UI.txtPassword.getText()) == Integer.parseInt(the_Comment_UI.arrPassword.get(the_Comment_UI.listComment.getSelectedIndex()))){
+                System.out.println("Same Password! At : " + String.valueOf(the_Comment_UI.listComment.getSelectedIndex()));
+                the_Comment_UI.arrPassword.remove(the_Comment_UI.listComment.getSelectedIndex());
+                the_Comment_UI.arrComment.remove(the_Comment_UI.listComment.getSelectedIndex());
+                the_Comment_UI.removeAtTxt(the_Comment_UI.listComment.getSelectedIndex());
+                the_Comment_UI.modelList.removeElementAt(the_Comment_UI.listComment.getSelectedIndex());
             }
-            theCommentUI.txtPassword.setText("");
+            the_Comment_UI.txtPassword.setText("");
         }//actionPerfomed
     }//ButtonDeleteListener
 
     private class ButtonBackListener implements ActionListener{
-        private Component _viewLoading;
+        private Component view_Loading;
         public ButtonBackListener() { }
         public ButtonBackListener(Component parentComponent){
-            _viewLoading = parentComponent;
+            view_Loading = parentComponent;
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            theCommentUI.clearAll();
+            the_Comment_UI.clearAll();
             AppManager.getS_instance().BackToChartPrimaryPanel();
             System.out.println("Back To ChartPrimary");
         }//actionPerfomed
