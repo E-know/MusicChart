@@ -102,7 +102,7 @@ public class CommentPanelController {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            theCommentPanel.clearAll();
+            theCommentPanel.clearMusicData();
             AppManager.getS_instance().BackToChartPrimaryPanel();
             System.out.println("Back To ChartPrimary");
         }//actionPerfomed

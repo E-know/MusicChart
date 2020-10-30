@@ -228,11 +228,9 @@ public class CommentPanel extends JPanel {
      *Description of Method clearAll
      *   btnBack(ChartPrimaryPanel로 돌아가는 버튼)이 일어나면 싱글톤 패턴이기 때문에 원래 있던 정보는 모두다
      *  삭제가 되어야한다. 그러므로 모든 정보를 초기화 해주는 메소드드     * */
-    public void clearAll() {
+    public void clearMusicData() {
         txtPassword.setText("");
         txtComment.setText("");
-        lblArtist.setText("");
-        lblTitle.setText("");
 
         modelList.clear();
         arrComment.clear();
