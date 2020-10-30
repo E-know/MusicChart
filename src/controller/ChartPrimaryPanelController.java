@@ -1,15 +1,10 @@
 package controller;
 
 import notsort.AppManager;
-import notsort.MakeComment;
 import view.ChartPrimaryPanel;
-import view.SitePanel;
 
-import javax.swing.*;
-import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.*;
-import java.security.PrivateKey;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 

@@ -3,17 +3,9 @@ package controller;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Comparator;
 import javax.swing.*;
-import javax.swing.table.*;
 
 import notsort.AppManager;
-import notsort.MusicChartParser;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import view.ChartPrimaryPanel;
 import view.SitePanel;
 
 public class SitePanelController {

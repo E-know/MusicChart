@@ -1,5 +1,7 @@
 package notsort;
 
+import controller.ChartPrimaryPanelController;
+import controller.CommentUIController;
 import model.*;
 
 import org.json.simple.JSONArray;
