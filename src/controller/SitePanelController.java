@@ -3,17 +3,9 @@ package controller;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Comparator;
 import javax.swing.*;
-import javax.swing.table.*;
 
-import notsort.AppManager;
-import model.MusicChartParser;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import view.ChartPrimaryPanel;
+import main.AppManager;
 import view.SitePanel;
 
 public class SitePanelController {
@@ -40,9 +32,9 @@ public class SitePanelController {
             Object obj = e.getSource();
             if(obj == theSitePanel.tableChart) {
                 JTable table = (JTable) obj;
-                Object[] music = theSitePanel.tableModel.getMusicData(table.convertRowIndexToModel(table.getSelectedRow())); //Å¬¸¯µÈ ¿­ÀÇ À§Ä¡(¼û°ÜÁø Ç×¸ñÀÌ ÀÖ¾îµµ ¹Ù²îÁö ¾Ê´Â Àı´ëÀûÀÎ À§Ä¡)¿¡ ÀÖ´Â °î ¼±ÅÃ
-                System.out.println(music[2] + music[0].toString()); //Å×½ºÆ®
-                AppManager.getS_instance().PopUpCommentUI(Integer.parseInt(music[0].toString())); //¼±ÅÃµÈ °î¿¡ ´ëÇÑ Ä¿¹Â´ÏÆ¼ Ç¥½Ã
+                Object[] music = theSitePanel.tableModel.getMusicData(table.convertRowIndexToModel(table.getSelectedRow())); //í´ë¦­ëœ ì—´ì˜ ìœ„ì¹˜(ìˆ¨ê²¨ì§„ í•­ëª©ì´ ìˆì–´ë„ ë°”ë€Œì§€ ì•ŠëŠ” ì ˆëŒ€ì ì¸ ìœ„ì¹˜)ì— ìˆëŠ” ê³¡ ì„ íƒ
+                System.out.println(music[2] + music[0].toString()); //í…ŒìŠ¤íŠ¸
+                AppManager.getS_instance().PopUpCommentUI(Integer.parseInt(music[0].toString())); //ì„ íƒëœ ê³¡ì— ëŒ€í•œ ì»¤ë®¤ë‹ˆí‹° í‘œì‹œ
             }
         }
         @Override
