@@ -1,14 +1,10 @@
 package view;
-
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.awt.event.*;
+import java.net.*;
 import java.util.Comparator;
 import javax.swing.*;
 import javax.swing.table.*;
-
 import main.AppManager;
 import model.MusicChartParser;
 import org.json.simple.JSONArray;
