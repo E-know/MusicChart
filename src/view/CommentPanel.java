@@ -71,7 +71,6 @@ public class CommentPanel extends JPanel {
         btnBack.setBounds(964, 0, 60, 30);
         btnBack.setFont(new Font("배달의민족 을지로체 TTF", Font.PLAIN, 12));
         btnBack.setBackground(Color.WHITE);
-        btnBack.addActionListener(new ButtonListener());
         add(btnBack);
     }
 
@@ -153,7 +152,6 @@ public class CommentPanel extends JPanel {
         btnRegister = new JButton("Register");
         btnRegister.setBounds(800, 435, 160, 40);
         btnRegister.setBackground(Color.WHITE);
-        btnRegister.addActionListener(new ButtonListener());
         pnlComment.add(btnRegister);
     }
 
@@ -162,7 +160,6 @@ public class CommentPanel extends JPanel {
         btnDelete.setBounds(880, 415, 80, 20);
         btnDelete.setBackground(Color.WHITE);
         btnDelete.setFont(new Font("한강남산체 M", Font.PLAIN, 13));
-        btnDelete.addActionListener(new ButtonListener());
         pnlComment.add(btnDelete);
     }
     
@@ -248,61 +245,6 @@ public class CommentPanel extends JPanel {
     public void addBtnBackListener(ActionListener listenForBtnBack) {
         btnBack.addActionListener((listenForBtnBack));
     }
-
-
-    private class ButtonListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            Object obj = e.getSource();
-            if (obj == btnRegister && !txtComment.getText().equals("")) {
-                /*
-                File file = new File("comments\\" + strReadTitle + ".txt");
-                try {
-                    FileWriter fw = new FileWriter(file,true);
-                    fw.write(txtComment.getText() + "\r");
-                    if( txtPassword.getText().equals("") )
-                        fw.write("0000\r");
-                    else
-                        fw.write(txtPassword.getText() + "\r");
-                    fw.flush();
-                    fw.close();
-                    modelList.addElement(txtComment.getText());
-
-                    arrComment.add(txtComment.getText());
-                    if( txtPassword.getText().equals("") )
-                        arrPassword.add("0000");
-                    else
-                        arrPassword.add(txtPassword.getText());
-
-                    txtComment.setText("");
-                    txtPassword.setText("");
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-                */
-            }//obj == btnRegister
-            if (obj == btnDelete) {
-                /*
-                if(Integer.parseInt(txtPassword.getText()) == Integer.parseInt(arrPassword.get(listComment.getSelectedIndex()))){
-                    System.out.println("Same Password! At : " + String.valueOf(listComment.getSelectedIndex()));
-                    arrPassword.remove(listComment.getSelectedIndex());
-                    arrComment.remove(listComment.getSelectedIndex());
-                    removeAtTxt(listComment.getSelectedIndex());
-                    modelList.removeElementAt(listComment.getSelectedIndex());
-                }
-                txtPassword.setText("");
-                */
-            }
-            if (obj == btnBack) {
-                /*
-                clearAll();
-                AppManager.getS_instance().BackToChartPrimaryPanel();
-                System.out.println("Back To ChartPrimary");
-                */
-            }
-        }//actionPerfomed
-    }//ButtonRegister
-
 
 }//CommentUI
 
