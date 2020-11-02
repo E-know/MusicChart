@@ -39,12 +39,10 @@ public class SitePanel extends JPanel {
 	private static Color LISTBACKGROUND = Color.white;
 	
 	//이벤트 리스너 객체
-	private ClickListener clkListener;
 	
 	// - - - - - 생성자 - - - - -
 	public SitePanel() {
 		strChartName = "Melon"; //프로그램 실행 직후 Melon 차트를 표시하기 위함
-		clkListener = new ClickListener();
 		
 		setBackground(LBLBACKGROUND);
 		setLayout(null);
@@ -79,7 +77,6 @@ public class SitePanel extends JPanel {
 		tableChart.setRowHeight(60);
 		buildTable();
 		tableChart.setRowSorter(tableSorter);
-		tableChart.addMouseListener(clkListener);
 		add(tableChart);
 		
 		scrollBar = new JScrollPane(tableChart, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -269,26 +266,5 @@ public class SitePanel extends JPanel {
 	}
 
 	// - - - - - ClickListener 클래스 - - - - -
-	private class ClickListener implements MouseListener {
-		@Override
-		public void mouseEntered(MouseEvent e) { }
-		@Override
-		public void mouseExited(MouseEvent e) { }
-		@Override
-		public void mouseClicked(MouseEvent e) {
-			Object obj = e.getSource();
-			if(obj == tableChart) {
-				/*
-				JTable table = (JTable) obj;
-				Object[] music = tableModel.getMusicData(table.convertRowIndexToModel(table.getSelectedRow())); //클릭된 열의 위치(숨겨진 항목이 있어도 바뀌지 않는 절대적인 위치)에 있는 곡 선택
-				System.out.println(music[2] + music[0].toString()); //테스트
-				AppManager.getS_instance().PopUpCommentUI(Integer.parseInt(music[0].toString())); //선택된 곡에 대한 커뮤니티 표시
-				*/
-			}
-		}
-		@Override
-		public void mousePressed(MouseEvent e) { }
-		@Override
-		public void mouseReleased(MouseEvent e) { }
-	} //ClickListener 클래스 끝
+
 }
