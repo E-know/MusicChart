@@ -20,13 +20,4 @@
 *.rar
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-*.txt
-hs_err_pid*
-/commet/*
-/comments/*
-~$해결기법 제안서.docx
-
-~WRL0005.tmp
-
-out/production/MusicChartWithCommunity/comments/*.txt
-/out/production/MusicChartWithCommunity/.idea/dataSources.local.xml
+# hs_err_pid*
