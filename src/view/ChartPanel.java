@@ -55,13 +55,7 @@ public class ChartPanel extends JPanel {
 		
 		tableModel = new ChartModel(parser.getChartList());
 		
-		tableSorter = new TableRowSorter<ChartModel>(tableModel);
-		tableSorter.setComparator(0, new Comparator<Integer>() {
-			@Override
-			public int compare(Integer o1, Integer o2) {
-				return o1 - o2;
-			}
-		}); //표에서 순위를 기준으로 정렬되도록 설정(값이 작을수록 위에 있음)
+
 		
 		setInitTableChart();
 		setInitScrollBar();
@@ -79,6 +73,8 @@ public class ChartPanel extends JPanel {
     }
 
     private void setInitTableChart(){
+	    setInitTableSorter();
+
         tableChart = new JTable(tableModel);
         tableChart.setBackground(LISTBACKGROUND);
         tableChart.setForeground(TEXTCOLOR);
@@ -87,6 +83,17 @@ public class ChartPanel extends JPanel {
         buildTable();
         tableChart.setRowSorter(tableSorter);
         add(tableChart);
+
+    }
+
+    private void setInitTableSorter(){
+        tableSorter = new TableRowSorter<ChartModel>(tableModel);
+        tableSorter.setComparator(0, new Comparator<Integer>() {
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return o1 - o2;
+            }
+        }); //표에서 순위를 기준으로 정렬되도록 설정(값이 작을수록 위에 있음)
     }
 
     private void setInitScrollBar(){
