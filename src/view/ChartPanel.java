@@ -39,7 +39,7 @@ public class ChartPanel extends JPanel {
 	private static Color LISTBACKGROUND = Color.white;
 	
 	//이벤트 리스너 객체
-	
+
 	// - - - - - 생성자 - - - - -
 	public ChartPanel() {
 		strChartName = "Melon"; //프로그램 실행 직후 Melon 차트를 표시하기 위함
@@ -48,14 +48,7 @@ public class ChartPanel extends JPanel {
 		setLayout(null);
 		setFont(new Font("맑은 고딕", Font.BOLD, 64));
 		
-		lblTitle = new JLabel(strChartName + " TOP 100");
-		lblTitle.setBackground(Color.white);
-		lblTitle.setForeground(TITLECOLOR);
-		lblTitle.setBounds(80, 30, 920, 80);
-		lblTitle.setFont(new Font("배달의민족 도현", Font.BOLD, 48));
-		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
-		lblTitle.setVerticalAlignment(SwingConstants.CENTER);
-		add(lblTitle);
+		setInitializationLblTitle();
 		
 		MusicChartParser parser = AppManager.getS_instance().getParser();
 		if(!parser.isParsed()) parser.chartDataParsing(this); //Melon 차트 정보 받아옴
@@ -83,7 +76,17 @@ public class ChartPanel extends JPanel {
 		scrollBar.setBounds(40, 130, 1000, 540);
 		add(scrollBar);
 	} //생성자 끝
-	
+
+    private void setInitializationLblTitle(){
+        lblTitle = new JLabel(strChartName + " TOP 100");
+        lblTitle.setBackground(Color.white);
+        lblTitle.setForeground(TITLECOLOR);
+        lblTitle.setBounds(80, 30, 920, 80);
+        lblTitle.setFont(new Font("배달의민족 도현", Font.BOLD, 48));
+        lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
+        lblTitle.setVerticalAlignment(SwingConstants.CENTER);
+        add(lblTitle);
+    }
 	/*
 	Name: buildTable
 	Parameter: -
