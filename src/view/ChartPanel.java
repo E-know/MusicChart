@@ -63,14 +63,7 @@ public class ChartPanel extends JPanel {
 			}
 		}); //표에서 순위를 기준으로 정렬되도록 설정(값이 작을수록 위에 있음)
 		
-		tableChart = new JTable(tableModel);
-		tableChart.setBackground(LISTBACKGROUND);
-		tableChart.setForeground(TEXTCOLOR);
-		tableChart.setFont(new Font("맑은 고딕", Font.PLAIN, 18));
-		tableChart.setRowHeight(60);
-		buildTable();
-		tableChart.setRowSorter(tableSorter);
-		add(tableChart);
+		setInitializationTableChart();
 		
 		scrollBar = new JScrollPane(tableChart, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scrollBar.setBounds(40, 130, 1000, 540);
@@ -87,7 +80,18 @@ public class ChartPanel extends JPanel {
         lblTitle.setVerticalAlignment(SwingConstants.CENTER);
         add(lblTitle);
     }
-	/*
+
+    private void setInitializationTableChart(){
+        tableChart = new JTable(tableModel);
+        tableChart.setBackground(LISTBACKGROUND);
+        tableChart.setForeground(TEXTCOLOR);
+        tableChart.setFont(new Font("맑은 고딕", Font.PLAIN, 18));
+        tableChart.setRowHeight(60);
+        buildTable();
+        tableChart.setRowSorter(tableSorter);
+        add(tableChart);
+    }
+    /*
 	Name: buildTable
 	Parameter: -
 	Returns: -
