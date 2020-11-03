@@ -49,11 +49,11 @@ public class ChartPanel extends JPanel {
 		setFont(new Font("맑은 고딕", Font.BOLD, 64));
 		
 		setInitLblTitle();
+
+		if(!AppManager.getS_instance().getParser().isParsed())
+            AppManager.getS_instance().getParser().chartDataParsing(this); //Melon 차트 정보 받아옴
 		
-		MusicChartParser parser = AppManager.getS_instance().getParser();
-		if(!parser.isParsed()) parser.chartDataParsing(this); //Melon 차트 정보 받아옴
-		
-		tableModel = new ChartModel(parser.getChartList());
+		tableModel = new ChartModel(AppManager.getS_instance().getParser().getChartList());
 		
 
 		
