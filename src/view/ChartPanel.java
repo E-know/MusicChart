@@ -48,7 +48,7 @@ public class ChartPanel extends JPanel {
 		setLayout(null);
 		setFont(new Font("맑은 고딕", Font.BOLD, 64));
 		
-		setInitializationLblTitle();
+		setInitLblTitle();
 		
 		MusicChartParser parser = AppManager.getS_instance().getParser();
 		if(!parser.isParsed()) parser.chartDataParsing(this); //Melon 차트 정보 받아옴
@@ -63,14 +63,11 @@ public class ChartPanel extends JPanel {
 			}
 		}); //표에서 순위를 기준으로 정렬되도록 설정(값이 작을수록 위에 있음)
 		
-		setInitializationTableChart();
-		
-		scrollBar = new JScrollPane(tableChart, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		scrollBar.setBounds(40, 130, 1000, 540);
-		add(scrollBar);
+		setInitTableChart();
+		setInitScrollBar();
 	} //생성자 끝
 
-    private void setInitializationLblTitle(){
+    private void setInitLblTitle(){
         lblTitle = new JLabel(strChartName + " TOP 100");
         lblTitle.setBackground(Color.white);
         lblTitle.setForeground(TITLECOLOR);
@@ -81,7 +78,7 @@ public class ChartPanel extends JPanel {
         add(lblTitle);
     }
 
-    private void setInitializationTableChart(){
+    private void setInitTableChart(){
         tableChart = new JTable(tableModel);
         tableChart.setBackground(LISTBACKGROUND);
         tableChart.setForeground(TEXTCOLOR);
@@ -90,6 +87,12 @@ public class ChartPanel extends JPanel {
         buildTable();
         tableChart.setRowSorter(tableSorter);
         add(tableChart);
+    }
+
+    private void setInitScrollBar(){
+        scrollBar = new JScrollPane(tableChart, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollBar.setBounds(40, 130, 1000, 540);
+        add(scrollBar);
     }
     /*
 	Name: buildTable
