@@ -16,46 +16,46 @@ public class CommentUIController {
     ResultSet rs = null;
 
 
-    private CommentUI theCommentUI;
+    private CommentUI the_Comment_UI;
 
     public CommentUIController(CommentUI theCommentUI) {
-        this.theCommentUI = theCommentUI;
-        this.theCommentUI.addBtnRegisterListener(new ButtonRegisterListener());
-        this.theCommentUI.addBtnDeleteListener(new ButtonDeleteListener());
-        this.theCommentUI.addBtnBackListener(new ButtonBackListener());
+        this.the_Comment_UI = theCommentUI;
+        this.the_Comment_UI.addBtnRegisterListener(new ButtonRegisterListener());
+        this.the_Comment_UI.addBtnDeleteListener(new ButtonDeleteListener());
+        this.the_Comment_UI.addBtnBackListener(new ButtonBackListener());
     }
 
 
     private class ButtonRegisterListener implements ActionListener{
-        private Component _viewLoading;
+        private Component view_Loading;
         public ButtonRegisterListener() { }
         public ButtonRegisterListener(Component parentComponent){
-            _viewLoading = parentComponent;
+            view_Loading = parentComponent;
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (!theCommentUI.txtComment.getText().equals("")) {
+            if (!the_Comment_UI.txtComment.getText().equals("")) {
                 con = ConnectDB.GetDB();
                 try {
                     String sql = "INSERT INTO songinfo VALUES (?, ?, ?, ?, ?, ?)";
                     pstmt = con.prepareStatement(sql);
-                    pstmt.setString(1, theCommentUI.sqltitle);
-                    pstmt.setString(2, theCommentUI.strArtist);
-                    pstmt.setString(3, AppManager.getS_instance().getParser().getAlbumName(theCommentUI.strTitle));
+                    pstmt.setString(1, the_Comment_UI.sqltitle);
+                    pstmt.setString(2, the_Comment_UI.strArtist);
+                    pstmt.setString(3, AppManager.getS_instance().getParser().getAlbumName(the_Comment_UI.strTitle));
                     pstmt.setInt(4, AppManager.getS_instance().getSite_M_B_G());
-                    pstmt.setString(5, theCommentUI.txtComment.getText());
-                    pstmt.setString(6, theCommentUI.txtPassword.getText());
+                    pstmt.setString(5, the_Comment_UI.txtComment.getText());
+                    pstmt.setString(6, the_Comment_UI.txtPassword.getText());
                     pstmt.executeUpdate();
-                    theCommentUI.modelList.addElement(theCommentUI.txtComment.getText());
+                    the_Comment_UI.modelList.addElement(the_Comment_UI.txtComment.getText());
 
-                    theCommentUI.arrComment.add(theCommentUI.txtComment.getText());
-                    if (theCommentUI.txtPassword.getText().equals(""))
-                        theCommentUI.arrPassword.add("0000");
+                    the_Comment_UI.arrComment.add(the_Comment_UI.txtComment.getText());
+                    if (the_Comment_UI.txtPassword.getText().equals(""))
+                        the_Comment_UI.arrPassword.add("0000");
                     else
-                        theCommentUI.arrPassword.add(theCommentUI.txtPassword.getText());
-                    theCommentUI.txtComment.setText("");
-                    theCommentUI.txtPassword.setText("");
+                        the_Comment_UI.arrPassword.add(the_Comment_UI.txtPassword.getText());
+                    the_Comment_UI.txtComment.setText("");
+                    the_Comment_UI.txtPassword.setText("");
                 } catch (SQLException e1) {
                     e1.printStackTrace();
                 }
@@ -64,45 +64,45 @@ public class CommentUIController {
     }//ButtonRegisterListener
 
     private class ButtonDeleteListener implements ActionListener{
-        private Component _viewLoading;
+        private Component view_Loading;
         public ButtonDeleteListener() { }
         public ButtonDeleteListener(Component parentComponent){
-            _viewLoading = parentComponent;
+            view_Loading = parentComponent;
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (Integer.parseInt(theCommentUI.txtPassword.getText()) == Integer.parseInt(theCommentUI.arrPassword.get(theCommentUI.listComment.getSelectedIndex()))) {
-                System.out.println("Same Password! At : " + String.valueOf(theCommentUI.listComment.getSelectedIndex()));
-                theCommentUI.con = ConnectDB.GetDB();
+            if (Integer.parseInt(the_Comment_UI.txtPassword.getText()) == Integer.parseInt(the_Comment_UI.arrPassword.get(the_Comment_UI.listComment.getSelectedIndex()))) {
+                System.out.println("Same Password! At : " + String.valueOf(the_Comment_UI.listComment.getSelectedIndex()));
+                the_Comment_UI.con = ConnectDB.GetDB();
                 try {
-                    theCommentUI.arrPassword.remove(theCommentUI.listComment.getSelectedIndex());
-                    theCommentUI.arrComment.remove(theCommentUI.listComment.getSelectedIndex());
-                    theCommentUI.modelList.removeElementAt(theCommentUI.listComment.getSelectedIndex());
+                    the_Comment_UI.arrPassword.remove(the_Comment_UI.listComment.getSelectedIndex());
+                    the_Comment_UI.arrComment.remove(the_Comment_UI.listComment.getSelectedIndex());
+                    the_Comment_UI.modelList.removeElementAt(the_Comment_UI.listComment.getSelectedIndex());
                     String sql = "DELETE FROM songinfo WHERE title = ? AND pwd = ?";
                     pstmt = con.prepareStatement(sql);
-                    pstmt.setString(1, theCommentUI.sqltitle);
-                    pstmt.setString(2, theCommentUI.txtPassword.getText());
+                    pstmt.setString(1, the_Comment_UI.sqltitle);
+                    pstmt.setString(2, the_Comment_UI.txtPassword.getText());
                     int temp = pstmt.executeUpdate();
                 } catch (SQLException e1) {
                     e1.printStackTrace();
                 }
             }
 
-            theCommentUI.txtPassword.setText("");
+            the_Comment_UI.txtPassword.setText("");
         }//actionPerfomed
     }//ButtonDeleteListener
 
     private class ButtonBackListener implements ActionListener{
-        private Component _viewLoading;
+        private Component view_Loading;
         public ButtonBackListener() { }
         public ButtonBackListener(Component parentComponent){
-            _viewLoading = parentComponent;
+            view_Loading = parentComponent;
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            theCommentUI.clearAll();
+            the_Comment_UI.clearAll();
             AppManager.getS_instance().BackToChartPrimaryPanel();
             System.out.println("Back To ChartPrimary");
         }//actionPerfomed
