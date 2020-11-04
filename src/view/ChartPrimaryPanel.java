@@ -1,9 +1,6 @@
 package view;
 
-import controller.ChartPrimaryPanelController;
 import controller.SitePanelController;
-import notsort.AppManager;
-import model.MakeComment;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -39,8 +36,6 @@ public class ChartPrimaryPanel extends JPanel{
 
 
     public ChartPrimaryPanel(){
-
-        new MakeComment(this);
 
         setBackground(new Color(255, 255, 255, 0));
         setBounds(1,0,1278,960);

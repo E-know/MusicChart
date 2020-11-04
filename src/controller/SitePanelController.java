@@ -5,22 +5,22 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.*;
 
-import notsort.AppManager;
+import main.AppManager;
 import view.SitePanel;
 
 public class SitePanelController {
 
-    private SitePanel the_Site_Panel;
+    private SitePanel theSitePanel;
 
     public SitePanelController(SitePanel theSitePanel) {
-        this.the_Site_Panel = theSitePanel;
-        this.the_Site_Panel.addClickListener(new addClickListener());
+        this.theSitePanel = theSitePanel;
+        this.theSitePanel.addClickListener(new addClickListener());
     }
     private class addClickListener implements MouseListener {
-        private Component view_Loading;
+        private Component _viewLoading;
         public addClickListener() { }
         public addClickListener(Component parentComponent){
-            view_Loading = parentComponent;
+            _viewLoading = parentComponent;
         }
 
         @Override
@@ -30,11 +30,11 @@ public class SitePanelController {
         @Override
         public void mouseClicked(MouseEvent e) {
             Object obj = e.getSource();
-            if(obj == the_Site_Panel.tableChart) {
+            if(obj == theSitePanel.tableChart) {
                 JTable table = (JTable) obj;
-                Object[] music = the_Site_Panel.tableModel.getMusicData(table.convertRowIndexToModel(table.getSelectedRow())); //Å¬¸¯µÈ ¿­ÀÇ À§Ä¡(¼û°ÜÁø Ç×¸ñÀÌ ÀÖ¾îµµ ¹Ù²îÁö ¾Ê´Â Àı´ëÀûÀÎ À§Ä¡)¿¡ ÀÖ´Â °î ¼±ÅÃ
-                System.out.println(music[2] + music[0].toString()); //Å×½ºÆ®
-                AppManager.getS_instance().PopUpCommentUI(Integer.parseInt(music[0].toString())); //¼±ÅÃµÈ °î¿¡ ´ëÇÑ Ä¿¹Â´ÏÆ¼ Ç¥½Ã
+                Object[] music = theSitePanel.tableModel.getMusicData(table.convertRowIndexToModel(table.getSelectedRow())); //í´ë¦­ëœ ì—´ì˜ ìœ„ì¹˜(ìˆ¨ê²¨ì§„ í•­ëª©ì´ ìˆì–´ë„ ë°”ë€Œì§€ ì•ŠëŠ” ì ˆëŒ€ì ì¸ ìœ„ì¹˜)ì— ìˆëŠ” ê³¡ ì„ íƒ
+                System.out.println(music[2] + music[0].toString()); //í…ŒìŠ¤íŠ¸
+                AppManager.getS_instance().PopUpCommentUI(Integer.parseInt(music[0].toString())); //ì„ íƒëœ ê³¡ì— ëŒ€í•œ ì»¤ë®¤ë‹ˆí‹° í‘œì‹œ
             }
         }
         @Override
