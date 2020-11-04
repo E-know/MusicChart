@@ -88,12 +88,12 @@ public class MelonChartParser extends MusicChartParser {
     public int chart = 1;
 
     public MelonChartParser() { // 초기화 작업을 진행함
-        _songCount = 0;                // 파싱한 노래 개수(초기값은 0)
-        _chartList = null;            // 차트 100곡에 대한 정보를 담을 JSONArray
-        _songDetailInfo = null;        // 노래 한 곡에 대한 상세 정보를 담을 JSONObject
-        _url = null;                    // 파싱할 웹 사이트 url
-        _chartThread = null;            // 차트 100곡 파싱에 사용할 Thread
-        _songDetailThread = null;    // 노래 한 곡에 대한 상세 정보 파싱에 사용할 Thread
+        songCount = 0;                // 파싱한 노래 개수(초기값은 0)
+        chartList = null;            // 차트 100곡에 대한 정보를 담을 JSONArray
+        songDetailInfo = null;        // 노래 한 곡에 대한 상세 정보를 담을 JSONObject
+        url = null;                    // 파싱할 웹 사이트 url
+        chartThread = null;            // 차트 100곡 파싱에 사용할 Thread
+        songDetailThread = null;    // 노래 한 곡에 대한 상세 정보 파싱에 사용할 Thread
         progressMonitor = null;    // ProgressMonitor를 사용하면 Thread가 종료되지 않는 버그와 ProgressMonitor가 제대로 나오지 않는 버그가 발생하여 사용하는 부분은 주석처리 해두었음
     } // constructor
 
@@ -101,12 +101,12 @@ public class MelonChartParser extends MusicChartParser {
         @Override
         public void run() {
             // 멜론 차트 1~100위의 노래를 파싱함
-            _songCount = 0; // 노래 개수 초기화
-            _url = "https://www.melon.com/chart/index.htm"; // 파싱할 url
+            songCount = 0; // 노래 개수 초기화
+            url = "https://www.melon.com/chart/index.htm"; // 파싱할 url
 
             try {
                 // 멜론 차트 연결에 필요한 header 설정 및 연결
-                Connection melonConnection = Jsoup.connect(_url).header("Accept",
+                Connection melonConnection = Jsoup.connect(url).header("Accept",
                         "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3")
                         .header("Sec-Fetch-User", "?1").header("Upgrade-Insecure-Requests", "1")
                         .header("User-Agent",
@@ -119,7 +119,7 @@ public class MelonChartParser extends MusicChartParser {
                 // 1~100위에 대한 정보를 불러옴, 순위와 곡의 상세한 정보를 뽑기 위한 링크를 뽑는 용도로 사용
                 Elements data1st100 = melonDocument.select("table").first().select("tbody > tr");
 
-                _chartList = new JSONArray();
+                chartList = new JSONArray();
 
                 for (Element elem : data1st100) { // 1~100위에 대한 내용 파싱
 
@@ -167,8 +167,8 @@ public class MelonChartParser extends MusicChartParser {
                     JSONObject jsonSongInfo = new JSONObject(songAllInfo);
 
                     // JSONArray에 값 추가, 노래 개수 증가
-                    _chartList.add(jsonSongInfo);
-                    _songCount++;
+                    chartList.add(jsonSongInfo);
+                    songCount++;
                     //progressMonitor.setProgress(songCount);
                 }
 
@@ -185,24 +185,24 @@ public class MelonChartParser extends MusicChartParser {
             } // try
             catch (HttpStatusException e) { // 멜론의 경우 Request Header를 같이 보내주어도 너무 자주 파싱을 시도할 시에 일시적 차단을 하므로 그에 대한 처리
                 e.printStackTrace();
-                _chartList = null;
-                _songDetailInfo = null;
+                chartList = null;
+                songDetailInfo = null;
                 System.out.println("많은 요청으로 인해 불러오기에 실패하였습니다.");
-                _songCount = 0;
+                songCount = 0;
                 return;
             } catch (NullPointerException e) { // 데이터 긁어오는 데에 실패했을 때(태그나 속성이 없을 때)
                 e.printStackTrace();
-                _chartList = null;
-                _songDetailInfo = null;
+                chartList = null;
+                songDetailInfo = null;
                 System.out.println("Url 링크가 잘못되었거나, 웹 페이지 구조가 변경되어 파싱에 실패했습니다 :(");
-                _songCount = 0;
+                songCount = 0;
                 return;
             } catch (Exception e) { // 그 외의 모든 에러
                 e.printStackTrace();
-                _chartList = null;
-                _songDetailInfo = null;
+                chartList = null;
+                songDetailInfo = null;
                 System.out.println("파싱도중 에러가 발생했습니다 :(");
-                _songCount = 0;
+                songCount = 0;
                 return;
             }
         } // run()
@@ -212,12 +212,12 @@ public class MelonChartParser extends MusicChartParser {
         @Override
         public void run() {
             // 노래 한 곡에 대한 상세 정보 파싱
-            _songCount = 0; // 노래 개수 초기화
+            songCount = 0; // 노래 개수 초기화
             HashMap<String, Object> songAllInfo = new HashMap<String, Object>();
 
             try {
                 // songId를 통해 곡에 대한 상세한 정보를 얻기 위한 접근
-                Connection songDetailConnection = Jsoup.connect(_url).header("Accept",
+                Connection songDetailConnection = Jsoup.connect(url).header("Accept",
                         "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3")
                         .header("Sec-Fetch-User", "?1").header("Upgrade-Insecure-Requests", "1")
                         .header("User-Agent",
@@ -245,45 +245,45 @@ public class MelonChartParser extends MusicChartParser {
             } // try
             catch (HttpStatusException e) { // 멜론의 경우 Request Header를 같이 보내주어도 너무 자주 파싱을 시도할 시에 일시적 차단을 하므로 그에 대한 처리
                 e.printStackTrace();
-                _chartList = null;
-                _songDetailInfo = null;
+                chartList = null;
+                songDetailInfo = null;
                 System.out.println("많은 요청으로 인해 불러오기에 실패하였습니다.");
-                _songCount = 0;
+                songCount = 0;
                 return;
             } catch (NullPointerException e) { // 데이터 긁어오는 데에 실패했을 때(태그나 속성이 없을 때)
                 e.printStackTrace();
-                _chartList = null;
-                _songDetailInfo = null;
+                chartList = null;
+                songDetailInfo = null;
                 System.out.println("Url 링크가 잘못되었거나, 웹 페이지 구조가 변경되어 파싱에 실패했습니다 :(");
-                _songCount = 0;
+                songCount = 0;
                 return;
             } catch (Exception e) { // 그 외의 모든 에러
                 e.printStackTrace();
-                _chartList = null;
-                _songDetailInfo = null;
+                chartList = null;
+                songDetailInfo = null;
                 System.out.println("파싱도중 에러가 발생했습니다 :(");
-                _songCount = 0;
+                songCount = 0;
                 return;
             }
-            _songDetailInfo = new JSONObject(songAllInfo); // HashMap을 JSONObject로 변환하여 저장
-            _songCount++; // 노래 개수 증가
+            songDetailInfo = new JSONObject(songAllInfo); // HashMap을 JSONObject로 변환하여 저장
+            songCount++; // 노래 개수 증가
         } // run()
     } // SongDetailDataParsingThread Runnable class
 
     @Override
     public void chartDataParsing(Component parentComponent) { // 차트 100곡을 파싱하는 Thread를 시작하는 메소드
-        if (_chartThread != null) { // Thread를 사용하는게 처음이 아닐 때
-            if (_chartThread.isAlive()) { // Thread가 살아있으면 정지
-                _chartThread.stop();
+        if (chartThread != null) { // Thread를 사용하는게 처음이 아닐 때
+            if (chartThread.isAlive()) { // Thread가 살아있으면 정지
+                chartThread.stop();
                 System.out.println("Chart Thread is Alive");
             } else
                 System.out.println("Chart Thread is dead");
         }
-        _chartThread = new Thread(new ChartDataParsingThread()); // Thread는 재사용이 안되기 때문에 다시 객체를 생성함
+        chartThread = new Thread(new ChartDataParsingThread()); // Thread는 재사용이 안되기 때문에 다시 객체를 생성함
         // progressMonitorManager(parentComponent, melonChartParsingTitle, melonChartParsingMessage);
-        _chartThread.start(); // Thread 시작
+        chartThread.start(); // Thread 시작
         try {
-            _chartThread.join(); // ChartDataParsingThread가 종료되기전까지 대기
+            chartThread.join(); // ChartDataParsingThread가 종료되기전까지 대기
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -291,16 +291,16 @@ public class MelonChartParser extends MusicChartParser {
 
     @Override
     public void songDetailDataParsing(String songId, Component parentComponent) { // 노래 한 곡에 대한 상세 정보를 파싱하는 Thread를 시작하는 메소드
-        _url = "https://www.melon.com/song/detail.htm?songId=" + songId; // 파싱할 url을 만듬
-        if (_songDetailThread != null) { // Thread를 사용하는 게 처음이 아닐 때
-            if (_songDetailThread.isAlive()) // Thread가 살아있으면 정지
-                _songDetailThread.stop();
+        url = "https://www.melon.com/song/detail.htm?songId=" + songId; // 파싱할 url을 만듬
+        if (songDetailThread != null) { // Thread를 사용하는 게 처음이 아닐 때
+            if (songDetailThread.isAlive()) // Thread가 살아있으면 정지
+                songDetailThread.stop();
         }
-        _songDetailThread = new Thread(new SongDetailDataParsingThread()); // Thread는 재사용이 안되기 때문에 다시 객체를 생성함
+        songDetailThread = new Thread(new SongDetailDataParsingThread()); // Thread는 재사용이 안되기 때문에 다시 객체를 생성함
         // progressMonitorManager는 생략했음
-        _songDetailThread.start(); // Thread 시작
+        songDetailThread.start(); // Thread 시작
         try {
-            _songDetailThread.join(); // SongDetailDataParsingThread가 종료되기 전까지 대기
+            songDetailThread.join(); // SongDetailDataParsingThread가 종료되기 전까지 대기
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -309,23 +309,23 @@ public class MelonChartParser extends MusicChartParser {
     @Override
     public void songDetailDataParsing(JSONObject jObj, Component parentComponent) { // 노래 한 곡에 대한 상세 정보를 파싱하는 Thread를 시작하는 메소드
         if (jObj == null) {
-            System.out.println(_plzUseRightJSONObject);
+            System.out.println(plzUseRightJSONObject);
             return;
         }
 
         if (!jObj.containsKey("songId")) { // songId key값 유효성 검사
-            System.out.println(_jsonDontHaveKey);
+            System.out.println(jsonDontHaveKey);
             return;
         }
-        _url = "https://www.melon.com/song/detail.htm?songId=" + jObj.get("songId").toString(); // 파싱할 url을 만듬
-        if (_songDetailThread != null) { // Thread를 사용하는 게 처음이 아닐 때
-            if (_songDetailThread.isAlive()) // Thread가 살아있으면 정지
-                _songDetailThread.stop();
+        url = "https://www.melon.com/song/detail.htm?songId=" + jObj.get("songId").toString(); // 파싱할 url을 만듬
+        if (songDetailThread != null) { // Thread를 사용하는 게 처음이 아닐 때
+            if (songDetailThread.isAlive()) // Thread가 살아있으면 정지
+                songDetailThread.stop();
         }
-        _songDetailThread = new Thread(new SongDetailDataParsingThread()); // Thread는 재사용이 안되기 때문에 다시 객체를 생성함
-        _songDetailThread.start();
+        songDetailThread = new Thread(new SongDetailDataParsingThread()); // Thread는 재사용이 안되기 때문에 다시 객체를 생성함
+        songDetailThread.start();
         try {
-            _songDetailThread.join(); // SongDetailDataParsingThread가 종료되기 전까지 대기
+            songDetailThread.join(); // SongDetailDataParsingThread가 종료되기 전까지 대기
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -337,17 +337,17 @@ public class MelonChartParser extends MusicChartParser {
             System.out.println("차트 파싱된 데이터가 없어 메소드 실행을 종료합니다 :(");
             return;
         }
-        _url = "https://www.melon.com/song/detail.htm?songId="
+        url = "https://www.melon.com/song/detail.htm?songId="
                 + ((JSONObject) chartListData.get(rank - 1)).get("songId").toString(); // 파싱할 url을 만듬
 
-        if (_songDetailThread != null) { // Thread를 사용하는 게 처음이 아닐 때
-            if (_songDetailThread.isAlive()) // Thread가 살아있으면 정지
-                _songDetailThread.stop();
+        if (songDetailThread != null) { // Thread를 사용하는 게 처음이 아닐 때
+            if (songDetailThread.isAlive()) // Thread가 살아있으면 정지
+                songDetailThread.stop();
         }
-        _songDetailThread = new Thread(new SongDetailDataParsingThread()); // Thread는 재사용이 안되기 때문에 다시 객체를 생성함
-        _songDetailThread.start();
+        songDetailThread = new Thread(new SongDetailDataParsingThread()); // Thread는 재사용이 안되기 때문에 다시 객체를 생성함
+        songDetailThread.start();
         try {
-            _songDetailThread.join(); // SongDetailDataParsingThread가 종료되기 전까지 대기
+            songDetailThread.join(); // SongDetailDataParsingThread가 종료되기 전까지 대기
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -365,7 +365,7 @@ public class MelonChartParser extends MusicChartParser {
 
         for (int i = 0; i < 100; i++) { // 차트 100곡의 데이터에서 title에 맞는 데이터를 찾아 songId 얻어내어 파싱할 url을 만듬
             if (((JSONObject) chartListData.get(i)).get("title").toString() == title) {
-                _url = "https://www.melon.com/song/detail.htm?songId=" + ((JSONObject) chartListData.get(i)).get("songId").toString();
+                url = "https://www.melon.com/song/detail.htm?songId=" + ((JSONObject) chartListData.get(i)).get("songId").toString();
                 tmpSongId = ((JSONObject) chartListData.get(i)).get("songId").toString();
                 break;
             }
@@ -374,14 +374,14 @@ public class MelonChartParser extends MusicChartParser {
             System.out.println("제목에 해당하는 노래가 차트 데이터에 없어 불러올 수 없습니다 :(");
             return;
         } else {
-            if (_songDetailThread != null) { // Thread를 사용하는 게 처음이 아닐 때
-                if (_songDetailThread.isAlive()) // Thread가 살아있으면 정지
-                    _songDetailThread.stop();
+            if (songDetailThread != null) { // Thread를 사용하는 게 처음이 아닐 때
+                if (songDetailThread.isAlive()) // Thread가 살아있으면 정지
+                    songDetailThread.stop();
             }
-            _songDetailThread = new Thread(new SongDetailDataParsingThread()); // Thread는 재사용이 안되기 때문에 다시 객체를 생성함
-            _songDetailThread.start();
+            songDetailThread = new Thread(new SongDetailDataParsingThread()); // Thread는 재사용이 안되기 때문에 다시 객체를 생성함
+            songDetailThread.start();
             try {
-                _songDetailThread.join(); // SongDetailDataParsingThread가 종료되기 전까지 대기
+                songDetailThread.join(); // SongDetailDataParsingThread가 종료되기 전까지 대기
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -396,33 +396,33 @@ public class MelonChartParser extends MusicChartParser {
         }
 
         if (!isParsed()) { // 파싱이 이루어지지 않았다면
-            System.out.println(_isNotParsed);
+            System.out.println(isNotParsed);
             return null;
         }
 
-        if (_songCount == 1) { // 상세 파싱이 이루어졌다면
-            System.out.println("getLikeNum(int rank) : " + _isOnlyChartParse);
+        if (songCount == 1) { // 상세 파싱이 이루어졌다면
+            System.out.println("getLikeNum(int rank) : " + isOnlyChartParse);
             return null;
         }
 
-        return ((JSONObject) _chartList.get(rank - 1)).get("likeNum").toString();
+        return ((JSONObject) chartList.get(rank - 1)).get("likeNum").toString();
     } // String getLikeNum(int rank)
 
     //chartDataParsing 후에만 사용가능한 메소드
     public String getLikeNum(String title) { // 노래 제목을 이용하여 해당 노래의 좋아요 개수를 반환하는 메소드
         if (!isParsed()) { // 파싱이 이루어지지 않았다면
-            System.out.println(_isNotParsed);
+            System.out.println(isNotParsed);
             return null;
         }
 
-        if (_songCount == 1) { // 상세 파싱이 이루어졌다면
-            System.out.println("getLikeNum(String title) : " + _isOnlyChartParse);
+        if (songCount == 1) { // 상세 파싱이 이루어졌다면
+            System.out.println("getLikeNum(String title) : " + isOnlyChartParse);
             return null;
         }
 
-        for (int i = 0; i < _songCount; i++) { // 차트 100곡에 대한 파싱이 이루어졌다면 JSONArray에서 노래 제목에 맞는 원소를 찾아 해당 노래의 좋아요 개수를 반환하는 함수
-            if (((JSONObject) _chartList.get(i)).get("title") == title)
-                return ((JSONObject) _chartList.get(i)).get("likeNum").toString();
+        for (int i = 0; i < songCount; i++) { // 차트 100곡에 대한 파싱이 이루어졌다면 JSONArray에서 노래 제목에 맞는 원소를 찾아 해당 노래의 좋아요 개수를 반환하는 함수
+            if (((JSONObject) chartList.get(i)).get("title") == title)
+                return ((JSONObject) chartList.get(i)).get("likeNum").toString();
         }
 
         return null;
@@ -431,76 +431,76 @@ public class MelonChartParser extends MusicChartParser {
     // songDetailDataParsing 후에만 사용가능한 메소드
     public String getReleaseDate() { // 노래 한 곡에 대한 상세 파싱이 이루어졌다면 그 곡의 발매일을 반환하는 메소드
         if (!isParsed()) { // 파싱이 이루어지지 않았다면
-            System.out.println(_isNotParsed);
+            System.out.println(isNotParsed);
             return null;
         }
-        if (_songCount == 1) // 상세 파싱이 이루어졌다면
-            return _songDetailInfo.get("releaseDate").toString();
+        if (songCount == 1) // 상세 파싱이 이루어졌다면
+            return songDetailInfo.get("releaseDate").toString();
 
-        System.out.println("getReleaseDate() : " + _isOnlyDetailParse);
+        System.out.println("getReleaseDate() : " + isOnlyDetailParse);
         return null;
     } // String getReleaseDate()
 
     // songDetailDataParsing 후에만 사용가능한 메소드
     public String getReleaseDate(JSONObject jObj) { // 노래 한 곡에 대한 상세 파싱이 이루어졌다면 JSONObject를 이용하여 그 곡의 발매일을 반환하는 메소드
         if (!isParsed()) { // 파싱이 이루어지지 않았다면
-            System.out.println(_isNotParsed);
+            System.out.println(isNotParsed);
             return null;
         }
 
         if (jObj == null) {
-            System.out.println(_plzUseRightJSONObject);
+            System.out.println(plzUseRightJSONObject);
             return null;
         }
 
-        if (_songCount == 1) { // 상세 파싱이 이루어졌다면
+        if (songCount == 1) { // 상세 파싱이 이루어졌다면
             if (jObj.containsKey("releaseDate")) // release key값 유효성 검사
                 return jObj.get("releaseDate").toString();
             else {
-                System.out.println(_jsonDontHaveKey);
+                System.out.println(jsonDontHaveKey);
                 return null;
             }
         }
 
-        System.out.println("getReleaseDate(JSONObject jObj) : " + _isOnlyDetailParse);
+        System.out.println("getReleaseDate(JSONObject jObj) : " + isOnlyDetailParse);
         return null;
     } // String getReleaseDate(JSONObject jObj)
 
     // songDetailDataParsing 후에만 사용가능한 메소드
     public String getGenre() { // 노래 한 곡에 대한 상세 정보 파싱이 이루어졌다면 그 곡의 장르를 반환하는 메소드
         if (!isParsed()) { // 파싱이 이루어지지 않았다면
-            System.out.println(_isNotParsed);
+            System.out.println(isNotParsed);
             return null;
         }
-        if (_songCount == 1) // 상세 파싱이 이루어졌다면
-            return _songDetailInfo.get("genre").toString();
+        if (songCount == 1) // 상세 파싱이 이루어졌다면
+            return songDetailInfo.get("genre").toString();
 
-        System.out.println("getGenre() : " + _isOnlyDetailParse);
+        System.out.println("getGenre() : " + isOnlyDetailParse);
         return null;
     } // String getGenre()
 
     // songDetailDataParsing 후에만 사용가능한 메소드
     public String getGenre(JSONObject jObj) { // 노래 한 곡에 대한 상세 정보 파싱이 이루어졌다면 JSONObject를 이용하여 그 곡의 장르를 반환하는 메소드
         if (!isParsed()) { // 파싱이 이루어지지 않았다면
-            System.out.println(_isNotParsed);
+            System.out.println(isNotParsed);
             return null;
         }
 
         if (jObj == null) {
-            System.out.println(_plzUseRightJSONObject);
+            System.out.println(plzUseRightJSONObject);
             return null;
         }
 
-        if (_songCount == 1) { // 노래 한 곡에 대한 상세 파싱이 이루어졌다면
+        if (songCount == 1) { // 노래 한 곡에 대한 상세 파싱이 이루어졌다면
             if (jObj.containsKey("genre")) // genre key값 유효성 검사
                 return jObj.get("genre").toString();
             else {
-                System.out.println(_jsonDontHaveKey);
+                System.out.println(jsonDontHaveKey);
                 return null;
             }
         }
 
-        System.out.println("getGenre(JSONObject jObj) : " + _isOnlyDetailParse);
+        System.out.println("getGenre(JSONObject jObj) : " + isOnlyDetailParse);
         return null;
     } // String getGenre(JSONObject jObj)
 } // MelonChartParser class
