@@ -49,14 +49,6 @@ public class ChartPanel extends JPanel {
 		setFont(new Font("맑은 고딕", Font.BOLD, 64));
 		
 		setInitLblTitle();
-
-		if(!AppManager.getS_instance().getParser().isParsed())
-            AppManager.getS_instance().getParser().chartDataParsing(this); //Melon 차트 정보 받아옴
-		
-		tableModel = new ChartModel(AppManager.getS_instance().getParser().getChartList());
-		
-
-		
 		setInitTableChart();
 		setInitScrollBar();
 	} //생성자 끝
@@ -73,6 +65,7 @@ public class ChartPanel extends JPanel {
     }
 
     private void setInitTableChart(){
+	    setInitTableModel();
 	    setInitTableSorter();
 
         tableChart = new JTable(tableModel);
@@ -100,6 +93,13 @@ public class ChartPanel extends JPanel {
         scrollBar = new JScrollPane(tableChart, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollBar.setBounds(40, 130, 1000, 540);
         add(scrollBar);
+    }
+
+    private void setInitTableModel(){
+        if(!AppManager.getS_instance().getParser().isParsed())
+            AppManager.getS_instance().getParser().chartDataParsing(this); //Melon 차트 정보 받아옴
+
+        tableModel = new ChartModel(AppManager.getS_instance().getParser().getChartList());
     }
     /*
 	Name: buildTable
