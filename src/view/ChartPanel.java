@@ -108,31 +108,23 @@ public class ChartPanel extends JPanel {
 	Description: 셀에 항목을 표시하기 전에 기본적인 셀 속성 설정
 	*/
 	private void buildTable() {
-		TableColumn column;
-		for(int i = 0; i < 5; i++) {
-			column = tableChart.getColumnModel().getColumn(i);
-			switch(i) {
-				case 0: //순위
-					column.setResizable(false);
-					column.setPreferredWidth(40);
-					break;
-				case 1: //이미지
-					column.setResizable(false);
-					column.setPreferredWidth(60);
-					break;
-				case 2: //제목
-				case 4: //앨범
-					column.setResizable(true);
-					column.setPreferredWidth(280);
-					column.setMinWidth(100);
-					break;
-				case 3: //가수
-					column.setResizable(true);
-					column.setPreferredWidth(180);
-					column.setMinWidth(80);
-					break;
-			}
-		} //셀의 속성을 행 별로 설정
+	    //index 0 - Ranking
+	    tableChart.getColumnModel().getColumn(0).setResizable(false);
+        tableChart.getColumnModel().getColumn(0).setPreferredWidth(10);
+        //index 1 - Album image
+		tableChart.getColumnModel().getColumn(1).setResizable(false);
+		tableChart.getColumnModel().getColumn(1).setPreferredWidth(60);
+        //index 2 - Title
+		tableChart.getColumnModel().getColumn(2).setResizable(false);
+		tableChart.getColumnModel().getColumn(2).setPreferredWidth(280);
+		tableChart.getColumnModel().getColumn(2).setMinWidth(100);
+        //index 3 - Singer
+		tableChart.getColumnModel().getColumn(3).setResizable(false);
+		tableChart.getColumnModel().getColumn(3).setPreferredWidth(10);
+		tableChart.getColumnModel().getColumn(3).setMinWidth(80);
+
+		tableChart.getColumnModel().getColumn(4).setResizable(false);
+		tableChart.getColumnModel().getColumn(4).setPreferredWidth(40);
 	} //method used in constructor & dataChange
 	
 	// - - - - - getter & setter - - - - -
