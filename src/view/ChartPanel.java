@@ -174,9 +174,11 @@ public class ChartPanel extends JPanel {
 	Returns: -
 	Description: 검색 결과에 맞는 곡만 표시되도록 설정
 	*/
-	public void filter(String text, int criteria) {
-		if(text == null) tableSorter.setRowFilter(null); //검색 중이 아닌 경우 모든 항목을 표시
-		else tableSorter.setRowFilter(RowFilter.regexFilter(text, criteria)); //실제 검색 실행하여 결과 표시
+	public void filterTitleANDArtist(String text, int criteria) {
+		if(text == null) 
+		    tableSorter.setRowFilter(null); //검색 중이 아닌 경우 모든 항목을 표시
+		else 
+		    tableSorter.setRowFilter(RowFilter.regexFilter(text, criteria)); //실제 검색 실행하여 결과 표시
 	}
 	
 	// - - - - - ChartModel 클래스 - - - - -
