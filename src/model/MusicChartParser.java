@@ -44,13 +44,13 @@ public abstract class MusicChartParser {
     // 노래 한 곡의 상세 정보를 파싱하는 abstract 메소드, 여러 parameter들을 지원함
     // parentComponent에 JPanel, JFrame 등을 넣으면 파싱을 하면서 해당 클래스에 로딩창을 띄워줌
     // ProgressMonitor를 사용했으나 이 것을 사용하면 버그가 있어 ProgressMonitor 부분만 주석처리 해두었음, 상세한 버그 내용은 아래에 기술했음
-    public abstract void songDetailDataParsing(String songId, Component parentComponent);
+    //public abstract void songDetailDataParsing(String songId, Component parentComponent);
 
     public abstract void songDetailDataParsing(JSONObject jObj, Component parentComponent);
 
-    public abstract void songDetailDataParsing(int rank, JSONArray chartListData, Component parentComponent);
+   // public abstract void songDetailDataParsing(int rank, JSONArray chartListData, Component parentComponent);
 
-    public abstract void songDetailDataParsing(String title, JSONArray chartListData, Component parentComponent); // 비추천 하는 메소드, title에 맞는 데이터를 처음부터 찾아가야 하기 때문에 좀 더 비효율적임
+    //public abstract void songDetailDataParsing(String title, JSONArray chartListData, Component parentComponent); // 비추천 하는 메소드, title에 맞는 데이터를 처음부터 찾아가야 하기 때문에 좀 더 비효율적임
 
     protected Thread _chartThread;                // 차트 100곡을 파싱할 때 사용할 Thread
     protected Thread _songDetailThread;            // 노래 한 곡에 대한 상세 정보를 파싱할 때 사용할 Thread

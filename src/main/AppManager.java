@@ -3,6 +3,7 @@ package main;
 import controller.*;
 import model.*;
 import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import view.ChartPrimaryPanel;
 import view.CommentPanel;
 
@@ -122,20 +123,20 @@ public class AppManager {
         switch(Site_M_B_G){
             case 1:
                 if(detailMelon == null) detailMelon = new MelonChartParser();
-                detailMelon.songDetailDataParsing(rank, chartListData, parentComponent);
+                detailMelon.songDetailDataParsing(((JSONObject) chartListData.get(rank - 1)), parentComponent);
                 //Parsing Method
                 break;
             case 2:
                 if(detailBugs == null)
                     detailBugs = new BugsChartParser();
-                detailBugs.songDetailDataParsing(rank, chartListData, parentComponent);
+                detailBugs.songDetailDataParsing(((JSONObject) chartListData.get(rank - 1)), parentComponent);
                 System.out.println("Bugs Detail Parse");
                 //Parsing Method
                 break;
             case 3:
                 if(detailGenie == null)
                     detailGenie = new GenieChartParser();
-                detailGenie.songDetailDataParsing(rank, chartListData, parentComponent);
+                detailGenie.songDetailDataParsing(((JSONObject) chartListData.get(rank - 1)), parentComponent);
                 System.out.println("Genie Detail Parse");
                 //Parsing Method
                 break;
