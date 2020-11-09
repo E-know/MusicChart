@@ -6,7 +6,6 @@ import java.util.Comparator;
 import javax.swing.*;
 import javax.swing.table.*;
 import main.AppManager;
-import model.MusicChartParser;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -73,7 +72,7 @@ public class ChartPanel extends JPanel {
         tableChart.setForeground(TEXTCOLOR);
         tableChart.setFont(new Font("맑은 고딕", Font.PLAIN, 18));
         tableChart.setRowHeight(60);
-        buildTable();
+        makeTable();
         tableChart.setRowSorter(tableSorter);
         add(tableChart);
 
@@ -107,7 +106,7 @@ public class ChartPanel extends JPanel {
 	Returns: -
 	Description: 셀에 항목을 표시하기 전에 기본적인 셀 속성 설정
 	*/
-	private void buildTable() {
+	private void makeTable() {
 	    //index 0 - Ranking
 	    tableChart.getColumnModel().getColumn(0).setResizable(false);
         tableChart.getColumnModel().getColumn(0).setPreferredWidth(10);
@@ -164,7 +163,7 @@ public class ChartPanel extends JPanel {
 		}
 		lblTitle.setText(strChartName + " TOP 100");
 		tableModel.setContents(AppManager.getS_instance().getParser().getChartList());
-		buildTable();
+		makeTable();
 		tableChart.repaint();
 	}
 

@@ -73,7 +73,7 @@ public class ChartPrimaryPanelController {
             theChartPrimaryPanel.pnlChartPanel.changeData();
             theChartPrimaryPanel.lblTime.setText("Renewal time : " + theChartPrimaryPanel.formatted_Melon);
             theChartPrimaryPanel.txtSearch.setText("");
-            theChartPrimaryPanel.pnlChartPanel.filter(null,2);
+            theChartPrimaryPanel.pnlChartPanel.filterTitleANDArtist(null,2);
         }
     }//ButtonMelonListener
 
@@ -94,7 +94,7 @@ public class ChartPrimaryPanelController {
             theChartPrimaryPanel.pnlChartPanel.changeData();
             theChartPrimaryPanel.lblTime.setText("Renewal time : " + theChartPrimaryPanel.formatted_Bugs);
             theChartPrimaryPanel.txtSearch.setText("");
-            theChartPrimaryPanel.pnlChartPanel.filter(null,2);
+            theChartPrimaryPanel.pnlChartPanel.filterTitleANDArtist(null,2);
         }
     }//ButtonBugsListener
 
@@ -115,7 +115,7 @@ public class ChartPrimaryPanelController {
             theChartPrimaryPanel.pnlChartPanel.changeData();
             theChartPrimaryPanel.lblTime.setText("Renewal time : " + theChartPrimaryPanel.formatted_Genie);
             theChartPrimaryPanel.txtSearch.setText("");
-            theChartPrimaryPanel.pnlChartPanel.filter(null,2);
+            theChartPrimaryPanel.pnlChartPanel.filterTitleANDArtist(null,2);
         }
     }//ButtonGenieListener
 
@@ -139,9 +139,9 @@ public class ChartPrimaryPanelController {
             if(obj == theChartPrimaryPanel.txtSearch){
                 //strSearchCategory = {"Name", "Artist"};
                 if(0 == theChartPrimaryPanel.strCombo.getSelectedIndex())//Name
-                    theChartPrimaryPanel.pnlChartPanel.filter(theChartPrimaryPanel.txtSearch.getText(),2);
+                    theChartPrimaryPanel.pnlChartPanel.filterTitleANDArtist(theChartPrimaryPanel.txtSearch.getText(),2);
                 if(1 == theChartPrimaryPanel.strCombo.getSelectedIndex())//Artist
-                    theChartPrimaryPanel.pnlChartPanel.filter(theChartPrimaryPanel.txtSearch.getText(),3);
+                    theChartPrimaryPanel.pnlChartPanel.filterTitleANDArtist(theChartPrimaryPanel.txtSearch.getText(),3);
             }//comboBox 0, 1ÀÏ¶§ sitepanelÀÇ filter¿¡¼­ °Ë»ö
 
         }//KeyReleased
