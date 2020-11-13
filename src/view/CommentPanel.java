@@ -3,6 +3,7 @@ package view;
 import DB.*;
 import main.AppManager;
 import model.ChartData;
+import model.DetailData;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -171,8 +172,8 @@ public class CommentPanel extends JPanel {
         lblArtist.setText("Artist : " + ChartData.getS_instance().getParser().getArtistName(rank));
 
         try {
-            ChartData.getS_instance().detailDataPassing(rank,ChartData.getS_instance().getParser().getChartList(),this);
-            URL url = new URL(ChartData.getS_instance().getDetailParser().getImageUrl(rank));
+            DetailData.getS_instance().detailDataPassing(rank,ChartData.getS_instance().getParser().getChartList(),this);
+            URL url = new URL(DetailData.getS_instance().getDetailParser().getImageUrl(rank));
             Image image = ImageIO.read(url).getScaledInstance(160,160,Image.SCALE_SMOOTH);
             lblImage.setIcon(new ImageIcon(image));
         } catch (MalformedURLException e) {

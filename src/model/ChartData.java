@@ -1,9 +1,7 @@
 package model;
 
-import main.AppManager;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import javax.swing.*;
 import java.awt.*;
 
 public class ChartData {
@@ -14,11 +12,6 @@ public class ChartData {
     private BugsChartParser bugs;
     private GenieChartParser genie;
     private JSONArray[] chartData;
-
-    private MelonChartParser detailMelon;
-    private BugsChartParser detailBugs;
-    private GenieChartParser detailGenie;
-
     private ChartData(){
         s_instance = this;
         Site_M_B_G = 1;
@@ -30,9 +23,6 @@ public class ChartData {
         melon = new MelonChartParser();
         bugs = new BugsChartParser();
         genie = new GenieChartParser();
-        detailMelon = null;
-        detailBugs = null;
-        detailGenie = null;
     }
     public void setSite_M_B_G(int M_B_G){
         Site_M_B_G = M_B_G;
@@ -77,58 +67,6 @@ public class ChartData {
                 genie.chartDataParsing(parentComponent);
                 break;
         }
-    }
-
-    public void detailDataPassing(int rank, JSONArray chartListData, Component parentComponent){
-        System.out.println("Parsing Detail Data");
-        switch(Site_M_B_G){
-            case 1:
-                if(detailMelon == null) detailMelon = new MelonChartParser();
-                detailMelon.songDetailDataParsing(((JSONObject) chartListData.get(rank - 1)), parentComponent);
-                //Parsing Method
-                break;
-            case 2:
-                if(detailBugs == null)
-                    detailBugs = new BugsChartParser();
-                detailBugs.songDetailDataParsing(((JSONObject) chartListData.get(rank - 1)), parentComponent);
-                System.out.println("Bugs Detail Parse");
-                //Parsing Method
-                break;
-            case 3:
-                if(detailGenie == null)
-                    detailGenie = new GenieChartParser();
-                detailGenie.songDetailDataParsing(((JSONObject) chartListData.get(rank - 1)), parentComponent);
-                System.out.println("Genie Detail Parse");
-                //Parsing Method
-                break;
-        }
-    }
-
-    public MusicChartParser getDetailParser() {
-        System.out.println("Parsing Detail Data");
-        switch (Site_M_B_G) {
-            case 1:
-                if (detailMelon == null) {
-                    System.out.println("Parser is not exist");
-                    break;
-                }
-                return detailMelon;
-            case 2:
-                if (detailBugs == null) {
-                    System.out.println("Parser is not exist");
-                    //return Parser
-                    break;
-                }
-                return detailBugs;
-            case 3:
-                if (detailGenie == null) {
-                    System.out.println("Parser is not exist");
-                    //return Parser
-                    break;
-                }
-                return detailGenie;
-        }
-        return null;
     }
 
     public void setJSONArray(JSONArray arr, int index) {
