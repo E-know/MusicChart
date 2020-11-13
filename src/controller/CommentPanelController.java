@@ -2,6 +2,7 @@ package controller;
 
 import DB.*;
 import main.AppManager;
+import model.ChartData;
 import view.CommentPanel;
 
 import java.awt.*;
@@ -42,8 +43,8 @@ public class CommentPanelController {
                     pstmt = con.prepareStatement(sql);
                     pstmt.setString(1, theCommentPanel.sqltitle);
                     pstmt.setString(2, theCommentPanel.strArtist);
-                    pstmt.setString(3, AppManager.getS_instance().getParser().getAlbumName(theCommentPanel.strTitle));
-                    pstmt.setInt(4, AppManager.getS_instance().getSite_M_B_G());
+                    pstmt.setString(3, ChartData.getS_instance().getParser().getAlbumName(theCommentPanel.strTitle));
+                    pstmt.setInt(4, ChartData.getS_instance().getSite_M_B_G());
                     pstmt.setString(5, theCommentPanel.txtComment.getText());
                     pstmt.setString(6, theCommentPanel.txtPassword.getText());
                     pstmt.executeUpdate();

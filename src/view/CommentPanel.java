@@ -2,6 +2,7 @@ package view;
 
 import DB.*;
 import main.AppManager;
+import model.ChartData;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -166,12 +167,12 @@ public class CommentPanel extends JPanel {
     //==================================================================================================================
 
     private void inputMusicInfoToPnlMusicInfo(int rank) {
-        lblTitle.setText("Title : " + AppManager.getS_instance().getParser().getTitle(rank));
-        lblArtist.setText("Artist : " + AppManager.getS_instance().getParser().getArtistName(rank));
+        lblTitle.setText("Title : " + ChartData.getS_instance().getParser().getTitle(rank));
+        lblArtist.setText("Artist : " + ChartData.getS_instance().getParser().getArtistName(rank));
 
         try {
-            AppManager.getS_instance().detailDataPassing(rank,AppManager.getS_instance().getParser().getChartList(),this);
-            URL url = new URL(AppManager.getS_instance().getDetailParser().getImageUrl(rank));
+            ChartData.getS_instance().detailDataPassing(rank,ChartData.getS_instance().getParser().getChartList(),this);
+            URL url = new URL(ChartData.getS_instance().getDetailParser().getImageUrl(rank));
             Image image = ImageIO.read(url).getScaledInstance(160,160,Image.SCALE_SMOOTH);
             lblImage.setIcon(new ImageIcon(image));
         } catch (MalformedURLException e) {
@@ -201,7 +202,7 @@ public class CommentPanel extends JPanel {
      * */
     private void readCommentFromDB(int rank) {
         Connection con = ConnectDB.GetDB();
-        sqltitle = AppManager.getS_instance().getParser().getTitle(rank);
+        sqltitle = ChartData.getS_instance().getParser().getTitle(rank);
         if (sqltitle.contains("'")) {
             sqltitle = sqltitle.replace("'", ":");
         }

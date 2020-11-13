@@ -1,38 +1,26 @@
-package main;
+package model;
 
-import controller.*;
-import model.*;
+import main.AppManager;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import view.ChartPrimaryPanel;
-import view.CommentPanel;
-
 import javax.swing.*;
 import java.awt.*;
 
-public class AppManager {
-    private static AppManager s_instance;
-    /*
+public class ChartData {
+    private static ChartData s_instance;
+
     private int Site_M_B_G;
     private MelonChartParser melon;
     private BugsChartParser bugs;
     private GenieChartParser genie;
     private JSONArray[] chartData;
-     */
-    private CommentPanel pnlCommentPanel;
-    private ChartPrimaryPanel pnlChartPrimary;
-    private JPanel primaryPanel;
-    /*
+
     private MelonChartParser detailMelon;
     private BugsChartParser detailBugs;
     private GenieChartParser detailGenie;
-     */
-    private ChartPrimaryPanelController theChartPrimaryPanelController;
-    private CommentPanelController theCommentPanelController;
 
-    private AppManager(){
-    	s_instance = this;
-    /*
+    private ChartData(){
+        s_instance = this;
         Site_M_B_G = 1;
         chartData = new JSONArray[4];
         chartData[1] = new JSONArray();
@@ -45,39 +33,7 @@ public class AppManager {
         detailMelon = null;
         detailBugs = null;
         detailGenie = null;
-     */
     }
-
-    public JPanel getPrimaryPanel(){
-        if(primaryPanel == null) {
-            primaryPanel = new JPanel(){
-                public void paintComponent(Graphics g){
-                    ImageIcon icon = new ImageIcon("Image\\background.jpg");
-                    g.drawImage(icon.getImage(),0,0,null);
-                    setOpaque(false);
-                    super.paintComponent(g);
-                }
-            };
-            primaryPanel.setLayout(null);
-            primaryPanel.setPreferredSize(new Dimension(1280,960));
-            primaryPanel.setBackground(Color.BLACK);
-        }
-        return primaryPanel;
-    }
-
-    public CommentPanel getPnlCommentUI() {
-        return pnlCommentPanel;
-    }
-    public ChartPrimaryPanel getPnlChartPrimary() {
-        if(pnlChartPrimary == null){
-            pnlChartPrimary = new ChartPrimaryPanel();
-            theChartPrimaryPanelController = new ChartPrimaryPanelController(pnlChartPrimary);
-            pnlChartPrimary.setVisible(true);
-            pnlChartPrimary.setLayout(null);
-        }
-        return pnlChartPrimary;
-    }
-    /*
     public void setSite_M_B_G(int M_B_G){
         Site_M_B_G = M_B_G;
     }
@@ -86,16 +42,16 @@ public class AppManager {
     }
 
     public MelonChartParser getMelonChartParser() {
-		return melon;
-	}
+        return melon;
+    }
     public BugsChartParser getBugsChartParser() {
-		return bugs;
-	}
-	public GenieChartParser getGenieChartParser() {
-		return genie;
-	}
+        return bugs;
+    }
+    public GenieChartParser getGenieChartParser() {
+        return genie;
+    }
 
-	public MusicChartParser getParser() {
+    public MusicChartParser getParser() {
         switch (Site_M_B_G) {
             case 1:
                 return melon;
@@ -104,12 +60,12 @@ public class AppManager {
             case 3:
                 return genie;
             default:
-            	return null;
+                return null;
         }
     }
-    
+
     public void DataPassing(Component parentComponent) {
-    	System.out.println("Parsing Data");
+        System.out.println("Parsing Data");
         switch (Site_M_B_G) {
             case 1:
                 melon.chartDataParsing(parentComponent);
@@ -174,33 +130,33 @@ public class AppManager {
         }
         return null;
     }
-    
+
     public void setJSONArray(JSONArray arr, int index) {
-    	switch(index) {
-    	case 0:
-    		chartData[0] = arr;
-    		return;
-    	case 1:
-    		chartData[1] = arr;
-    		return;
-    	case 2:
-    		chartData[2] = arr;
-    		return;
-    	default:
-    		throw new IndexOutOfBoundsException("the length of chartData is 3");
-    	}
+        switch(index) {
+            case 0:
+                chartData[0] = arr;
+                return;
+            case 1:
+                chartData[1] = arr;
+                return;
+            case 2:
+                chartData[2] = arr;
+                return;
+            default:
+                throw new IndexOutOfBoundsException("the length of chartData is 3");
+        }
     }
     public JSONArray getJSONArray(int index) {
-    	switch(index) {
-    	case 1:
-    		return chartData[1];
-    	case 2:
-    		return chartData[2];
-    	case 3:
-    		return chartData[3];
-    	default:
-    		throw new IndexOutOfBoundsException("the length of chartData is 3");
-    	}
+        switch(index) {
+            case 1:
+                return chartData[1];
+            case 2:
+                return chartData[2];
+            case 3:
+                return chartData[3];
+            default:
+                throw new IndexOutOfBoundsException("the length of chartData is 3");
+        }
     }
 
     public JSONArray getJSONArray() {
@@ -219,36 +175,8 @@ public class AppManager {
     public JSONArray getDisplayedJSONArray() {
         return chartData[Site_M_B_G];
     }
-    */
-    public void addToPrimaryPanel(JPanel pnlAdd){
-        if(primaryPanel == null){
-            primaryPanel = new JPanel();
-            primaryPanel.setVisible(true);
-            primaryPanel.setLayout(null);
-        }
-        pnlAdd.setVisible(true);
-        primaryPanel.add(pnlAdd);
-    }
-
-    public void PopUpCommentUI(int rank){
-        if(pnlCommentPanel == null) {
-            pnlCommentPanel = new CommentPanel();
-            theCommentPanelController = new CommentPanelController(pnlCommentPanel);
-            primaryPanel.add(pnlCommentPanel);
-        }
-        pnlCommentPanel.popUpCommentPanel(rank);
-        pnlCommentPanel.setVisible(true);
-        pnlChartPrimary.setVisible(false);
-    }
-
-    public void BackToChartPrimaryPanel(){
-        primaryPanel.repaint();
-        pnlCommentPanel.setVisible(false);
-        pnlChartPrimary.setVisible(true);
-    }
-
-    public static AppManager getS_instance() {
-        if(s_instance == null) s_instance = new AppManager();
+    public static ChartData getS_instance() {
+        if(s_instance == null) s_instance = new ChartData();
         return s_instance;
     }
 }
