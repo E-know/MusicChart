@@ -104,9 +104,14 @@ public class CommentPanelController {
         @Override
         public void actionPerformed(ActionEvent e) {
             theCommentPanel.clearMusicData();
-            AppManager.getS_instance().BackToChartPrimaryPanel();
+            BackToChartPrimaryPanel();
             System.out.println("Back To ChartPrimary");
         }//actionPerfomed
     }//ButtonBackListener
 
+    public void BackToChartPrimaryPanel(){
+        AppManager.getS_instance().getPrimaryPanel().repaint();
+        AppManager.getS_instance().getPnlCommentUI().setVisible(false);
+        AppManager.getS_instance().getChartPrimaryPanel().setVisible(true);
+    }
 }

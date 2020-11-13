@@ -39,41 +39,32 @@ public class AppManager {
     public CommentPanel getPnlCommentUI() {
         return pnlCommentPanel;
     }
-    public ChartPrimaryPanel getPnlChartPrimary() {
-        if (pnlChartPrimary == null) {
-            pnlChartPrimary = new ChartPrimaryPanel();
-            theChartPrimaryPanelController = new ChartPrimaryPanelController(pnlChartPrimary);
-            pnlChartPrimary.setVisible(true);
-            pnlChartPrimary.setLayout(null);
-        }
-        return pnlChartPrimary;
+    public ChartPrimaryPanel getChartPrimaryPanel() {return pnlChartPrimary;}
+    public void setPnlCommentPanel(){
+        pnlCommentPanel = new CommentPanel();
+        theCommentPanelController = new CommentPanelController(pnlCommentPanel);
     }
-
-    public void addToPrimaryPanel(JPanel pnlAdd){
+    public void setPnlChartPrimary(){
+        pnlChartPrimary = new ChartPrimaryPanel();
+        theChartPrimaryPanelController = new ChartPrimaryPanelController(pnlChartPrimary);
+    }
+    public void PrimaryPanel(){
         if(primaryPanel == null){
             primaryPanel = new JPanel();
             primaryPanel.setVisible(true);
             primaryPanel.setLayout(null);
         }
-        pnlAdd.setVisible(true);
-        primaryPanel.add(pnlAdd);
-    }
-
-    public void PopUpCommentUI(int rank){
-        if(pnlCommentPanel == null) {
-            pnlCommentPanel = new CommentPanel();
-            theCommentPanelController = new CommentPanelController(pnlCommentPanel);
-            primaryPanel.add(pnlCommentPanel);
-        }
-        pnlCommentPanel.popUpCommentPanel(rank);
-        pnlCommentPanel.setVisible(true);
-        pnlChartPrimary.setVisible(false);
-    }
-
-    public void BackToChartPrimaryPanel(){
-        primaryPanel.repaint();
-        pnlCommentPanel.setVisible(false);
+        setPnlCommentPanel();
+        setPnlChartPrimary();
+        addToPrimaryPanel(pnlCommentPanel);
+        addToPrimaryPanel(pnlChartPrimary);
+        //pnlChartPrimary.setLayout(null);
         pnlChartPrimary.setVisible(true);
+    }
+
+    public void addToPrimaryPanel(JPanel pnlAdd){
+        pnlAdd.setVisible(false);
+        primaryPanel.add(pnlAdd);
     }
 
     public static AppManager getS_instance() {

@@ -37,9 +37,7 @@ public class ChartData {
     public BugsChartParser getBugsChartParser() {
         return bugs;
     }
-    public GenieChartParser getGenieChartParser() {
-        return genie;
-    }
+    public GenieChartParser getGenieChartParser() { return genie; }
 
     public MusicChartParser getParser() {
         switch (Site_M_B_G) {
