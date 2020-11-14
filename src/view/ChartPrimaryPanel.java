@@ -11,7 +11,7 @@ import java.time.format.DateTimeFormatter;
 
 
 public class ChartPrimaryPanel extends JPanel{
-    public SitePanel pnlSitePanel;
+    public ChartPanel pnlChartPanel;
     private JButton btnRefresh, btnSite_M, btnSite_B, btnSite_G, btnSearch;
     public JLabel lblTime;
     public JComboBox<String> strCombo;
@@ -90,13 +90,13 @@ public class ChartPrimaryPanel extends JPanel{
         btnSite_G.addActionListener(ButtonGenie);
         add(btnSite_G);
 
-        pnlSitePanel = new SitePanel();
-        theSitePanelController = new SitePanelController(pnlSitePanel); //사이트 패널 컨트롤러 추가 선언
-        pnlSitePanel.setBounds(100,140,1080,700);
+        pnlChartPanel = new ChartPanel();
+        theSitePanelController = new SitePanelController(pnlChartPanel); //사이트 패널 컨트롤러 추가 선언
+        pnlChartPanel.setBounds(100,140,1080,700);
         LineBorder SiteBorder = new LineBorder(Color.BLACK,3);
-        pnlSitePanel.setBorder(SiteBorder);
-        pnlSitePanel.setLayout(null);
-        add(pnlSitePanel);
+        pnlChartPanel.setBorder(SiteBorder);
+        pnlChartPanel.setLayout(null);
+        add(pnlChartPanel);
 
         LocalDateTime current = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
