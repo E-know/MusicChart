@@ -8,81 +8,80 @@ import view.CommentPanel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.*;
 
 public class CommentPanelController {
     ConnectDB DB = new ConnectDB();
 
-    private final CommentPanel theCommentPanel;
+    private final CommentPanel the_Comment_Panel;
 
     public CommentPanelController(CommentPanel theCommentPanel) {
-        this.theCommentPanel = theCommentPanel;
-        this.theCommentPanel.addBtnRegisterListener(new ButtonRegisterListener());
-        this.theCommentPanel.addBtnDeleteListener(new ButtonDeleteListener());
-        this.theCommentPanel.addBtnBackListener(new ButtonBackListener());
+        this.the_Comment_Panel = theCommentPanel;
+        this.the_Comment_Panel.addBtnRegisterListener(new ButtonRegisterListener());
+        this.the_Comment_Panel.addBtnDeleteListener(new ButtonDeleteListener());
+        this.the_Comment_Panel.addBtnBackListener(new ButtonBackListener());
     }
 
     private class ButtonRegisterListener implements ActionListener{
-        private Component _viewLoading;
+        private Component view_Loading;
         public ButtonRegisterListener() { }
         public ButtonRegisterListener(Component parentComponent){
-            _viewLoading = parentComponent;
+            view_Loading = parentComponent;
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (!theCommentPanel._txtComment.getText().equals("")) {
-                DB.insertDB(theCommentPanel._sqlTitle,
-                        theCommentPanel._strArtist,
-                        ChartData.getS_instance().getParser().getAlbumName(theCommentPanel._strTitle),
+            if (!the_Comment_Panel._txtComment.getText().equals("")) {
+                DB.insertDB(the_Comment_Panel._sqlTitle,
+                        the_Comment_Panel._strArtist,
+                        ChartData.getS_instance().getParser().getAlbumName(the_Comment_Panel._strTitle),
                         ChartData.getS_instance().getSite_M_B_G(),
-                        theCommentPanel._txtComment.getText(),
-                        theCommentPanel._txtPassword.getText());
+                        the_Comment_Panel._txtComment.getText(),
+                        the_Comment_Panel._txtPassword.getText());
 
-                theCommentPanel._modelList.addElement(theCommentPanel._txtComment.getText());
-                theCommentPanel._arrComment.add(theCommentPanel._txtComment.getText());
+                the_Comment_Panel._modelList.addElement(the_Comment_Panel._txtComment.getText());
+                the_Comment_Panel._arrComment.add(the_Comment_Panel._txtComment.getText());
 
-                if (theCommentPanel._txtPassword.getText().equals(""))
-                    theCommentPanel._arrPassword.add("0000");
+                if (the_Comment_Panel._txtPassword.getText().equals(""))
+                    the_Comment_Panel._arrPassword.add("0000");
                 else
-                    theCommentPanel._arrPassword.add(theCommentPanel._txtPassword.getText());
+                    the_Comment_Panel._arrPassword.add(the_Comment_Panel._txtPassword.getText());
 
-                theCommentPanel.clearPanelTxt();
+                the_Comment_Panel.clearPanelTxt();
             }//obj == btnRegister
         }//actionPerfomed
     }//ButtonRegisterListener
 
     private class ButtonDeleteListener implements ActionListener{
-        private Component _viewLoading;
+        private Component view_Loading;
         public ButtonDeleteListener() { }
         public ButtonDeleteListener(Component parentComponent){
-            _viewLoading = parentComponent;
+            view_Loading = parentComponent;
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (Integer.parseInt(theCommentPanel._txtPassword.getText()) == Integer.parseInt(theCommentPanel._arrPassword.get(theCommentPanel._listComment.getSelectedIndex()))) {
-                System.out.println("Same Password! At : " + String.valueOf(theCommentPanel._listComment.getSelectedIndex()));
-                DB.deleteDB(theCommentPanel._sqlTitle,theCommentPanel._txtPassword.getText());
+            if (Integer.parseInt(the_Comment_Panel._txtPassword.getText()) == Integer.parseInt(the_Comment_Panel._arrPassword.get(the_Comment_Panel._listComment.getSelectedIndex()))) {
+                System.out.println("Same Password! At : " + String.valueOf(the_Comment_Panel._listComment.getSelectedIndex()));
+                DB.deleteDB(the_Comment_Panel._sqlTitle, the_Comment_Panel._txtPassword.getText());
                 
-                theCommentPanel._arrPassword.remove(theCommentPanel._listComment.getSelectedIndex());
-                theCommentPanel._arrComment.remove(theCommentPanel._listComment.getSelectedIndex());
-                theCommentPanel._modelList.removeElementAt(theCommentPanel._listComment.getSelectedIndex());
+                the_Comment_Panel._arrPassword.remove(the_Comment_Panel._listComment.getSelectedIndex());
+                the_Comment_Panel._arrComment.remove(the_Comment_Panel._listComment.getSelectedIndex());
+                the_Comment_Panel._modelList.removeElementAt(the_Comment_Panel._listComment.getSelectedIndex());
             }
-            theCommentPanel._txtPassword.setText("");
+            the_Comment_Panel._txtPassword.setText("");
         }//actionPerfomed
     }//ButtonDeleteListener
 
     private class ButtonBackListener implements ActionListener{
-        private Component _viewLoading;
+        private Component view_Loading;
         public ButtonBackListener() { }
         public ButtonBackListener(Component parentComponent){
-            _viewLoading = parentComponent;
+            view_Loading = parentComponent;
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            theCommentPanel.clearMusicData();
+            the_Comment_Panel.clearMusicData();
             BackToChartPrimaryPanel();
             System.out.println("Back To ChartPrimary");
         }//actionPerfomed
