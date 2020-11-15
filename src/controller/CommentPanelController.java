@@ -1,7 +1,8 @@
 package controller;
 
-import DB.*;
+import DB.ConnectDB;
 import main.AppManager;
+import model.ChartData;
 import view.CommentPanel;
 
 import java.awt.*;
@@ -10,102 +11,86 @@ import java.awt.event.ActionListener;
 import java.sql.*;
 
 public class CommentPanelController {
-    Connection con = null;
-    Statement stmt = null;
-    PreparedStatement pstmt = null;
-    ResultSet rs = null;
+    ConnectDB DB = new ConnectDB();
 
-
-    private CommentPanel the_Comment_Panel;
+    private final CommentPanel theCommentPanel;
 
     public CommentPanelController(CommentPanel theCommentPanel) {
-        this.the_Comment_Panel = theCommentPanel;
-        this.the_Comment_Panel.addBtnRegisterListener(new ButtonRegisterListener());
-        this.the_Comment_Panel.addBtnDeleteListener(new ButtonDeleteListener());
-        this.the_Comment_Panel.addBtnBackListener(new ButtonBackListener());
+        this.theCommentPanel = theCommentPanel;
+        this.theCommentPanel.addBtnRegisterListener(new ButtonRegisterListener());
+        this.theCommentPanel.addBtnDeleteListener(new ButtonDeleteListener());
+        this.theCommentPanel.addBtnBackListener(new ButtonBackListener());
     }
 
-
     private class ButtonRegisterListener implements ActionListener{
-        private Component view_Loading;
+        private Component _viewLoading;
         public ButtonRegisterListener() { }
         public ButtonRegisterListener(Component parentComponent){
-            view_Loading = parentComponent;
+            _viewLoading = parentComponent;
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (!the_Comment_Panel.txtComment.getText().equals("")) {
-                con = ConnectDB.GetDB();
-                try {
-                    String sql = "INSERT INTO songinfo VALUES (?, ?, ?, ?, ?, ?)";
-                    pstmt = con.prepareStatement(sql);
-                    pstmt.setString(1, the_Comment_Panel.sqltitle);
-                    pstmt.setString(2, the_Comment_Panel.strArtist);
-                    pstmt.setString(3, AppManager.getS_instance().getParser().getAlbumName(the_Comment_Panel.strTitle));
-                    pstmt.setInt(4, AppManager.getS_instance().getSite_M_B_G());
-                    pstmt.setString(5, the_Comment_Panel.txtComment.getText());
-                    pstmt.setString(6, the_Comment_Panel.txtPassword.getText());
-                    pstmt.executeUpdate();
-                    the_Comment_Panel.modelList.addElement(the_Comment_Panel.txtComment.getText());
+            if (!theCommentPanel._txtComment.getText().equals("")) {
+                DB.insertDB(theCommentPanel._sqlTitle,
+                        theCommentPanel._strArtist,
+                        ChartData.getS_instance().getParser().getAlbumName(theCommentPanel._strTitle),
+                        ChartData.getS_instance().getSite_M_B_G(),
+                        theCommentPanel._txtComment.getText(),
+                        theCommentPanel._txtPassword.getText());
 
-                    the_Comment_Panel.arrComment.add(the_Comment_Panel.txtComment.getText());
-                    if (the_Comment_Panel.txtPassword.getText().equals(""))
-                        the_Comment_Panel.arrPassword.add("0000");
-                    else
-                        the_Comment_Panel.arrPassword.add(the_Comment_Panel.txtPassword.getText());
-                    the_Comment_Panel.txtComment.setText("");
-                    the_Comment_Panel.txtPassword.setText("");
-                } catch (SQLException e1) {
-                    e1.printStackTrace();
-                }
+                theCommentPanel._modelList.addElement(theCommentPanel._txtComment.getText());
+                theCommentPanel._arrComment.add(theCommentPanel._txtComment.getText());
+
+                if (theCommentPanel._txtPassword.getText().equals(""))
+                    theCommentPanel._arrPassword.add("0000");
+                else
+                    theCommentPanel._arrPassword.add(theCommentPanel._txtPassword.getText());
+
+                theCommentPanel.clearPanelTxt();
             }//obj == btnRegister
         }//actionPerfomed
     }//ButtonRegisterListener
 
     private class ButtonDeleteListener implements ActionListener{
-        private Component view_Loading;
+        private Component _viewLoading;
         public ButtonDeleteListener() { }
         public ButtonDeleteListener(Component parentComponent){
-            view_Loading = parentComponent;
+            _viewLoading = parentComponent;
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (Integer.parseInt(the_Comment_Panel.txtPassword.getText()) == Integer.parseInt(the_Comment_Panel.arrPassword.get(the_Comment_Panel.listComment.getSelectedIndex()))) {
-                System.out.println("Same Password! At : " + String.valueOf(the_Comment_Panel.listComment.getSelectedIndex()));
-                the_Comment_Panel.con = ConnectDB.GetDB();
-                try {
-                    the_Comment_Panel.arrPassword.remove(the_Comment_Panel.listComment.getSelectedIndex());
-                    the_Comment_Panel.arrComment.remove(the_Comment_Panel.listComment.getSelectedIndex());
-                    the_Comment_Panel.modelList.removeElementAt(the_Comment_Panel.listComment.getSelectedIndex());
-                    String sql = "DELETE FROM songinfo WHERE title = ? AND pwd = ?";
-                    pstmt = con.prepareStatement(sql);
-                    pstmt.setString(1, the_Comment_Panel.sqltitle);
-                    pstmt.setString(2, the_Comment_Panel.txtPassword.getText());
-                    int temp = pstmt.executeUpdate();
-                } catch (SQLException e1) {
-                    e1.printStackTrace();
-                }
+            if (Integer.parseInt(theCommentPanel._txtPassword.getText()) == Integer.parseInt(theCommentPanel._arrPassword.get(theCommentPanel._listComment.getSelectedIndex()))) {
+                System.out.println("Same Password! At : " + String.valueOf(theCommentPanel._listComment.getSelectedIndex()));
+                DB.deleteDB(theCommentPanel._sqlTitle,theCommentPanel._txtPassword.getText());
+                
+                theCommentPanel._arrPassword.remove(theCommentPanel._listComment.getSelectedIndex());
+                theCommentPanel._arrComment.remove(theCommentPanel._listComment.getSelectedIndex());
+                theCommentPanel._modelList.removeElementAt(theCommentPanel._listComment.getSelectedIndex());
             }
-
-            the_Comment_Panel.txtPassword.setText("");
+            theCommentPanel._txtPassword.setText("");
         }//actionPerfomed
     }//ButtonDeleteListener
 
     private class ButtonBackListener implements ActionListener{
-        private Component view_Loading;
+        private Component _viewLoading;
         public ButtonBackListener() { }
         public ButtonBackListener(Component parentComponent){
-            view_Loading = parentComponent;
+            _viewLoading = parentComponent;
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            the_Comment_Panel.clearMusicData();
-            AppManager.getS_instance().BackToChartPrimaryPanel();
+            theCommentPanel.clearMusicData();
+            BackToChartPrimaryPanel();
             System.out.println("Back To ChartPrimary");
         }//actionPerfomed
     }//ButtonBackListener
 
+    public void BackToChartPrimaryPanel(){
+        AppManager.getS_instance().getPrimaryPanel().repaint();
+        AppManager.getS_instance().getPnlCommentUI().setVisible(false);
+        AppManager.getS_instance().getChartPrimaryPanel().setVisible(true);
+    }
 }

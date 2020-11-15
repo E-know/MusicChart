@@ -84,12 +84,12 @@ public class GenieChartParser extends MusicChartParser {
     private String genieChartParsingMessage = "지니 차트 100곡에 대한 정보를 불러오는 중 입니다 :)";
 
     public GenieChartParser() { // 초기화 작업을 진행함
-        songCount = 0;                // 파싱한 노래 개수(초기값은 0)
-        chartList = null;            // 차트 100곡에 대한 정보를 담을 JSONArray
-        songDetailInfo = null;        // 노래 한 곡에 대한 상세 정보를 담을 JSONObject
-        url = null;                    // 파싱할 웹 사이트 url
-        chartThread = null;            // 차트 100곡 파싱에 사용할 Thread
-        songDetailThread = null;    // 노래 한 곡에 대한 상세 정보 파싱에 사용할 Thread
+        _songCount = 0;                // 파싱한 노래 개수(초기값은 0)
+        _chartList = null;            // 차트 100곡에 대한 정보를 담을 JSONArray
+        _songDetailInfo = null;        // 노래 한 곡에 대한 상세 정보를 담을 JSONObject
+        _url = null;                    // 파싱할 웹 사이트 url
+        _chartThread = null;            // 차트 100곡 파싱에 사용할 Thread
+        _songDetailThread = null;    // 노래 한 곡에 대한 상세 정보 파싱에 사용할 Thread
         progressMonitor = null;    // ProgressMonitor를 사용하면 Thread가 종료되지 않는 버그와 ProgressMonitor가 제대로 나오지 않는 버그가 발생하여 사용하는 부분은 주석처리 해두었음
     } // constructor
 
@@ -97,12 +97,12 @@ public class GenieChartParser extends MusicChartParser {
         @Override
         public void run() {
             // 지니 차트 1~100위의 노래를 파싱함
-            songCount = 0;
-            url = "https://www.genie.co.kr/chart/top200";
+            _songCount = 0;
+            _url = "https://www.genie.co.kr/chart/top200";
 
             try {
                 // 지니 차트 연결에 필요한 header 설정 및 연결
-                Connection genieConnection1_50 = Jsoup.connect(url).header("Accept",
+                Connection genieConnection1_50 = Jsoup.connect(_url).header("Accept",
                         "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3")
                         .header("Upgrade-Insecure-Requests", "1")
                         .header("User-Agent",
@@ -115,7 +115,7 @@ public class GenieChartParser extends MusicChartParser {
                 // 1~50위에 대한 정보를 불러옴
                 Elements data1st50 = genieDocument1_50.select("table.list-wrap").first().select("tbody > tr.list");
 
-                chartList = new JSONArray();
+                _chartList = new JSONArray();
 
                 for (Element elem : data1st50) { // 1~50위에 대한 내용 파싱
                     // JSONObject에 데이터를 넣기 위한 작업
@@ -144,15 +144,15 @@ public class GenieChartParser extends MusicChartParser {
                     JSONObject jsonSongInfo = new JSONObject(songAllInfo);
 
                     // JSONArray에 값 추가
-                    chartList.add(jsonSongInfo);
-                    songCount++;
+                    _chartList.add(jsonSongInfo);
+                    _songCount++;
                     //	progressMonitor.setProgress(songCount);
                 }
 
                 String url51_100 = genieDocument1_50.select("div.page-nav.rank-page-nav").first().select("a").get(1).attr("href").toString();
 
                 // 지니 차트 연결에 필요한 header 설정 및 연결
-                Connection genieConnection51_100 = Jsoup.connect(url + url51_100).header("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3")
+                Connection genieConnection51_100 = Jsoup.connect(_url + url51_100).header("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3")
                         .header("Sec-Fetch-User", "?1")
                         .header("Upgrade-Insecure-Requests", "1")
                         .header("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36")
@@ -190,8 +190,8 @@ public class GenieChartParser extends MusicChartParser {
                     JSONObject jsonSongInfo = new JSONObject(songAllInfo);
 
                     // JSONArray에 값 추가, 노래 개수 증가
-                    chartList.add(jsonSongInfo);
-                    songCount++;
+                    _chartList.add(jsonSongInfo);
+                    _songCount++;
                     //progressMonitor.setProgress(songCount);
                 }
 
@@ -205,24 +205,24 @@ public class GenieChartParser extends MusicChartParser {
 
             } catch (HttpStatusException e) {
                 e.printStackTrace();
-                chartList = null;
-                songDetailInfo = null;
+                _chartList = null;
+                _songDetailInfo = null;
                 System.out.println("많은 요청으로 인해 불러오기에 실패하였습니다.");
-                songCount = 0;
+                _songCount = 0;
                 return;
             } catch (NullPointerException e) { // 데이터 긁어오는 데에 실패했을 때(태그나 속성이 없을 때)
                 e.printStackTrace();
-                chartList = null;
-                songDetailInfo = null;
+                _chartList = null;
+                _songDetailInfo = null;
                 System.out.println("Url 링크가 잘못되었거나, 웹 페이지 구조가 변경되어 파싱에 실패했습니다 :(");
-                songCount = 0;
+                _songCount = 0;
                 return;
             } catch (Exception e) { // 그 외의 모든 에러
                 e.printStackTrace();
-                chartList = null;
-                songDetailInfo = null;
+                _chartList = null;
+                _songDetailInfo = null;
                 System.out.println("파싱도중 에러가 발생했습니다 :(");
-                songCount = 0;
+                _songCount = 0;
                 return;
             }
         } // run()
@@ -232,12 +232,12 @@ public class GenieChartParser extends MusicChartParser {
         @Override
         public void run() {
             // 노래 한 곡에 대한 상세 정보 파싱
-            songCount = 0; // 노래 개수 초기화
+            _songCount = 0; // 노래 개수 초기화
             HashMap<String, Object> songAllInfo = new HashMap<String, Object>();
 
             try {
                 // songId를 통해 곡에 대한 상세한 정보를 얻기 위한 접근
-                Connection songDetailConnection = Jsoup.connect(url).header("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3")
+                Connection songDetailConnection = Jsoup.connect(_url).header("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3")
                         .header("Sec-Fetch-User", "?1")
                         .header("Upgrade-Insecure-Requests", "1")
                         .header("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36")
@@ -264,227 +264,152 @@ public class GenieChartParser extends MusicChartParser {
 
             } catch (HttpStatusException e) {
                 e.printStackTrace();
-                chartList = null;
-                songDetailInfo = null;
+                _chartList = null;
+                _songDetailInfo = null;
                 System.out.println("많은 요청으로 인해 불러오기에 실패하였습니다.");
-                songCount = 0;
+                _songCount = 0;
                 return;
             } catch (NullPointerException e) { // 데이터 긁어오는 데에 실패했을 때(태그나 속성이 없을 때)
                 e.printStackTrace();
-                chartList = null;
-                songDetailInfo = null;
+                _chartList = null;
+                _songDetailInfo = null;
                 System.out.println("Url 링크가 잘못되었거나, 웹 페이지 구조가 변경되어 파싱에 실패했습니다 :(");
-                songCount = 0;
+                _songCount = 0;
                 return;
             } catch (Exception e) { // 그 외의 모든 에러
                 e.printStackTrace();
-                chartList = null;
-                songDetailInfo = null;
+                _chartList = null;
+                _songDetailInfo = null;
                 System.out.println("파싱도중 에러가 발생했습니다 :(");
-                songCount = 0;
+                _songCount = 0;
                 return;
             }
-            songDetailInfo = new JSONObject(songAllInfo); // HashMap을 JSONObject로 변환하여 저장
-            songCount++; // 노래 개수 증가
+            _songDetailInfo = new JSONObject(songAllInfo); // HashMap을 JSONObject로 변환하여 저장
+            _songCount++; // 노래 개수 증가
         } // run()
     } // SongDetailDataParsingThread Runnable class
 
     @Override
     public void chartDataParsing(Component parentComponent) { // 차트 100곡을 파싱하는 Thread를 시작하는 메소드
-        if (chartThread != null) { // Thread를 사용하는게 처음이 아닐 때
-            if (chartThread.isAlive()) // Thread가 살아있으면 정지
-                chartThread.stop();
+        if (_chartThread != null) { // Thread를 사용하는게 처음이 아닐 때
+            if (_chartThread.isAlive()) // Thread가 살아있으면 정지
+                _chartThread.stop();
         }
-        chartThread = new Thread(new ChartDataParsingThread()); // Thread는 재사용이 안되기 때문에 다시 객체를 생성함
+        _chartThread = new Thread(new ChartDataParsingThread()); // Thread는 재사용이 안되기 때문에 다시 객체를 생성함
         // progressMonitorManager(parentComponent, genieChartParsingTitle, genieChartParsingMessage);
-        chartThread.start(); // Thread 시작
+        _chartThread.start(); // Thread 시작
         try {
-            chartThread.join(); // ChartDataParsingThread가 종료되기전까지 대기
+            _chartThread.join(); // ChartDataParsingThread가 종료되기전까지 대기
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
     } // chartDataParsing(Component parentComponent)
-
-    @Override
-    public void songDetailDataParsing(String songId, Component parentComponent) { // 노래 한 곡에 대한 상세 정보를 파싱하는 Thread를 시작하는 메소드
-        url = "https://www.genie.co.kr/detail/songInfo?xgnm=" + songId; // 파싱할 url을 만듬
-        if (songDetailThread != null) { // Thread를 사용하는 게 처음이 아닐 때
-            if (songDetailThread.isAlive()) // Thread가 살아있으면 정지
-                songDetailThread.stop();
-        }
-        songDetailThread = new Thread(new SongDetailDataParsingThread()); // Thread는 재사용이 안되기 때문에 다시 객체를 생성함
-        // progressMonitorManager는 생략했음
-        songDetailThread.start(); // Thread 시작
-        try {
-            songDetailThread.join(); // SongDetailDataParsingThread가 종료되기 전까지 대기
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    } // songDetailDataParsing(String songId, Component parentComponent)
-
     @Override
     public void songDetailDataParsing(JSONObject obj, Component parentComponent) { // 노래 한 곡에 대한 상세 정보를 파싱하는 Thread를 시작하는 메소드
         if (obj == null) {
-            System.out.println(plzUseRightJSONObject);
+            System.out.println(_plzUseRightJSONObject);
             return;
         }
 
         if (!obj.containsKey("songId")) { // songId key값 유효성 검사
-            System.out.println(jsonDontHaveKey);
+            System.out.println(_jsonDontHaveKey);
             return;
         }
-        url = "https://www.genie.co.kr/detail/songInfo?xgnm=" + obj.get("songId").toString(); // 파싱할 url을 만듬
-        if (songDetailThread != null) { // Thread를 사용하는 게 처음이 아닐 때
-            if (songDetailThread.isAlive()) // Thread가 살아있으면 정지
-                songDetailThread.stop();
+        _url = "https://www.genie.co.kr/detail/songInfo?xgnm=" + obj.get("songId").toString(); // 파싱할 url을 만듬
+        if (_songDetailThread != null) { // Thread를 사용하는 게 처음이 아닐 때
+            if (_songDetailThread.isAlive()) // Thread가 살아있으면 정지
+                _songDetailThread.stop();
         }
-        songDetailThread = new Thread(new SongDetailDataParsingThread()); // Thread는 재사용이 안되기 때문에 다시 객체를 생성함
-        songDetailThread.start();
+        _songDetailThread = new Thread(new SongDetailDataParsingThread()); // Thread는 재사용이 안되기 때문에 다시 객체를 생성함
+        _songDetailThread.start();
         try {
-            songDetailThread.join(); // SongDetailDataParsingThread가 종료되기 전까지 대기
+            _songDetailThread.join(); // SongDetailDataParsingThread가 종료되기 전까지 대기
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
     } // songDetailDataParsing(JSONObject jObj, Component parentComponent)
-
-    @Override
-    public void songDetailDataParsing(int rank, JSONArray chartListData, Component parentComponent) { // 노래 한 곡에 대한 상세 정보를 파싱하는 Thread를 시작하는 메소드
-        if (chartListData == null) {
-            System.out.println("차트 파싱된 데이터가 없어 메소드 실행을 종료합니다 :(");
-            return;
-        }
-        url = "https://www.genie.co.kr/detail/songInfo?xgnm=" + ((JSONObject) chartListData.get(rank - 1)).get("songId").toString(); // 파싱할 url을 만듬
-
-        if (songDetailThread != null) { // Thread를 사용하는 게 처음이 아닐 때
-            if (songDetailThread.isAlive()) // Thread가 살아있으면 정지
-                songDetailThread.stop();
-        }
-        songDetailThread = new Thread(new SongDetailDataParsingThread()); // Thread는 재사용이 안되기 때문에 다시 객체를 생성함
-        songDetailThread.start();
-        try {
-            songDetailThread.join(); // SongDetailDataParsingThread가 종료되기 전까지 대기
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    } // songDetailDataParsing(int rank, JSONArray chartListData, Component parentComponent)
-
-    @Override
-    public void songDetailDataParsing(String title, JSONArray chartListData, Component parentComponent) { // 노래 한 곡에 대한 상세 정보를 파싱하는 Thread를 시작하는 메소드
-        /* 비추천 하는 메소드 입니다. title에 맞는 데이터를 처음부터 찾아가야 하기 때문에 좀 더 비효율적입니다. */
-        String tmpSongId = null;
-
-        if (chartListData == null) {
-            System.out.println("차트 파싱된 데이터가 없어 메소드 실행을 종료합니다 :(");
-            return;
-        }
-
-        for (int i = 0; i < 100; i++) { // 차트 100곡의 데이터에서 title에 맞는 데이터를 찾아 songId 얻어내어 파싱할 url을 만듬
-            if (((JSONObject) chartListData.get(i)).get("title").toString() == title) {
-                url = "https://www.genie.co.kr/detail/songInfo?xgnm=" + ((JSONObject) chartListData.get(i)).get("songId").toString();
-                tmpSongId = ((JSONObject) chartListData.get(i)).get("songId").toString();
-                break;
-            }
-        }
-        if (tmpSongId == null) {
-            System.out.println("제목에 해당하는 노래가 차트 데이터에 없어 불러올 수 없습니다 :(");
-            return;
-        } else {
-            if (songDetailThread != null) { // Thread를 사용하는 게 처음이 아닐 때
-                if (songDetailThread.isAlive()) // Thread가 살아있으면 정지
-                    songDetailThread.stop();
-            }
-            songDetailThread = new Thread(new SongDetailDataParsingThread()); // Thread는 재사용이 안되기 때문에 다시 객체를 생성함
-            songDetailThread.start();
-            try {
-                songDetailThread.join(); // SongDetailDataParsingThread가 종료되기 전까지 대기
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    } // songDetailDataParsing(String title, JSONArray chartListData, Component parentComponent)
-
     // 지니는 발매일(releaseDate)를 웹 페이지에서 보여주지 않아 getReleaseDate 메소드가 없음
 
     // songDetailDataParsing 후에만 사용가능한 메소드
     public String getGenre() { // 노래 한 곡에 대한 상세 파싱이 이루어졌다면 그 곡의 장르를 반환하는 메소드
         if (!isParsed()) { // 파싱이 이루어졌다면
-            System.out.println(isNotParsed);
+            System.out.println(_isNotParsed);
             return null;
         }
-        if (songCount == 1) // 노래 한 곡에 대한 상세 파싱이 이루어졌다면
-            return songDetailInfo.get("genre").toString();
+        if (_songCount == 1) // 노래 한 곡에 대한 상세 파싱이 이루어졌다면
+            return _songDetailInfo.get("genre").toString();
 
-        System.out.println("getGenre() : " + isOnlyDetailParse);
+        System.out.println("getGenre() : " + _isOnlyDetailParse);
         return null;
     } // String getGenre()
 
     // songDetailDataParsing 후에만 사용가능한 메소드
     public String getGenre(JSONObject jObj) { // 노래 한 곡에 대한 상세 파싱이 이루어졌다면 JSONObject를 이용하여 그 곡의 장르를 반환하는 메소드
         if (!isParsed()) { // 파싱이 이루어졌다면
-            System.out.println(isNotParsed);
+            System.out.println(_isNotParsed);
             return null;
         }
 
         if (jObj == null) {
-            System.out.println(plzUseRightJSONObject);
+            System.out.println(_plzUseRightJSONObject);
             return null;
         }
 
-        if (songCount == 1) { // 노래 한 곡에 대한 상세 파싱이 이루어졌다면
+        if (_songCount == 1) { // 노래 한 곡에 대한 상세 파싱이 이루어졌다면
             if (jObj.containsKey("genre")) // genre key값에 대한 유효성 검사
                 return jObj.get("genre").toString();
             else {
-                System.out.println(jsonDontHaveKey);
+                System.out.println(_jsonDontHaveKey);
                 return null;
             }
         }
 
-        System.out.println("getGenre(JSONObject jObj) : " + isOnlyDetailParse);
+        System.out.println("getGenre(JSONObject jObj) : " + _isOnlyDetailParse);
         return null;
     } // String getGenre(JSONObject jObj)
 
     // songDetailDataParsing 후에만 사용가능한 메소드
     public String getSongTime() { // 노래 한 곡에 대한 상세 파싱이 이루어졌다면 그 곡의 재생 시간을 반환하는 메소드
         if (!isParsed()) { // 파싱이 이루어졌다면
-            System.out.println(isNotParsed);
+            System.out.println(_isNotParsed);
             return null;
         }
-        if (songCount == 1) // 노래 한 곡에 대한 상세 파싱이 이루어졌다면
-            return songDetailInfo.get("songTime").toString();
+        if (_songCount == 1) // 노래 한 곡에 대한 상세 파싱이 이루어졌다면
+            return _songDetailInfo.get("songTime").toString();
 
-        System.out.println("getSongTime() : " + isOnlyDetailParse);
+        System.out.println("getSongTime() : " + _isOnlyDetailParse);
         return null;
     } // String getSongTime()
 
     // songDetailDataParsing 후에만 사용가능한 메소드
     public String getSongTime(JSONObject jObj) { // 노래 한 곡에 대한 상세 파싱이 이루어졌다면 JSONObject를 이용하여 그 곡의 재생 시간을 반환하는 메소드
         if (!isParsed()) { // 파싱이 이루어졌다면
-            System.out.println(isNotParsed);
+            System.out.println(_isNotParsed);
             return null;
         }
 
         if (jObj == null) {
-            System.out.println(plzUseRightJSONObject);
+            System.out.println(_plzUseRightJSONObject);
             return null;
         }
 
-        if (songCount == 1) // 노래 한 곡에 대한 상세 파싱이 이루어졌다면
+        if (_songCount == 1) // 노래 한 곡에 대한 상세 파싱이 이루어졌다면
             return jObj.get("songTime").toString();
 
-        System.out.println(jsonDontHaveKey);
+        System.out.println(_jsonDontHaveKey);
         return null;
     } // String getSongTime(JSONObject jObj)
 
     // songDetailDataParsing 후에만 사용가능한 메소드
     public String getLikeNum() { // 노래 한 곡에 대한 상세 파싱이 이루어졌다면 그 곡의 좋아요 개수를 반환하는 메소드
         if (!isParsed()) { // 파싱이 이루어졌다면
-            System.out.println(isNotParsed);
+            System.out.println(_isNotParsed);
             return null;
         }
-        if (songCount == 1) // 노래 한 곡에 대한 상세 파싱이 이루어졌다면
-            return songDetailInfo.get("likeNum").toString();
+        if (_songCount == 1) // 노래 한 곡에 대한 상세 파싱이 이루어졌다면
+            return _songDetailInfo.get("likeNum").toString();
 
-        System.out.println("getLikeNum() : " + isOnlyDetailParse);
+        System.out.println("getLikeNum() : " + _isOnlyDetailParse);
         return null;
     } // String getLikeNum()
 
