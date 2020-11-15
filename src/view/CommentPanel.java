@@ -2,6 +2,8 @@ package view;
 
 import DB.ConnectDB;
 import main.AppManager;
+import model.ChartData;
+import model.DetailData;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -162,12 +164,12 @@ public class CommentPanel extends JPanel {
     //==================================================================================================================
 
     private void inputMusicInfoToPnlMusicInfo(int rank) {
-        _lblTitle.setText("Title : " + AppManager.getS_instance().getParser().getTitle(rank));
-        _lblArtist.setText("Artist : " + AppManager.getS_instance().getParser().getArtistName(rank));
+        _lblTitle.setText("Title : " + ChartData.getS_instance().getParser().getTitle(rank));
+        _lblArtist.setText("Artist : " + ChartData.getS_instance().getParser().getArtistName(rank));
 
         try {
-            AppManager.getS_instance().detailDataPassing(rank, AppManager.getS_instance().getParser().getChartList(), this);
-            URL url = new URL(AppManager.getS_instance().getDetailParser().getImageUrl(rank));
+            DetailData.getS_instance().detailDataPassing(rank, ChartData.getS_instance().getParser().getChartList(), this);
+            URL url = new URL(DetailData.getS_instance().getDetailParser().getImageUrl(rank));
             Image image = ImageIO.read(url).getScaledInstance(160, 160, Image.SCALE_SMOOTH);
             _lblImage.setIcon(new ImageIcon(image));
         } catch (MalformedURLException e) {
@@ -196,9 +198,9 @@ public class CommentPanel extends JPanel {
      *   덧글과 각 비밀번호가 적혀있는 txt 파일을 읽어와 각각의 ArrayList에 저장하는 메소드
      * */
     private void readCommentFromDB(int rank) {
-        _sqlTitle = AppManager.getS_instance().getParser().getTitle(rank);
-        _strTitle = AppManager.getS_instance().getParser().getTitle(rank);
-        _strArtist = AppManager.getS_instance().getParser().getArtistName(rank);
+        _sqlTitle = ChartData.getS_instance().getParser().getTitle(rank);
+        _strTitle = ChartData.getS_instance().getParser().getTitle(rank);
+        _strArtist = ChartData.getS_instance().getParser().getArtistName(rank);
         if (_sqlTitle.contains("'")) {
             _sqlTitle = _sqlTitle.replace("'", ":");
         }

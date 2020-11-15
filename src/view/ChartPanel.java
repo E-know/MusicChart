@@ -5,7 +5,7 @@ import java.net.*;
 import java.util.Comparator;
 import javax.swing.*;
 import javax.swing.table.*;
-import main.AppManager;
+import model.ChartData;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -95,10 +95,10 @@ public class ChartPanel extends JPanel {
     }
 
     private void setInitTableModel(){
-        if(!AppManager.getS_instance().getParser().isParsed())
-            AppManager.getS_instance().getParser().chartDataParsing(this); //Melon 차트 정보 받아옴
+        if(!ChartData.getS_instance().getParser().isParsed())
+			ChartData.getS_instance().getParser().chartDataParsing(this); //Melon 차트 정보 받아옴
 
-        tableModel = new ChartModel(AppManager.getS_instance().getParser().getChartList());
+        tableModel = new ChartModel(ChartData.getS_instance().getParser().getChartList());
     }
     /*
 	Name: buildTable
@@ -150,7 +150,7 @@ public class ChartPanel extends JPanel {
 	Description: 다른 사이트의 차트를 표시하거나 새로고침할 때 표시되는 내용을 변경 
 	*/
 	public void changeData() {
-		switch(AppManager.getS_instance().getSite_M_B_G()){
+		switch(ChartData.getS_instance().getSite_M_B_G()){
 			case 1:
 				strChartName = "Melon";
 				break;
@@ -162,7 +162,7 @@ public class ChartPanel extends JPanel {
 				break;
 		}
 		lblTitle.setText(strChartName + " TOP 100");
-		tableModel.setContents(AppManager.getS_instance().getParser().getChartList());
+		tableModel.setContents(ChartData.getS_instance().getParser().getChartList());
 		makeTable();
 		tableChart.repaint();
 	}

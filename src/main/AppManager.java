@@ -1,8 +1,6 @@
 package main;
 
 import controller.*;
-import model.*;
-import org.json.simple.JSONArray;
 import view.ChartPrimaryPanel;
 import view.CommentPanel;
 
@@ -11,35 +9,14 @@ import java.awt.*;
 
 public class AppManager {
     private static AppManager s_instance;
-    private int Site_M_B_G;
-    private MelonChartParser melon;
-    private BugsChartParser bugs;
-    private GenieChartParser genie;
-    private JSONArray[] chartData;
     private CommentPanel pnlCommentPanel;
     private ChartPrimaryPanel pnlChartPrimary;
     private JPanel primaryPanel;
-    private MelonChartParser detailMelon;
-    private BugsChartParser detailBugs;
-    private GenieChartParser detailGenie;
     private ChartPrimaryPanelController theChartPrimaryPanelController;
     private CommentPanelController theCommentPanelController;
 
     private AppManager(){
     	s_instance = this;
-
-        Site_M_B_G = 1;
-        chartData = new JSONArray[4];
-        chartData[1] = new JSONArray();
-        chartData[2] = new JSONArray();
-        chartData[3] = new JSONArray();
-
-        melon = new MelonChartParser();
-        bugs = new BugsChartParser();
-        genie = new GenieChartParser();
-        detailMelon = null;
-        detailBugs = null;
-        detailGenie = null;
     }
 
     public JPanel getPrimaryPanel(){
@@ -62,183 +39,32 @@ public class AppManager {
     public CommentPanel getPnlCommentUI() {
         return pnlCommentPanel;
     }
-    public ChartPrimaryPanel getPnlChartPrimary() {
-        if(pnlChartPrimary == null){
-            pnlChartPrimary = new ChartPrimaryPanel();
-            theChartPrimaryPanelController = new ChartPrimaryPanelController(pnlChartPrimary);
-            pnlChartPrimary.setVisible(true);
-            pnlChartPrimary.setLayout(null);
-        }
-        return pnlChartPrimary;
+    public ChartPrimaryPanel getChartPrimaryPanel() {return pnlChartPrimary;}
+    public void setPnlCommentPanel(){
+        pnlCommentPanel = new CommentPanel();
+        theCommentPanelController = new CommentPanelController(pnlCommentPanel);
     }
-
-    public void setSite_M_B_G(int M_B_G){
-        Site_M_B_G = M_B_G;
+    public void setPnlChartPrimary(){
+        pnlChartPrimary = new ChartPrimaryPanel();
+        theChartPrimaryPanelController = new ChartPrimaryPanelController(pnlChartPrimary);
     }
-    public int getSite_M_B_G() {
-        return Site_M_B_G;
-    }
-
-    public MelonChartParser getMelonChartParser() {
-		return melon;
-	}
-    public BugsChartParser getBugsChartParser() {
-		return bugs;
-	}
-	public GenieChartParser getGenieChartParser() {
-		return genie;
-	}
-
-	public MusicChartParser getParser() {
-        switch (Site_M_B_G) {
-            case 1:
-                return melon;
-            case 2:
-                return bugs;
-            case 3:
-                return genie;
-            default:
-            	return null;
-        }
-    }
-    
-    public void DataPassing(Component parentComponent) {
-    	System.out.println("Parsing Data");
-        switch (Site_M_B_G) {
-            case 1:
-                melon.chartDataParsing(parentComponent);
-                break;
-            case 2:
-                bugs.chartDataParsing(parentComponent);
-                break;
-            case 3:
-                genie.chartDataParsing(parentComponent);
-                break;
-        }
-    }
-
-    public void detailDataPassing(int rank, JSONArray chartListData, Component parentComponent){
-        System.out.println("Parsing Detail Data");
-        switch(Site_M_B_G){
-            case 1:
-                if(detailMelon == null) detailMelon = new MelonChartParser();
-                detailMelon.songDetailDataParsing(rank, chartListData, parentComponent);
-                //Parsing Method
-                break;
-            case 2:
-                if(detailBugs == null)
-                    detailBugs = new BugsChartParser();
-                detailBugs.songDetailDataParsing(rank, chartListData, parentComponent);
-                System.out.println("Bugs Detail Parse");
-                //Parsing Method
-                break;
-            case 3:
-                if(detailGenie == null)
-                    detailGenie = new GenieChartParser();
-                detailGenie.songDetailDataParsing(rank, chartListData, parentComponent);
-                System.out.println("Genie Detail Parse");
-                //Parsing Method
-                break;
-        }
-    }
-
-    public MusicChartParser getDetailParser() {
-        System.out.println("Parsing Detail Data");
-        switch (Site_M_B_G) {
-            case 1:
-                if (detailMelon == null) {
-                    System.out.println("Parser is not exist");
-                    break;
-                }
-                return detailMelon;
-            case 2:
-                if (detailBugs == null) {
-                    System.out.println("Parser is not exist");
-                    //return Parser
-                    break;
-                }
-                return detailBugs;
-            case 3:
-                if (detailGenie == null) {
-                    System.out.println("Parser is not exist");
-                    //return Parser
-                    break;
-                }
-                return detailGenie;
-        }
-        return null;
-    }
-    
-    public void setJSONArray(JSONArray arr, int index) {
-    	switch(index) {
-    	case 0:
-    		chartData[0] = arr;
-    		return;
-    	case 1:
-    		chartData[1] = arr;
-    		return;
-    	case 2:
-    		chartData[2] = arr;
-    		return;
-    	default:
-    		throw new IndexOutOfBoundsException("the length of chartData is 3");
-    	}
-    }
-    public JSONArray getJSONArray(int index) {
-    	switch(index) {
-    	case 1:
-    		return chartData[1];
-    	case 2:
-    		return chartData[2];
-    	case 3:
-    		return chartData[3];
-    	default:
-    		throw new IndexOutOfBoundsException("the length of chartData is 3");
-    	}
-    }
-
-    public JSONArray getJSONArray() {
-        switch(Site_M_B_G) {
-            case 0:
-                return chartData[1];
-            case 1:
-                return chartData[2];
-            case 2:
-                return chartData[3];
-            default:
-                throw new IndexOutOfBoundsException("the length of chartData is 3");
-        }
-    }
-
-    public JSONArray getDisplayedJSONArray() {
-        return chartData[Site_M_B_G];
-    }
-
-    public void addToPrimaryPanel(JPanel pnlAdd){
+    public void PrimaryPanel(){
         if(primaryPanel == null){
             primaryPanel = new JPanel();
             primaryPanel.setVisible(true);
             primaryPanel.setLayout(null);
         }
-        pnlAdd.setVisible(true);
-        primaryPanel.add(pnlAdd);
-    }
-
-    public void PopUpCommentUI(int rank){
-        if(pnlCommentPanel == null) {
-            pnlCommentPanel = new CommentPanel();
-            theCommentPanelController = new CommentPanelController(pnlCommentPanel);
-            primaryPanel.add(pnlCommentPanel);
-        }
-        pnlCommentPanel.popUpCommentPanel(rank);
-        pnlCommentPanel.setVisible(true);
-        pnlChartPrimary.setVisible(false);
-    }
-
-    public void BackToChartPrimaryPanel(){
-        primaryPanel.repaint();
-        pnlCommentPanel.setVisible(false);
+        setPnlCommentPanel();
+        setPnlChartPrimary();
+        addToPrimaryPanel(pnlCommentPanel);
+        addToPrimaryPanel(pnlChartPrimary);
+        //pnlChartPrimary.setLayout(null);
         pnlChartPrimary.setVisible(true);
+    }
+
+    public void addToPrimaryPanel(JPanel pnlAdd){
+        pnlAdd.setVisible(false);
+        primaryPanel.add(pnlAdd);
     }
 
     public static AppManager getS_instance() {

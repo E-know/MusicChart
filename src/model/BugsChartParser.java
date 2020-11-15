@@ -258,23 +258,6 @@ public class BugsChartParser extends MusicChartParser {
     } // chartDataParsing(Component parentComponent)
 
     @Override
-    public void songDetailDataParsing(String songId, Component parentComponent) { // 노래 한 곡에 대한 상세 정보를 파싱하는 Thread를 시작하는 메소드
-        _url = "https://music.bugs.co.kr/track/" + songId + "?wl_ref=list_tr_08_chart"; // 파싱할 url을 만듬
-        if (_songDetailThread != null) { // Thread를 사용하는 게 처음이 아닐 때
-            if (_songDetailThread.isAlive()) // Thread가 살아있으면 정지
-                _songDetailThread.stop();
-        }
-        _songDetailThread = new Thread(new SongDetailDataParsingThread()); // Thread는 재사용이 안되기 때문에 다시 객체를 생성함
-        // progressMonitorManager는 생략했음
-        _songDetailThread.start(); // Thread 시작
-        try {
-            _songDetailThread.join(); // SongDetailDataParsingThread가 종료되기 전까지 대기
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    } // songDetailDataParsing(String songId, Component parentComponent)
-
-    @Override
     public void songDetailDataParsing(JSONObject obj, Component parentComponent) { // 노래 한 곡에 대한 상세 정보를 파싱하는 Thread를 시작하는 메소드
         if (obj == null) {
             System.out.println(_plzUseRightJSONObject);
@@ -298,63 +281,6 @@ public class BugsChartParser extends MusicChartParser {
             e.printStackTrace();
         }
     } // songDetailDataParsing(JSONObject jObj, Component parentComponent)
-
-    @Override
-    public void songDetailDataParsing(int rank, JSONArray chartListData, Component parentComponent) { // 노래 한 곡에 대한 상세 정보를 파싱하는 Thread를 시작하는 메소드
-        if (chartListData == null) {
-            System.out.println("차트 파싱된 데이터가 없어 메소드 실행을 종료합니다 :(");
-            return;
-        }
-        _url = "https://music.bugs.co.kr/track/" + ((JSONObject) chartListData.get(rank - 1)).get("songId").toString()
-                + "?wl_ref=list_tr_08_chart"; // 파싱할 url을 만듬
-        if (_songDetailThread != null) { // Thread를 사용하는 게 처음이 아닐 때
-            if (_songDetailThread.isAlive()) // Thread가 살아있으면 정지
-                _songDetailThread.stop();
-        }
-        _songDetailThread = new Thread(new SongDetailDataParsingThread()); // Thread는 재사용이 안되기 때문에 다시 객체를 생성함
-        _songDetailThread.start();
-        try {
-            _songDetailThread.join(); // SongDetailDataParsingThread가 종료되기 전까지 대기
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    } // songDetailDataParsing(int rank, JSONArray chartListData, Component parentComponent)
-
-    @Override
-    public void songDetailDataParsing(String title, JSONArray chartListData, Component parentComponent) { // 노래 한 곡에 대한 상세 정보를 파싱하는 Thread를 시작하는 메소드
-        /* 비추천 하는 메소드 입니다. title에 맞는 데이터를 처음부터 찾아가야 하기 때문에 좀 더 비효율적입니다. */
-        String tmpSongId = null;
-
-        if (chartListData == null) {
-            System.out.println("차트 파싱된 데이터가 없어 메소드 실행을 종료합니다 :(");
-            return;
-        }
-
-        for (int i = 0; i < 100; i++) { // 차트 100곡의 데이터에서 title에 맞는 데이터를 찾아 songId 얻어내어 파싱할 url을 만듬
-            if (((JSONObject) chartListData.get(i)).get("title").toString() == title) {
-                _url = "https://music.bugs.co.kr/track/" + ((JSONObject) chartListData.get(i)).get("songId").toString()
-                        + "?wl_ref=list_tr_08_chart";
-                tmpSongId = ((JSONObject) chartListData.get(i)).get("songId").toString();
-                break;
-            }
-        }
-        if (tmpSongId == null) {
-            System.out.println("제목에 해당하는 노래가 차트 데이터에 없어 불러올 수 없습니다 :(");
-            return;
-        } else {
-            if (_songDetailThread != null) { // Thread를 사용하는 게 처음이 아닐 때
-                if (_songDetailThread.isAlive()) // Thread가 살아있으면 정지
-                    _songDetailThread.stop();
-            }
-            _songDetailThread = new Thread(new SongDetailDataParsingThread()); // Thread는 재사용이 안되기 때문에 다시 객체를 생성함
-            _songDetailThread.start();
-            try {
-                _songDetailThread.join(); // SongDetailDataParsingThread가 종료되기 전까지 대기
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    } // songDetailDataParsing(String title, JSONArray chartListData, Component parentComponent)
 
     // songDetailDataParsing 후에만 사용가능한 메소드
     public String getLikeNum() { // 노래 한 곡에 대한 상세 파싱이 이루어졌다면 그 곡의 좋아요 개수를 반환하는 메소드

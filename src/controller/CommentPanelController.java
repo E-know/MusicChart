@@ -2,6 +2,7 @@ package controller;
 
 import DB.ConnectDB;
 import main.AppManager;
+import model.ChartData;
 import view.CommentPanel;
 
 import java.awt.*;
@@ -33,8 +34,8 @@ public class CommentPanelController {
             if (!theCommentPanel._txtComment.getText().equals("")) {
                 DB.insertDB(theCommentPanel._sqlTitle,
                         theCommentPanel._strArtist,
-                        AppManager.getS_instance().getParser().getAlbumName(theCommentPanel._strTitle),
-                        AppManager.getS_instance().getSite_M_B_G(),
+                        ChartData.getS_instance().getParser().getAlbumName(theCommentPanel._strTitle),
+                        ChartData.getS_instance().getSite_M_B_G(),
                         theCommentPanel._txtComment.getText(),
                         theCommentPanel._txtPassword.getText());
 
@@ -82,9 +83,14 @@ public class CommentPanelController {
         @Override
         public void actionPerformed(ActionEvent e) {
             theCommentPanel.clearMusicData();
-            AppManager.getS_instance().BackToChartPrimaryPanel();
+            BackToChartPrimaryPanel();
             System.out.println("Back To ChartPrimary");
         }//actionPerfomed
     }//ButtonBackListener
 
+    public void BackToChartPrimaryPanel(){
+        AppManager.getS_instance().getPrimaryPanel().repaint();
+        AppManager.getS_instance().getPnlCommentUI().setVisible(false);
+        AppManager.getS_instance().getChartPrimaryPanel().setVisible(true);
+    }
 }
