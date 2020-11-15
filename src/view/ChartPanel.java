@@ -17,7 +17,7 @@ import org.json.simple.JSONObject;
 
 //encoding: UTF-8
 @SuppressWarnings("serial")
-public class SitePanel extends JPanel {
+public class ChartPanel extends JPanel {
 	// - - - - - 인스턴스 데이터 - - - - -
 	//차트 위에 표시되는 제목
 	private JLabel lblTitle;
@@ -47,7 +47,7 @@ public class SitePanel extends JPanel {
 	private ClickListener clkListener;
 	
 	// - - - - - 생성자 - - - - -
-	public SitePanel() {
+	public ChartPanel() {
 		strChartName = "Melon"; //프로그램 실행 직후 Melon 차트를 표시하기 위함
 		clkListener = new ClickListener();
 		

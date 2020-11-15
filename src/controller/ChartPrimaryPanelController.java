@@ -1,7 +1,6 @@
 package controller;
 
 import model.ChartData;
-import main.AppManager;
 import view.ChartPrimaryPanel;
 import java.awt.*;
 import java.awt.event.*;
@@ -71,10 +70,10 @@ public class ChartPrimaryPanelController {
             ChartData.getS_instance().setSite_M_B_G(1);
             if(!ChartData.getS_instance().getParser().isParsed()) ChartData.getS_instance().DataPassing(_viewLoading);
             System.out.println("Melon");
-            theChartPrimaryPanel.pnlSitePanel.changeData();
+            theChartPrimaryPanel.pnlChartPanel.changeData();
             theChartPrimaryPanel.lblTime.setText("Renewal time : " + theChartPrimaryPanel.formatted_Melon);
             theChartPrimaryPanel.txtSearch.setText("");
-            theChartPrimaryPanel.pnlSitePanel.filter(null,2);
+            theChartPrimaryPanel.pnlChartPanel.filter(null,2);
         }
     }//ButtonMelonListener
 
@@ -92,10 +91,10 @@ public class ChartPrimaryPanelController {
             ChartData.getS_instance().setSite_M_B_G(2);
             if(!ChartData.getS_instance().getParser().isParsed()) ChartData.getS_instance().DataPassing(_viewLoading);
             System.out.println("Bugs");
-            theChartPrimaryPanel.pnlSitePanel.changeData();
+            theChartPrimaryPanel.pnlChartPanel.changeData();
             theChartPrimaryPanel.lblTime.setText("Renewal time : " + theChartPrimaryPanel.formatted_Bugs);
             theChartPrimaryPanel.txtSearch.setText("");
-            theChartPrimaryPanel.pnlSitePanel.filter(null,2);
+            theChartPrimaryPanel.pnlChartPanel.filter(null,2);
         }
     }//ButtonBugsListener
 
@@ -113,10 +112,10 @@ public class ChartPrimaryPanelController {
             ChartData.getS_instance().setSite_M_B_G(3);
             if(!ChartData.getS_instance().getParser().isParsed()) ChartData.getS_instance().DataPassing(_viewLoading);
             System.out.println("Genie");
-            theChartPrimaryPanel.pnlSitePanel.changeData();
+            theChartPrimaryPanel.pnlChartPanel.changeData();
             theChartPrimaryPanel.lblTime.setText("Renewal time : " + theChartPrimaryPanel.formatted_Genie);
             theChartPrimaryPanel.txtSearch.setText("");
-            theChartPrimaryPanel.pnlSitePanel.filter(null,2);
+            theChartPrimaryPanel.pnlChartPanel.filter(null,2);
         }
     }//ButtonGenieListener
 
@@ -140,9 +139,9 @@ public class ChartPrimaryPanelController {
             if(obj == theChartPrimaryPanel.txtSearch){
                 //strSearchCategory = {"Name", "Artist"};
                 if(0 == theChartPrimaryPanel.strCombo.getSelectedIndex())//Name
-                    theChartPrimaryPanel.pnlSitePanel.filter(theChartPrimaryPanel.txtSearch.getText(),2);
+                    theChartPrimaryPanel.pnlChartPanel.filter(theChartPrimaryPanel.txtSearch.getText(),2);
                 if(1 == theChartPrimaryPanel.strCombo.getSelectedIndex())//Artist
-                    theChartPrimaryPanel.pnlSitePanel.filter(theChartPrimaryPanel.txtSearch.getText(),3);
+                    theChartPrimaryPanel.pnlChartPanel.filter(theChartPrimaryPanel.txtSearch.getText(),3);
             }//comboBox 0, 1ÀÏ¶§ sitepanelÀÇ filter¿¡¼­ °Ë»ö
 
         }//KeyReleased
