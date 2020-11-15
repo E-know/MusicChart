@@ -1,6 +1,6 @@
 package view;
 
-import DB.*;
+import DB.ConnectDB;
 import main.AppManager;
 
 import javax.imageio.ImageIO;
@@ -15,22 +15,20 @@ import java.util.ArrayList;
 import java.sql.*;
 
 public class CommentPanel extends JPanel {
+    private JPanel _pnlComment, _pnlMusicInfo;
+    private JButton _btnRegister, _btnDelete, _btnBack;
 
-    private JPanel pnlComment, pnlMusicInfo;
-    private JButton btnRegister, btnDelete, btnBack;
+    public JTextField _txtComment, _txtPassword;
+    public ArrayList<String> _arrComment;
+    public ArrayList<String> _arrPassword;
 
-    public JTextField txtComment, txtPassword;
-    public ArrayList<String> arrComment;
-    public ArrayList<String> arrPassword;
+    public JList<String> _listComment;
+    public DefaultListModel<String> _modelList;
+    public String _strTitle, _strArtist, _sqlTitle;
 
-    public JList<String> listComment;
-    public DefaultListModel<String> modelList;
-    public String strTitle, strArtist, sqltitle;
+    private JLabel _lblTitle, _lblArtist, _lblImage;
 
-    private JLabel lblTitle, lblArtist, lblImage;
-
-    public Connection con = null;
-    public ResultSet rs = null;
+    ConnectDB DB = new ConnectDB();
 
     /*
      * Description of Class
@@ -56,9 +54,7 @@ public class CommentPanel extends JPanel {
         setLayout(null);
 
         setInitializationPnlMusicInfo();
-
         setInitializationPnlComment();
-
         setInitializationBtnBack();
     }//Constructor
 
@@ -67,20 +63,20 @@ public class CommentPanel extends JPanel {
      *   pnlMusicInfo 위에 올라가는 이미지와 String을 정해주는 메소드
      * */
     private void setInitializationBtnBack() {
-        btnBack = new JButton("Back");
-        btnBack.setBounds(964, 0, 60, 30);
-        btnBack.setFont(new Font("배달의민족 을지로체 TTF", Font.PLAIN, 12));
-        btnBack.setBackground(Color.WHITE);
-        add(btnBack);
+        _btnBack = new JButton("Back");
+        _btnBack.setBounds(964, 0, 60, 30);
+        _btnBack.setFont(new Font("배달의민족 을지로체 TTF", Font.PLAIN, 12));
+        _btnBack.setBackground(Color.WHITE);
+        add(_btnBack);
     }
 
     // PnlMusicInfo에 대한 초기 설정 = 밑에 함수들은 PnlMusicInfo에 붙은 것들이다=======================================
     private void setInitializationPnlMusicInfo() { //Called by Constructor
-        pnlMusicInfo = new JPanel();
-        pnlMusicInfo.setBackground(new Color(255, 255, 255, 50));
-        pnlMusicInfo.setBounds(32, 32, 960, 160);
-        pnlMusicInfo.setLayout(null);
-        this.add(pnlMusicInfo);
+        _pnlMusicInfo = new JPanel();
+        _pnlMusicInfo.setBackground(new Color(255, 255, 255, 50));
+        _pnlMusicInfo.setBounds(32, 32, 960, 160);
+        _pnlMusicInfo.setLayout(null);
+        this.add(_pnlMusicInfo);
 
         setInitializationLblTitle();
         setInitializationLblArtist();
@@ -88,35 +84,35 @@ public class CommentPanel extends JPanel {
     }
 
     private void setInitializationLblArtist() { // Called by setInitializationPnlMusicInfo
-        lblArtist = new JLabel();
-        lblArtist.setBounds(10, 90, 700, 60);
-        lblArtist.setFont(new Font("서울남산체 B", Font.PLAIN, 40));
-        lblArtist.setHorizontalAlignment(SwingConstants.LEFT);
-        pnlMusicInfo.add(lblArtist);
+        _lblArtist = new JLabel();
+        _lblArtist.setBounds(10, 90, 700, 60);
+        _lblArtist.setFont(new Font("서울남산체 B", Font.PLAIN, 40));
+        _lblArtist.setHorizontalAlignment(SwingConstants.LEFT);
+        _pnlMusicInfo.add(_lblArtist);
     }
 
     private void setInitializationLblTitle() { // Called by setInitializationPnlMusicInfo
-        lblTitle = new JLabel();
-        lblTitle.setBounds(10, 10, 700, 60);
-        lblTitle.setHorizontalAlignment(SwingConstants.LEFT);
-        lblTitle.setFont(new Font("서울남산체 B", Font.PLAIN, 40));
-        lblTitle.setBackground(Color.black);
-        pnlMusicInfo.add(lblTitle);
+        _lblTitle = new JLabel();
+        _lblTitle.setBounds(10, 10, 700, 60);
+        _lblTitle.setHorizontalAlignment(SwingConstants.LEFT);
+        _lblTitle.setFont(new Font("서울남산체 B", Font.PLAIN, 40));
+        _lblTitle.setBackground(Color.black);
+        _pnlMusicInfo.add(_lblTitle);
     }
 
     private void setInitializationLblImage() {
-        lblImage = new JLabel();
-        lblImage.setBounds(800, 0, 160, 160);
-        pnlMusicInfo.add(lblImage);
+        _lblImage = new JLabel();
+        _lblImage.setBounds(800, 0, 160, 160);
+        _pnlMusicInfo.add(_lblImage);
     }
 
     // PnlComment에 대한 초기 설정 = 밑 함수들은 PnlComment에 붙은 것들이다.============================================
     private void setInitializationPnlComment() { // Called by Constructor
-        pnlComment = new JPanel();
-        pnlComment.setBounds(32, 260, 960, 640);
-        pnlComment.setBackground(new Color(0, 0, 0, 0));
-        pnlComment.setLayout(null);
-        add(pnlComment);
+        _pnlComment = new JPanel();
+        _pnlComment.setBounds(32, 260, 960, 640);
+        _pnlComment.setBackground(new Color(0, 0, 0, 0));
+        _pnlComment.setLayout(null);
+        add(_pnlComment);
 
         setInitializationListComment();
         setInitializationTxtComment();
@@ -126,54 +122,54 @@ public class CommentPanel extends JPanel {
     }
 
     private void setInitializationListComment() { //Called by setInitializationPnlComment
-        arrComment = new ArrayList<>();
-        arrPassword = new ArrayList<>();
-        modelList = new DefaultListModel<String>();
+        _arrComment = new ArrayList<>();
+        _arrPassword = new ArrayList<>();
+        _modelList = new DefaultListModel<String>();
 
-        listComment = new JList<String>();
-        listComment.setFont(new Font("서울한강체 M", Font.PLAIN, 20));
-        listComment.setBounds(0, 0, 960, 400);
-        pnlComment.add(listComment);
+        _listComment = new JList<String>();
+        _listComment.setFont(new Font("서울한강체 M", Font.PLAIN, 20));
+        _listComment.setBounds(0, 0, 960, 400);
+        _pnlComment.add(_listComment);
     }
 
     private void setInitializationTxtComment() {
-        txtComment = new JTextField();
-        txtComment.setBounds(0, 435, 800, 40);
-        pnlComment.add(txtComment);
+        _txtComment = new JTextField();
+        _txtComment.setBounds(0, 435, 800, 40);
+        _pnlComment.add(_txtComment);
     }
 
     private void setInitializationTxtPassword() {
-        txtPassword = new JTextField();
-        txtPassword.setBounds(800, 415, 80, 20);
-        pnlComment.add(txtPassword);
+        _txtPassword = new JTextField();
+        _txtPassword.setBounds(800, 415, 80, 20);
+        _pnlComment.add(_txtPassword);
     }
 
     private void setInitializationBtnRegister() {
-        btnRegister = new JButton("Register");
-        btnRegister.setBounds(800, 435, 160, 40);
-        btnRegister.setBackground(Color.WHITE);
-        pnlComment.add(btnRegister);
+        _btnRegister = new JButton("Register");
+        _btnRegister.setBounds(800, 435, 160, 40);
+        _btnRegister.setBackground(Color.WHITE);
+        _pnlComment.add(_btnRegister);
     }
 
     private void setInitializationBtnDelete() {
-        btnDelete = new JButton("Delete");
-        btnDelete.setBounds(880, 415, 80, 20);
-        btnDelete.setBackground(Color.WHITE);
-        btnDelete.setFont(new Font("한강남산체 M", Font.PLAIN, 13));
-        pnlComment.add(btnDelete);
+        _btnDelete = new JButton("Delete");
+        _btnDelete.setBounds(880, 415, 80, 20);
+        _btnDelete.setBackground(Color.WHITE);
+        _btnDelete.setFont(new Font("한강남산체 M", Font.PLAIN, 13));
+        _pnlComment.add(_btnDelete);
     }
-    
+
     //==================================================================================================================
 
     private void inputMusicInfoToPnlMusicInfo(int rank) {
-        lblTitle.setText("Title : " + AppManager.getS_instance().getParser().getTitle(rank));
-        lblArtist.setText("Artist : " + AppManager.getS_instance().getParser().getArtistName(rank));
+        _lblTitle.setText("Title : " + AppManager.getS_instance().getParser().getTitle(rank));
+        _lblArtist.setText("Artist : " + AppManager.getS_instance().getParser().getArtistName(rank));
 
         try {
-            AppManager.getS_instance().detailDataPassing(rank,AppManager.getS_instance().getParser().getChartList(),this);
+            AppManager.getS_instance().detailDataPassing(rank, AppManager.getS_instance().getParser().getChartList(), this);
             URL url = new URL(AppManager.getS_instance().getDetailParser().getImageUrl(rank));
-            Image image = ImageIO.read(url).getScaledInstance(160,160,Image.SCALE_SMOOTH);
-            lblImage.setIcon(new ImageIcon(image));
+            Image image = ImageIO.read(url).getScaledInstance(160, 160, Image.SCALE_SMOOTH);
+            _lblImage.setIcon(new ImageIcon(image));
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -183,10 +179,10 @@ public class CommentPanel extends JPanel {
 
     private void inputCommentToListComment(int rank) {
         readCommentFromDB(rank);
-        for (String ptr : arrComment) {
-            modelList.addElement(ptr);
+        for (String ptr : _arrComment) {
+            _modelList.addElement(ptr);
         }
-        listComment.setModel(modelList);
+        _listComment.setModel(_modelList);
     }
 
     public void popUpCommentPanel(int rank) {
@@ -200,24 +196,21 @@ public class CommentPanel extends JPanel {
      *   덧글과 각 비밀번호가 적혀있는 txt 파일을 읽어와 각각의 ArrayList에 저장하는 메소드
      * */
     private void readCommentFromDB(int rank) {
-        Connection con = ConnectDB.GetDB();
-        sqltitle = AppManager.getS_instance().getParser().getTitle(rank);
-        if (sqltitle.contains("'")) {
-            sqltitle = sqltitle.replace("'", ":");
+        _sqlTitle = AppManager.getS_instance().getParser().getTitle(rank);
+        _strTitle = AppManager.getS_instance().getParser().getTitle(rank);
+        _strArtist = AppManager.getS_instance().getParser().getArtistName(rank);
+        if (_sqlTitle.contains("'")) {
+            _sqlTitle = _sqlTitle.replace("'", ":");
         }
-        try {
-            Statement stmt = con.createStatement();
-            String sql = "SELECT comment, pwd FROM songinfo WHERE title = '" + sqltitle + "'";
-            rs = stmt.executeQuery(sql);
-            while (rs.next()) {
-                String comment = rs.getString("comment");
-                String pwd = rs.getNString("pwd");
-                System.out.println("comment " + comment + ", pwd" + pwd);
-                arrComment.add(comment);
-                arrPassword.add(pwd);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        ArrayList<String> comment = DB.readCommentDB(_sqlTitle);
+        ArrayList<String> password = DB.readPwdDB(_sqlTitle);
+
+        System.out.println("comment " + comment + ", pwd" + password);
+        for (String ptr : comment) {
+            _arrComment.add(ptr);
+        }
+        for (String ptr : password) {
+            _arrPassword.add(ptr);
         }
     }//readComment
 
@@ -226,25 +219,26 @@ public class CommentPanel extends JPanel {
      *   btnBack(ChartPrimaryPanel로 돌아가는 버튼)이 일어나면 싱글톤 패턴이기 때문에 원래 있던 정보는 모두다
      *  삭제가 되어야한다. 그러므로 모든 정보를 초기화 해주는 메소드드     * */
     public void clearMusicData() {
-        txtPassword.setText("");
-        txtComment.setText("");
-
-        modelList.clear();
-        arrComment.clear();
-        arrPassword.clear();
+        clearPanelTxt();
+        _modelList.clear();
+        _arrComment.clear();
+        _arrPassword.clear();
+    }
+    public void clearPanelTxt(){
+        _txtPassword.setText("");
+        _txtComment.setText("");
     }
 
     public void addBtnRegisterListener(ActionListener listenForBtnRegister) {
-        btnRegister.addActionListener((listenForBtnRegister));
+        _btnRegister.addActionListener((listenForBtnRegister));
     }
 
     public void addBtnDeleteListener(ActionListener listenForBtnDelete) {
-        btnDelete.addActionListener((listenForBtnDelete));
+        _btnDelete.addActionListener((listenForBtnDelete));
     }
 
     public void addBtnBackListener(ActionListener listenForBtnBack) {
-        btnBack.addActionListener((listenForBtnBack));
+        _btnBack.addActionListener((listenForBtnBack));
     }
 
 }//CommentUI
-
