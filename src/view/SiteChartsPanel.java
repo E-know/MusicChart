@@ -12,7 +12,7 @@ import java.time.format.DateTimeFormatter;
 
 public class SiteChartsPanel extends JPanel{
     public ChartPanel pnlChartPanel;
-    private JButton btnRefresh, btnSite_M, btnSite_B, btnSite_G, btnSearch;
+    private JButton btnRefresh, btnSite_Melon, btnSite_Bugs, btnSite_Genie, btnSearch;
     public JLabel lblTime;
     public JComboBox<String> strCombo;
 
@@ -115,23 +115,23 @@ public class SiteChartsPanel extends JPanel{
     }
 
     private void setInitBtnSites(){
-        btnSite_M = new JButton(new ImageIcon("Image/logo_Melon.png"));
-        btnSite_M.setBounds(100,100,150,40);
-        btnSite_M.setBackground(Color.WHITE);
-        btnSite_M.addActionListener(ButtonMelon);
-        add(btnSite_M);
+        btnSite_Melon = new JButton(new ImageIcon("Image/logo_Melon.png"));
+        btnSite_Melon.setBounds(100,100,150,40);
+        btnSite_Melon.setBackground(Color.WHITE);
+        btnSite_Melon.addActionListener(ButtonMelon);
+        this.add(btnSite_Melon);
 
-        btnSite_B = new JButton(new ImageIcon("Image/logo_Bugs.png"));
-        btnSite_B.setBounds(250,100,150,40);
-        btnSite_B.setBackground(Color.WHITE);
-        btnSite_B.addActionListener(ButtonBugs);
-        add(btnSite_B);
+        btnSite_Bugs = new JButton(new ImageIcon("Image/logo_Bugs.png"));
+        btnSite_Bugs.setBounds(250,100,150,40);
+        btnSite_Bugs.setBackground(Color.WHITE);
+        btnSite_Bugs.addActionListener(ButtonBugs);
+        this.add(btnSite_Bugs);
 
-        btnSite_G = new JButton(new ImageIcon("Image/logo_Genie.png"));
-        btnSite_G.setBounds(400,100,150,40);
-        btnSite_G.setBackground(Color.WHITE);
-        btnSite_G.addActionListener(ButtonGenie);
-        add(btnSite_G);
+        btnSite_Genie = new JButton(new ImageIcon("Image/logo_Genie.png"));
+        btnSite_Genie.setBounds(400,100,150,40);
+        btnSite_Genie.setBackground(Color.WHITE);
+        btnSite_Genie.addActionListener(ButtonGenie);
+        this.add(btnSite_Genie);
     }
 
     public void addBtnRefreshListener(ActionListener listenForBtnRefresh) {
@@ -139,15 +139,15 @@ public class SiteChartsPanel extends JPanel{
     }
 
     public void addBtnMelonListener(ActionListener listenForBtnMelon) {
-        btnSite_M.addActionListener((listenForBtnMelon));
+        btnSite_Melon.addActionListener((listenForBtnMelon));
     }
 
     public void addBtnBugsListener(ActionListener listenForBtnBugs) {
-        btnSite_B.addActionListener((listenForBtnBugs));
+        btnSite_Bugs.addActionListener((listenForBtnBugs));
     }
 
     public void addBtnGenieListener(ActionListener listenForBtnGenie) {
-        btnSite_G.addActionListener((listenForBtnGenie));
+        btnSite_Genie.addActionListener((listenForBtnGenie));
     }
 
     public void addKeyActionListener(KeyListener listenForKey) {
@@ -193,7 +193,7 @@ public class SiteChartsPanel extends JPanel{
                 */
 
             }//refresh 새로 파싱해옴//파싱시간도 갱신
-            if (obj == btnSite_M) {
+            if (obj == btnSite_Melon) {
                 /*
                 if(AppManager.getS_instance().getSite_M_B_G() == 1) return;
                 AppManager.getS_instance().setSite_M_B_G(1);
@@ -205,7 +205,7 @@ public class SiteChartsPanel extends JPanel{
                 pnlSitePanel.filter(null,2);
                 */
             }
-            if (obj == btnSite_B) {
+            if (obj == btnSite_Bugs) {
                 /*
                 if(AppManager.getS_instance().getSite_M_B_G() == 2) return;
                 AppManager.getS_instance().setSite_M_B_G(2);
@@ -217,7 +217,7 @@ public class SiteChartsPanel extends JPanel{
                 pnlSitePanel.filter(null,2);
                 */
             }
-            if (obj == btnSite_G) {
+            if (obj == btnSite_Genie) {
                 /*
                 if(AppManager.getS_instance().getSite_M_B_G() == 3) return;
                 AppManager.getS_instance().setSite_M_B_G(3);
