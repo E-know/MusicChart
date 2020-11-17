@@ -49,10 +49,7 @@ public class SiteChartsPanel extends JPanel{
 
         setInitBtnRefresh();
 
-        strCombo = new JComboBox<String>(strSearchCategory);
-        strCombo.setBounds(100, 30, 150,40);
-        strCombo.setEditable(false);
-        add(strCombo);
+        setInitStrCombo();
 
         txtSearch = new JTextField();
         txtSearch.setBounds(250,30,840,40);
@@ -120,6 +117,13 @@ public class SiteChartsPanel extends JPanel{
         btnSearch.setBackground(Color.lightGray);
         btnSearch.addActionListener(ButtonSearch);
         this.add(btnSearch);
+    }
+
+    private void setInitStrCombo(){
+        strCombo = new JComboBox<String>(strSearchCategory);
+        strCombo.setBounds(100, 30, 150,40);
+        strCombo.setEditable(false);
+        add(strCombo);
     }
 
     public void addBtnRefreshListener(ActionListener listenForBtnRefresh) {
