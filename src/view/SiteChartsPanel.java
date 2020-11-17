@@ -60,12 +60,7 @@ public class SiteChartsPanel extends JPanel{
         txtSearch.addKeyListener(new KeyActionListener());
         add(txtSearch);
 
-        btnSearch = new JButton("Search");
-        btnSearch.setBounds(1090,30,150,40);
-        btnSearch.setForeground(Color.DARK_GRAY);
-        btnSearch.setBackground(Color.lightGray);
-        btnSearch.addActionListener(ButtonSearch);
-        add(btnSearch);
+        setInitBtnSearch();
 
         btnSite_M = new JButton(new ImageIcon("Image/logo_Melon.png"));
         btnSite_M.setBounds(100,100,150,40);
@@ -118,6 +113,14 @@ public class SiteChartsPanel extends JPanel{
         this.add(btnRefresh);
     }
 
+    private void setInitBtnSearch(){
+        btnSearch = new JButton("Search");
+        btnSearch.setBounds(1090,30,150,40);
+        btnSearch.setForeground(Color.DARK_GRAY);
+        btnSearch.setBackground(Color.lightGray);
+        btnSearch.addActionListener(ButtonSearch);
+        this.add(btnSearch);
+    }
 
     public void addBtnRefreshListener(ActionListener listenForBtnRefresh) {
         btnRefresh.addActionListener((listenForBtnRefresh));
