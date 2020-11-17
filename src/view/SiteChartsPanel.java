@@ -57,13 +57,7 @@ public class SiteChartsPanel extends JPanel{
 
         setInitBtnSites();
 
-        pnlChartPanel = new ChartPanel();
-        theSitePanelController = new SitePanelController(pnlChartPanel); //사이트 패널 컨트롤러 추가 선언
-        pnlChartPanel.setBounds(100,140,1080,700);
-        LineBorder SiteBorder = new LineBorder(Color.BLACK,3);
-        pnlChartPanel.setBorder(SiteBorder);
-        pnlChartPanel.setLayout(null);
-        add(pnlChartPanel);
+        setInitPnlChartPanel();
 
         LocalDateTime current = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
@@ -132,6 +126,16 @@ public class SiteChartsPanel extends JPanel{
         btnSite_Genie.setBackground(Color.WHITE);
         btnSite_Genie.addActionListener(ButtonGenie);
         this.add(btnSite_Genie);
+    }
+
+    private void setInitPnlChartPanel(){
+        pnlChartPanel = new ChartPanel();
+        theSitePanelController = new SitePanelController(pnlChartPanel); //사이트 패널 컨트롤러 추가 선언
+        pnlChartPanel.setBounds(100,140,1080,700);
+        LineBorder SiteBorder = new LineBorder(Color.BLACK,3);
+        pnlChartPanel.setBorder(SiteBorder);
+        pnlChartPanel.setLayout(null);
+        this.add(pnlChartPanel);
     }
 
     public void addBtnRefreshListener(ActionListener listenForBtnRefresh) {
