@@ -47,12 +47,7 @@ public class SiteChartsPanel extends JPanel{
         ButtonGenie = new ButtonListener(this);
         ButtonSearch = new ButtonListener();
 
-        btnRefresh = new JButton(new ImageIcon("Image/Refresh.png"));
-        btnRefresh.setBounds(30,30,40,40);
-        btnRefresh.setForeground(Color.DARK_GRAY);
-        btnRefresh.setBackground(Color.lightGray);
-        btnRefresh.addActionListener(ButtonRefresh);
-        add(btnRefresh);
+        setInitBtnRefresh();
 
         strCombo = new JComboBox<String>(strSearchCategory);
         strCombo.setBounds(100, 30, 150,40);
@@ -113,6 +108,15 @@ public class SiteChartsPanel extends JPanel{
         add(lblTime);
 
     }//constructor
+
+    private void setInitBtnRefresh(){
+        btnRefresh = new JButton(new ImageIcon("Image/Refresh.png"));
+        btnRefresh.setBounds(30,30,40,40);
+        btnRefresh.setForeground(Color.DARK_GRAY);
+        btnRefresh.setBackground(Color.lightGray);
+        btnRefresh.addActionListener(ButtonRefresh);
+        this.add(btnRefresh);
+    }
 
 
     public void addBtnRefreshListener(ActionListener listenForBtnRefresh) {
