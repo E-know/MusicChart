@@ -15,7 +15,6 @@ public class SiteChartsPanel extends JPanel{
     private JButton btnRefresh, btnSite_Melon, btnSite_Bugs, btnSite_Genie, btnSearch;
     public JLabel lblTime;
     public JComboBox<String> strCombo;
-    private String[] strSearchCategory = {"Name", "Artist"};
 
     public JTextField txtSearch;
 
@@ -41,13 +40,13 @@ public class SiteChartsPanel extends JPanel{
 
         setInitStrCombo();
 
-        setInitTxtSearch();
-
         setInitBtnSearch();
 
-        setInitBtnSites();
+        setInitTextSearch();
 
         setInitPnlChartPanel();
+
+        setInitBtnSites();
 
         LocalDateTime current = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
@@ -82,13 +81,13 @@ public class SiteChartsPanel extends JPanel{
     }
 
     private void setInitStrCombo(){
-        strCombo = new JComboBox<String>(strSearchCategory);
+        strCombo = new JComboBox<String>(new String[]{"Name","Artist"});
         strCombo.setBounds(100, 30, 150,40);
         strCombo.setEditable(false);
         this.add(strCombo);
     }
 
-    private void setInitTxtSearch(){
+    private void setInitTextSearch(){
         txtSearch = new JTextField();
         txtSearch.setBounds(250,30,840,40);
         txtSearch.setFont(new Font("SansSerif", Font.PLAIN, 25));
