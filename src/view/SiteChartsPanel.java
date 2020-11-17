@@ -27,8 +27,6 @@ public class SiteChartsPanel extends JPanel{
     public String formatted_Genie = current.format(formatter);
     //refreshTime
 
-    private SitePanelController theSitePanelController;
-
 
     public SiteChartsPanel(){
 
