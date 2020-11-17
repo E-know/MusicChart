@@ -15,10 +15,6 @@ public class SiteChartsPanel extends JPanel{
     private JButton btnRefresh, btnSite_Melon, btnSite_Bugs, btnSite_Genie, btnSearch;
     public JLabel lblTime;
     public JComboBox<String> strCombo;
-
-    private ButtonListener  ButtonRefresh, ButtonSearch,
-            ButtonMelon, ButtonBugs, ButtonGenie;
-
     private String[] strSearchCategory = {"Name", "Artist"};
 
     public JTextField txtSearch;
@@ -40,12 +36,6 @@ public class SiteChartsPanel extends JPanel{
         setBackground(new Color(255, 255, 255, 0));
         setBounds(1,0,1278,960);
         setLayout(null);
-
-        ButtonRefresh = new ButtonListener(this);
-        ButtonMelon = new ButtonListener(this);
-        ButtonBugs = new ButtonListener(this);
-        ButtonGenie = new ButtonListener(this);
-        ButtonSearch = new ButtonListener();
 
         setInitBtnRefresh();
 
@@ -80,7 +70,6 @@ public class SiteChartsPanel extends JPanel{
         btnRefresh.setBounds(30,30,40,40);
         btnRefresh.setForeground(Color.DARK_GRAY);
         btnRefresh.setBackground(Color.lightGray);
-        btnRefresh.addActionListener(ButtonRefresh);
         this.add(btnRefresh);
     }
 
@@ -89,7 +78,6 @@ public class SiteChartsPanel extends JPanel{
         btnSearch.setBounds(1090,30,150,40);
         btnSearch.setForeground(Color.DARK_GRAY);
         btnSearch.setBackground(Color.lightGray);
-        btnSearch.addActionListener(ButtonSearch);
         this.add(btnSearch);
     }
 
@@ -111,19 +99,16 @@ public class SiteChartsPanel extends JPanel{
         btnSite_Melon = new JButton(new ImageIcon("Image/logo_Melon.png"));
         btnSite_Melon.setBounds(100,100,150,40);
         btnSite_Melon.setBackground(Color.WHITE);
-        btnSite_Melon.addActionListener(ButtonMelon);
         this.add(btnSite_Melon);
 
         btnSite_Bugs = new JButton(new ImageIcon("Image/logo_Bugs.png"));
         btnSite_Bugs.setBounds(250,100,150,40);
         btnSite_Bugs.setBackground(Color.WHITE);
-        btnSite_Bugs.addActionListener(ButtonBugs);
         this.add(btnSite_Bugs);
 
         btnSite_Genie = new JButton(new ImageIcon("Image/logo_Genie.png"));
         btnSite_Genie.setBounds(400,100,150,40);
         btnSite_Genie.setBackground(Color.WHITE);
-        btnSite_Genie.addActionListener(ButtonGenie);
         this.add(btnSite_Genie);
     }
 
@@ -157,29 +142,7 @@ public class SiteChartsPanel extends JPanel{
         txtSearch.addKeyListener((listenForKey));
     }
 
-    private class ButtonListener implements ActionListener {
-        private Component _viewLoading;
-        public ButtonListener() { }
-        public ButtonListener(Component parentComponent){
-            _viewLoading = parentComponent;
-        }
 
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            Object obj = e.getSource();
-            if (obj == btnRefresh) {
-            }//refresh 새로 파싱해옴//파싱시간도 갱신
-            if (obj == btnSite_Melon) {
-
-            }
-            if (obj == btnSite_Bugs) {
-
-            }
-            if (obj == btnSite_Genie) {
-
-            }
-        }
-    }//ButtonListener
 
 
 }
