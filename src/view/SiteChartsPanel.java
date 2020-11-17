@@ -51,11 +51,7 @@ public class SiteChartsPanel extends JPanel{
 
         setInitStrCombo();
 
-        txtSearch = new JTextField();
-        txtSearch.setBounds(250,30,840,40);
-        txtSearch.setFont(new Font("SansSerif", Font.PLAIN, 25));
-        txtSearch.addKeyListener(new KeyActionListener());
-        add(txtSearch);
+        setInitTxtSearch();
 
         setInitBtnSearch();
 
@@ -123,7 +119,15 @@ public class SiteChartsPanel extends JPanel{
         strCombo = new JComboBox<String>(strSearchCategory);
         strCombo.setBounds(100, 30, 150,40);
         strCombo.setEditable(false);
-        add(strCombo);
+        this.add(strCombo);
+    }
+
+    private void setInitTxtSearch(){
+        txtSearch = new JTextField();
+        txtSearch.setBounds(250,30,840,40);
+        txtSearch.setFont(new Font("SansSerif", Font.PLAIN, 25));
+        txtSearch.addKeyListener(new KeyActionListener());
+        this.add(txtSearch);
     }
 
     public void addBtnRefreshListener(ActionListener listenForBtnRefresh) {
