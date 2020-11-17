@@ -1,7 +1,7 @@
 package main;
 
 import controller.*;
-import view.ChartPrimaryPanel;
+import view.SiteChartsPanel;
 import view.CommentPanel;
 
 import javax.swing.*;
@@ -10,7 +10,7 @@ import java.awt.*;
 public class AppManager {
     private static AppManager s_instance;
     private CommentPanel pnlCommentPanel;
-    private ChartPrimaryPanel pnlChartPrimary;
+    private SiteChartsPanel pnlChartPrimary;
     private JPanel primaryPanel;
     private ChartPrimaryPanelController theChartPrimaryPanelController;
     private CommentPanelController theCommentPanelController;
@@ -39,13 +39,13 @@ public class AppManager {
     public CommentPanel getPnlCommentUI() {
         return pnlCommentPanel;
     }
-    public ChartPrimaryPanel getChartPrimaryPanel() {return pnlChartPrimary;}
+    public SiteChartsPanel getChartPrimaryPanel() {return pnlChartPrimary;}
     public void setPnlCommentPanel(){
         pnlCommentPanel = new CommentPanel();
         theCommentPanelController = new CommentPanelController(pnlCommentPanel);
     }
     public void setPnlChartPrimary(){
-        pnlChartPrimary = new ChartPrimaryPanel();
+        pnlChartPrimary = new SiteChartsPanel();
         theChartPrimaryPanelController = new ChartPrimaryPanelController(pnlChartPrimary);
     }
     public void PrimaryPanel(){

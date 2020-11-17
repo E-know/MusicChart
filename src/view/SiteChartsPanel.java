@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 
-public class ChartPrimaryPanel extends JPanel{
+public class SiteChartsPanel extends JPanel{
     public ChartPanel pnlChartPanel;
     private JButton btnRefresh, btnSite_M, btnSite_B, btnSite_G, btnSearch;
     public JLabel lblTime;
@@ -35,7 +35,7 @@ public class ChartPrimaryPanel extends JPanel{
     private SitePanelController theSitePanelController;
 
 
-    public ChartPrimaryPanel(){
+    public SiteChartsPanel(){
 
         setBackground(new Color(255, 255, 255, 0));
         setBounds(1,0,1278,960);

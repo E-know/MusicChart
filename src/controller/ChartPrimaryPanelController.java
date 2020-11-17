@@ -1,7 +1,7 @@
 package controller;
 
 import model.ChartData;
-import view.ChartPrimaryPanel;
+import view.SiteChartsPanel;
 import java.awt.*;
 import java.awt.event.*;
 import java.time.LocalDateTime;
@@ -9,10 +9,10 @@ import java.time.format.DateTimeFormatter;
 
 public class ChartPrimaryPanelController {
 
-    private ChartPrimaryPanel the_Chart_Primary_Panel;
+    private SiteChartsPanel the_Chart_Primary_Panel;
 
-    public ChartPrimaryPanelController(ChartPrimaryPanel theChartPrimaryPanel) {
-        this.the_Chart_Primary_Panel = theChartPrimaryPanel;
+    public ChartPrimaryPanelController(SiteChartsPanel theSiteChartsPanel) {
+        this.the_Chart_Primary_Panel = theSiteChartsPanel;
         this.the_Chart_Primary_Panel.addBtnRefreshListener(new ButtonRefreshListener());
         this.the_Chart_Primary_Panel.addBtnMelonListener(new ButtonMelonListener());
         this.the_Chart_Primary_Panel.addBtnBugsListener(new ButtonBugsListener());
