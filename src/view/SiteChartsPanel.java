@@ -55,23 +55,7 @@ public class SiteChartsPanel extends JPanel{
 
         setInitBtnSearch();
 
-        btnSite_M = new JButton(new ImageIcon("Image/logo_Melon.png"));
-        btnSite_M.setBounds(100,100,150,40);
-        btnSite_M.setBackground(Color.WHITE);
-        btnSite_M.addActionListener(ButtonMelon);
-        add(btnSite_M);
-
-        btnSite_B = new JButton(new ImageIcon("Image/logo_Bugs.png"));
-        btnSite_B.setBounds(250,100,150,40);
-        btnSite_B.setBackground(Color.WHITE);
-        btnSite_B.addActionListener(ButtonBugs);
-        add(btnSite_B);
-
-        btnSite_G = new JButton(new ImageIcon("Image/logo_Genie.png"));
-        btnSite_G.setBounds(400,100,150,40);
-        btnSite_G.setBackground(Color.WHITE);
-        btnSite_G.addActionListener(ButtonGenie);
-        add(btnSite_G);
+        setInitBtnSites();
 
         pnlChartPanel = new ChartPanel();
         theSitePanelController = new SitePanelController(pnlChartPanel); //사이트 패널 컨트롤러 추가 선언
@@ -128,6 +112,26 @@ public class SiteChartsPanel extends JPanel{
         txtSearch.setFont(new Font("SansSerif", Font.PLAIN, 25));
         txtSearch.addKeyListener(new KeyActionListener());
         this.add(txtSearch);
+    }
+
+    private void setInitBtnSites(){
+        btnSite_M = new JButton(new ImageIcon("Image/logo_Melon.png"));
+        btnSite_M.setBounds(100,100,150,40);
+        btnSite_M.setBackground(Color.WHITE);
+        btnSite_M.addActionListener(ButtonMelon);
+        add(btnSite_M);
+
+        btnSite_B = new JButton(new ImageIcon("Image/logo_Bugs.png"));
+        btnSite_B.setBounds(250,100,150,40);
+        btnSite_B.setBackground(Color.WHITE);
+        btnSite_B.addActionListener(ButtonBugs);
+        add(btnSite_B);
+
+        btnSite_G = new JButton(new ImageIcon("Image/logo_Genie.png"));
+        btnSite_G.setBounds(400,100,150,40);
+        btnSite_G.setBackground(Color.WHITE);
+        btnSite_G.addActionListener(ButtonGenie);
+        add(btnSite_G);
     }
 
     public void addBtnRefreshListener(ActionListener listenForBtnRefresh) {
