@@ -1,7 +1,5 @@
 package view;
 
-import controller.ChartPanelController;
-
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
@@ -45,19 +43,7 @@ public class SiteChartsPanel extends JPanel{
 
         setInitBtnSites();
 
-        LocalDateTime current = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-        String formatted = current.format(formatter);
-        //현재시간을 정해진 표기데로 출력해주는 메소드
-        lblTime = new JLabel("Renewal time : " + formatted);
-        System.out.println("Renewal time : " + formatted);
-
-        lblTime.setBounds(900,870,200,40);
-        lblTime.setFont(new Font("Verdana", Font.BOLD + Font.PLAIN, 14));
-        lblTime.setBackground(Color.lightGray);
-        lblTime.setHorizontalAlignment(SwingConstants.CENTER);
-        lblTime.setOpaque(true);
-        add(lblTime);
+        setInitLblTime();
 
     }//constructor
 
@@ -115,6 +101,17 @@ public class SiteChartsPanel extends JPanel{
         pnlChartPanel.setBorder(SiteBorder);
         pnlChartPanel.setLayout(null);
         this.add(pnlChartPanel);
+    }
+
+    private void setInitLblTime(){
+        lblTime = new JLabel("Renewal time : " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
+
+        lblTime.setBounds(900,870,200,40);
+        lblTime.setFont(new Font("Verdana", Font.BOLD + Font.PLAIN, 14));
+        lblTime.setBackground(Color.lightGray);
+        lblTime.setHorizontalAlignment(SwingConstants.CENTER);
+        lblTime.setOpaque(true);
+        this.add(lblTime);
     }
 
     public void addBtnRefreshListener(ActionListener listenForBtnRefresh) {
