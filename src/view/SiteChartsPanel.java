@@ -9,16 +9,17 @@ import java.time.format.DateTimeFormatter;
 
 
 public class SiteChartsPanel extends JPanel{
-    public ChartPanel pnlChartPanel;
-    private JButton btnRefresh, btnSite_Melon, btnSite_Bugs, btnSite_Genie, btnSearch;
-    public JLabel lblTime;
-    public JComboBox<String> strCombo;
+    public ChartPanel _pnlChartPanel;
+    private JButton _btnRefresh, _btnSite_Melon, _btnSite_Bugs, _btnSite_Genie, _btnSearch;
 
-    public JTextField txtSearch;
+    public JLabel _lblTime;
+    public JComboBox<String> _strCombo;
 
-    public String formatted_Melon = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
-    public String formatted_Bugs = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
-    public String formatted_Genie = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+    public JTextField _txtSearch;
+
+    public String _formatted_Melon = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+    public String _formatted_Bugs = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+    public String _formatted_Genie = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
     //refreshTime
 
 
@@ -45,90 +46,90 @@ public class SiteChartsPanel extends JPanel{
     }//constructor
 
     private void setInitBtnRefresh(){
-        btnRefresh = new JButton(new ImageIcon("Image/Refresh.png"));
-        btnRefresh.setBounds(30,30,40,40);
-        btnRefresh.setForeground(Color.DARK_GRAY);
-        btnRefresh.setBackground(Color.lightGray);
-        this.add(btnRefresh);
+        _btnRefresh = new JButton(new ImageIcon("Image/Refresh.png"));
+        _btnRefresh.setBounds(30,30,40,40);
+        _btnRefresh.setForeground(Color.DARK_GRAY);
+        _btnRefresh.setBackground(Color.lightGray);
+        this.add(_btnRefresh);
     }
 
     private void setInitBtnSearch(){
-        btnSearch = new JButton("Search");
-        btnSearch.setBounds(1090,30,150,40);
-        btnSearch.setForeground(Color.DARK_GRAY);
-        btnSearch.setBackground(Color.lightGray);
-        this.add(btnSearch);
+        _btnSearch = new JButton("Search");
+        _btnSearch.setBounds(1090,30,150,40);
+        _btnSearch.setForeground(Color.DARK_GRAY);
+        _btnSearch.setBackground(Color.lightGray);
+        this.add(_btnSearch);
     }
 
     private void setInitStrCombo(){
-        strCombo = new JComboBox<String>(new String[]{"Name","Artist"});
-        strCombo.setBounds(100, 30, 150,40);
-        strCombo.setEditable(false);
-        this.add(strCombo);
+        _strCombo = new JComboBox<String>(new String[]{"Name","Artist"});
+        _strCombo.setBounds(100, 30, 150,40);
+        _strCombo.setEditable(false);
+        this.add(_strCombo);
     }
 
     private void setInitTextSearch(){
-        txtSearch = new JTextField();
-        txtSearch.setBounds(250,30,840,40);
-        txtSearch.setFont(new Font("SansSerif", Font.PLAIN, 25));
-        this.add(txtSearch);
+        _txtSearch = new JTextField();
+        _txtSearch.setBounds(250,30,840,40);
+        _txtSearch.setFont(new Font("SansSerif", Font.PLAIN, 25));
+        this.add(_txtSearch);
     }
 
     private void setInitBtnSites(){
-        btnSite_Melon = new JButton(new ImageIcon("Image/logo_Melon.png"));
-        btnSite_Melon.setBounds(100,100,150,40);
-        btnSite_Melon.setBackground(Color.WHITE);
-        this.add(btnSite_Melon);
+        _btnSite_Melon = new JButton(new ImageIcon("Image/logo_Melon.png"));
+        _btnSite_Melon.setBounds(100,100,150,40);
+        _btnSite_Melon.setBackground(Color.WHITE);
+        this.add(_btnSite_Melon);
 
-        btnSite_Bugs = new JButton(new ImageIcon("Image/logo_Bugs.png"));
-        btnSite_Bugs.setBounds(250,100,150,40);
-        btnSite_Bugs.setBackground(Color.WHITE);
-        this.add(btnSite_Bugs);
+        _btnSite_Bugs = new JButton(new ImageIcon("Image/logo_Bugs.png"));
+        _btnSite_Bugs.setBounds(250,100,150,40);
+        _btnSite_Bugs.setBackground(Color.WHITE);
+        this.add(_btnSite_Bugs);
 
-        btnSite_Genie = new JButton(new ImageIcon("Image/logo_Genie.png"));
-        btnSite_Genie.setBounds(400,100,150,40);
-        btnSite_Genie.setBackground(Color.WHITE);
-        this.add(btnSite_Genie);
+        _btnSite_Genie = new JButton(new ImageIcon("Image/logo_Genie.png"));
+        _btnSite_Genie.setBounds(400,100,150,40);
+        _btnSite_Genie.setBackground(Color.WHITE);
+        this.add(_btnSite_Genie);
     }
 
     private void setInitPnlChartPanel(){
-        pnlChartPanel = new ChartPanel();
-        pnlChartPanel.setBounds(100,140,1080,700);
+        _pnlChartPanel = new ChartPanel();
+        _pnlChartPanel.setBounds(100,140,1080,700);
         LineBorder SiteBorder = new LineBorder(Color.BLACK,3);
-        pnlChartPanel.setBorder(SiteBorder);
-        pnlChartPanel.setLayout(null);
-        this.add(pnlChartPanel);
+        _pnlChartPanel.setBorder(SiteBorder);
+        _pnlChartPanel.setLayout(null);
+        this.add(_pnlChartPanel);
     }
 
     private void setInitLblTime(){
-        lblTime = new JLabel("Renewal time : " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
+        _lblTime = new JLabel("Renewal time : " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
 
-        lblTime.setBounds(900,870,200,40);
-        lblTime.setFont(new Font("Verdana", Font.BOLD + Font.PLAIN, 14));
-        lblTime.setBackground(Color.lightGray);
-        lblTime.setHorizontalAlignment(SwingConstants.CENTER);
-        lblTime.setOpaque(true);
-        this.add(lblTime);
+        _lblTime.setBounds(900,870,200,40);
+        _lblTime.setFont(new Font("Verdana", Font.BOLD + Font.PLAIN, 14));
+        _lblTime.setBackground(Color.lightGray);
+        _lblTime.setHorizontalAlignment(SwingConstants.CENTER);
+        _lblTime.setOpaque(true);
+        this.add(_lblTime);
     }
 
     public void addBtnRefreshListener(ActionListener listenForBtnRefresh) {
-        btnRefresh.addActionListener((listenForBtnRefresh));
+        _btnRefresh.addActionListener((listenForBtnRefresh));
     }
 
     public void addBtnMelonListener(ActionListener listenForBtnMelon) {
-        btnSite_Melon.addActionListener((listenForBtnMelon));
+        _btnSite_Melon.addActionListener((listenForBtnMelon));
     }
 
     public void addBtnBugsListener(ActionListener listenForBtnBugs) {
-        btnSite_Bugs.addActionListener((listenForBtnBugs));
+        _btnSite_Bugs.addActionListener((listenForBtnBugs));
     }
 
     public void addBtnGenieListener(ActionListener listenForBtnGenie) {
-        btnSite_Genie.addActionListener((listenForBtnGenie));
+        _btnSite_Genie.addActionListener((listenForBtnGenie));
     }
 
     public void addKeyActionListener(KeyListener listenForKey) {
-        txtSearch.addKeyListener((listenForKey));
+        _txtSearch.addKeyListener((listenForKey));
     }
 
 
