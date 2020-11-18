@@ -30,24 +30,22 @@ public class ChartPrimaryPanelController {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            the_Chart_Primary_Panel.current = LocalDateTime.now();
-            the_Chart_Primary_Panel.formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
             switch (ChartData.getS_instance().getSite_M_B_G()){
                 case 1:
-                    the_Chart_Primary_Panel.formatted_Melon = the_Chart_Primary_Panel.current.format(the_Chart_Primary_Panel.formatter);
+                    the_Chart_Primary_Panel.formatted_Melon = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
                     the_Chart_Primary_Panel.lblTime.setText("Renewal time : " + the_Chart_Primary_Panel.formatted_Melon);
                     ChartData.getS_instance().setSite_M_B_G(1);
                     ChartData.getS_instance().DataPassing(view_Loading);
                     System.out.println("why?");
                     break;
                 case 2:
-                    the_Chart_Primary_Panel.formatted_Bugs = the_Chart_Primary_Panel.current.format(the_Chart_Primary_Panel.formatter);
+                    the_Chart_Primary_Panel.formatted_Bugs = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
                     the_Chart_Primary_Panel.lblTime.setText("Renewal time : " + the_Chart_Primary_Panel.formatted_Bugs);
                     ChartData.getS_instance().setSite_M_B_G(2);
                     ChartData.getS_instance().DataPassing(view_Loading);
                     break;
                 case 3:
-                    the_Chart_Primary_Panel.formatted_Genie = the_Chart_Primary_Panel.current.format(the_Chart_Primary_Panel.formatter);
+                    the_Chart_Primary_Panel.formatted_Genie = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
                     the_Chart_Primary_Panel.lblTime.setText("Renewal time : " + the_Chart_Primary_Panel.formatted_Genie);
                     ChartData.getS_instance().setSite_M_B_G(3);
                     ChartData.getS_instance().DataPassing(view_Loading);

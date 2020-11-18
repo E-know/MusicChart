@@ -16,12 +16,9 @@ public class SiteChartsPanel extends JPanel{
 
     public JTextField txtSearch;
 
-    public LocalDateTime current = LocalDateTime.now();
-    public DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-
-    public String formatted_Melon = current.format(formatter);
-    public String formatted_Bugs = current.format(formatter);
-    public String formatted_Genie = current.format(formatter);
+    public String formatted_Melon = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+    public String formatted_Bugs = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+    public String formatted_Genie = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
     //refreshTime
 
 
