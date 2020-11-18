@@ -110,7 +110,6 @@ public class SiteChartsPanel extends JPanel{
 
     private void setInitPnlChartPanel(){
         pnlChartPanel = new ChartPanel();
-        new ChartPanelController(pnlChartPanel); //사이트 패널 컨트롤러 추가 선언
         pnlChartPanel.setBounds(100,140,1080,700);
         LineBorder SiteBorder = new LineBorder(Color.BLACK,3);
         pnlChartPanel.setBorder(SiteBorder);
