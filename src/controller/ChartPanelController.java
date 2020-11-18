@@ -8,11 +8,11 @@ import javax.swing.*;
 import main.AppManager;
 import view.ChartPanel;
 
-public class SitePanelController {
+public class ChartPanelController {
 
     private ChartPanel the_Chart_Panel;
 
-    public SitePanelController(ChartPanel theChartPanel) {
+    public ChartPanelController(ChartPanel theChartPanel) {
         this.the_Chart_Panel = theChartPanel;
         this.the_Chart_Panel.addClickListener(new addClickListener());
     }

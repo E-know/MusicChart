@@ -5,6 +5,8 @@ import java.net.*;
 import java.util.Comparator;
 import javax.swing.*;
 import javax.swing.table.*;
+
+import controller.ChartPanelController;
 import model.ChartData;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -50,6 +52,8 @@ public class ChartPanel extends JPanel {
 		setInitLblTitle();
 		setInitTableChart();
 		setInitScrollBar();
+
+		new ChartPanelController(this);
 	} //생성자 끝
 
     private void setInitLblTitle(){
