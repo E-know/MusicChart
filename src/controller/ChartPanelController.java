@@ -43,8 +43,8 @@ public class ChartPanelController {
         public void mouseReleased(MouseEvent e) { }
     } //addClickListener
     public void PopUpCommentUI(int rank){
-        AppManager.getS_instance().getPnlCommentUI().popUpCommentPanel(rank);
-        AppManager.getS_instance().getPnlCommentUI().setVisible(true);
+        AppManager.getS_instance().getPnlCommentPanel().popUpCommentPanel(rank);
+        AppManager.getS_instance().getPnlCommentPanel().setVisible(true);
         AppManager.getS_instance().getChartPrimaryPanel().setVisible(false);
     }
 }

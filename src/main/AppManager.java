@@ -14,7 +14,13 @@ public class AppManager {
     private JPanel primaryPanel;
 
     private AppManager(){
-    	s_instance = this;
+    	setInitPrimaryPanel();
+        setInitSiteChartsPanel();
+        setInitCommentPanel();
+
+        primaryPanel.add(pnlCommentPanel);
+        pnlCommentPanel.setVisible(false);
+        primaryPanel.add(pnlSiteChartsPanel);
     }
 
     private void setInitPrimaryPanel(){
@@ -31,6 +37,16 @@ public class AppManager {
         primaryPanel.setBackground(Color.BLACK);
     }
 
+    private void setInitCommentPanel(){
+        pnlCommentPanel = new CommentPanel();
+        new CommentPanelController(pnlCommentPanel);
+    }
+
+    public void setInitSiteChartsPanel(){
+        pnlSiteChartsPanel = new SiteChartsPanel();
+        pnlSiteChartsPanel.setLayout(null);
+        new ChartPrimaryPanelController(pnlSiteChartsPanel);
+    }
 
     public JPanel getPrimaryPanel(){
         if(primaryPanel == null)
@@ -38,38 +54,22 @@ public class AppManager {
         return primaryPanel;
     }
 
-    public CommentPanel getPnlCommentUI() {
+    public JPanel getPnlPrimaryPanel(){
+        if(primaryPanel == null)
+            setInitPrimaryPanel();
+        return primaryPanel;
+    }
+
+    public CommentPanel getPnlCommentPanel() {
+        if(pnlCommentPanel == null)
+            setInitCommentPanel();
         return pnlCommentPanel;
     }
+
     public SiteChartsPanel getChartPrimaryPanel() {
+        if(pnlSiteChartsPanel == null)
+            setInitSiteChartsPanel();
         return pnlSiteChartsPanel;
-    }
-
-    public void setPnlCommentPanel(){
-        pnlCommentPanel = new CommentPanel();
-        new CommentPanelController(pnlCommentPanel);
-    }
-
-    public void setPnlSiteChartsPanel(){
-        pnlSiteChartsPanel = new SiteChartsPanel();
-        new ChartPrimaryPanelController(pnlSiteChartsPanel);
-    }
-
-    public void PrimaryPanel(){
-        if(primaryPanel == null){
-            setInitPrimaryPanel();
-        }
-        setPnlCommentPanel();
-        setPnlSiteChartsPanel();
-        addToPrimaryPanel(pnlCommentPanel);
-        addToPrimaryPanel(pnlSiteChartsPanel);
-        pnlSiteChartsPanel.setLayout(null);
-        pnlSiteChartsPanel.setVisible(true);
-    }
-
-    public void addToPrimaryPanel(JPanel pnlAdd){
-        pnlAdd.setVisible(false);
-        primaryPanel.add(pnlAdd);
     }
 
     public static AppManager getS_instance() {

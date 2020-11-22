@@ -89,7 +89,7 @@ public class CommentPanelController {
 
     public void BackToChartPrimaryPanel(){
         AppManager.getS_instance().getPrimaryPanel().repaint();
-        AppManager.getS_instance().getPnlCommentUI().setVisible(false);
+        AppManager.getS_instance().getPnlCommentPanel().setVisible(false);
         AppManager.getS_instance().getChartPrimaryPanel().setVisible(true);
     }
 }
