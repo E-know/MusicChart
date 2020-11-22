@@ -31,6 +31,7 @@ public class AppManager {
         primaryPanel.setBackground(Color.BLACK);
     }
 
+
     public JPanel getPrimaryPanel(){
         if(primaryPanel == null)
             setInitPrimaryPanel();
@@ -40,26 +41,29 @@ public class AppManager {
     public CommentPanel getPnlCommentUI() {
         return pnlCommentPanel;
     }
-    public SiteChartsPanel getChartPrimaryPanel() {return pnlChartPrimary;}
+    public SiteChartsPanel getChartPrimaryPanel() {
+        return pnlChartPrimary;
+    }
+
     public void setPnlCommentPanel(){
         pnlCommentPanel = new CommentPanel();
         new CommentPanelController(pnlCommentPanel);
     }
+
     public void setPnlChartPrimary(){
         pnlChartPrimary = new SiteChartsPanel();
         new ChartPrimaryPanelController(pnlChartPrimary);
     }
+
     public void PrimaryPanel(){
         if(primaryPanel == null){
-            primaryPanel = new JPanel();
-            primaryPanel.setVisible(true);
-            primaryPanel.setLayout(null);
+            setInitPrimaryPanel();
         }
         setPnlCommentPanel();
         setPnlChartPrimary();
         addToPrimaryPanel(pnlCommentPanel);
         addToPrimaryPanel(pnlChartPrimary);
-        //pnlChartPrimary.setLayout(null);
+        pnlChartPrimary.setLayout(null);
         pnlChartPrimary.setVisible(true);
     }
 
