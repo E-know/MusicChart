@@ -3,6 +3,7 @@ package controller;
 import DB.ConnectDB;
 import main.AppManager;
 import model.ChartData;
+import org.json.simple.JSONObject;
 import view.CommentPanel;
 
 import java.awt.*;
@@ -33,7 +34,7 @@ public class CommentPanelController {
             if (!the_Comment_Panel._txtComment.getText().equals("")) {
                 DB.insertDB(the_Comment_Panel._sqlTitle,
                         the_Comment_Panel._strArtist,
-                        ChartData.getS_instance().getParser().getAlbumName(the_Comment_Panel._strTitle),
+                        ChartData.getS_instance().getParser().getAlbumName(the_Comment_Panel.getCommentPanelRank()),
                         ChartData.getS_instance().getSite_M_B_G(),
                         the_Comment_Panel._txtComment.getText(),
                         the_Comment_Panel._txtPassword.getText());

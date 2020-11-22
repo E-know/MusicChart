@@ -9,8 +9,8 @@ public class Main {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         frame.getContentPane().add(AppManager.getS_instance().getPnlPrimaryPanel());
-        ChartData.getS_instance();
-        DetailData.getS_instance();
+        //ChartData.getS_instance();
+        //DetailData.getS_instance();
 
         frame.pack();
         frame.setVisible(true);
