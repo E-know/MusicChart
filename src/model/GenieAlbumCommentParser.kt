@@ -6,8 +6,7 @@ import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
 
-class GenieAlbumCommentParser//System Property SetUp //Driver setup
-() {
+class GenieAlbumCommentParser : CommentParser {
 	//Properties
 	private var driver: WebDriver? = null
 	private val WEB_DRIVER_ID = "webdriver.chrome.driver"
@@ -20,7 +19,7 @@ class GenieAlbumCommentParser//System Property SetUp //Driver setup
 		driver = ChromeDriver()
 	}
 
-	fun crawl() : Unit {
+	override fun crawl() : Unit {
 		if (base_url == null) {
 			println("Url is null")
 			return

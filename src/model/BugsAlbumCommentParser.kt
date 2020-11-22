@@ -6,8 +6,7 @@ import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
 
-class BugsAlbumCommentParser//System Property SetUp //Driver setup
-() {
+class BugsAlbumCommentParser : CommentParser {//System Property SetUp //Driver setup
 	//Properties
 	private var driver: WebDriver? = null
 	private val WEB_DRIVER_ID = "webdriver.chrome.driver"
@@ -20,7 +19,7 @@ class BugsAlbumCommentParser//System Property SetUp //Driver setup
 		driver = ChromeDriver()
 	}
 
-	fun crawl() {
+	override fun crawl() {
 		if (base_url == null) {
 			println("Url is null")
 			return
@@ -31,7 +30,7 @@ class BugsAlbumCommentParser//System Property SetUp //Driver setup
 			val html = driver!!.pageSource
 			val doc: Document = Jsoup.parseBodyFragment(html)
 			val arr = doc.select("p[name=\"comment\"]").toMutableList()
-			for(ele in arr){
+			for (ele in arr) {
 				println(ele)
 			}
 

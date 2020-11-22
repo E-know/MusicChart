@@ -6,8 +6,7 @@ import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
 
-class MelonAlbumCommentParser//System Property SetUp //Driver setup
-() {
+class MelonAlbumCommentParser : CommentParser{
 	//Properties
 	private var driver: WebDriver? = null
 	private val WEB_DRIVER_ID = "webdriver.chrome.driver"
@@ -19,7 +18,7 @@ class MelonAlbumCommentParser//System Property SetUp //Driver setup
 		driver = ChromeDriver()
 	}
 
-	fun crawl() {
+	override fun crawl() {
 		if (base_url == null) {
 			println("Url is null")
 			return
