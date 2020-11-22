@@ -26,8 +26,11 @@ public class Test {
         System.out.print(b.getAlbumUrl(1));
 */
 
-        //GENIE
+       /* //GENIE
         GenieAlbumCommentParser genie = new GenieAlbumCommentParser();
-        genie.crawl();
+        genie.crawl();*/
+        GenieChartParser g = new GenieChartParser();
+        g.chartDataParsing(null);
+        System.out.println(g.getAlbumUrl(1));
     }
 }
