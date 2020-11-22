@@ -191,6 +191,24 @@ public abstract class MusicChartParser {
             return ((JSONObject) _chartList.get(rank - 1)).get("title").toString();
     } // String getTitle(int rank)
 
+    public String getAlbumUrl(int rank){
+        if (rank < 1 || rank > 100) { // 1 <= rank <= 100을 벗어나는 범위라면
+            System.out.println("1~100위 이내의 순위를 입력해주세요");
+            return null;
+        }
+
+        if (!isParsed()) { // 파싱이 이루어지지 않았다면
+            System.out.println(_isNotParsed);
+            return null;
+        }
+
+        if (_songCount == 1) { // 노래 한 곡에 대한 상세 정보 파싱이 이루어졌다면 null 반환(상세 정보에는 제목이 없기 때문)
+            System.out.println("getTitle(int rank) : " + _isOnlyChartParse);
+            return null;
+        } else
+            return ((JSONObject) _chartList.get(rank - 1)).get("albumUrl").toString();
+    }
+
     public String getTitle(JSONObject jObj) { // JSONArray의 원소 중 하나를 이용하여 해당 노래의 제목을 반환하는 메소드
 
         if (!isParsed()) { // 파싱이 이루어지지 않았다면
