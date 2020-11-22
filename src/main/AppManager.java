@@ -17,20 +17,23 @@ public class AppManager {
     	s_instance = this;
     }
 
+    private void setInitPrimaryPanel(){
+        primaryPanel = new JPanel(){
+            public void paintComponent(Graphics g){
+                ImageIcon icon = new ImageIcon("Image\\background.jpg");
+                g.drawImage(icon.getImage(),0,0,null);
+                setOpaque(false);
+                super.paintComponent(g);
+            }
+        };
+        primaryPanel.setLayout(null);
+        primaryPanel.setPreferredSize(new Dimension(1280,960));
+        primaryPanel.setBackground(Color.BLACK);
+    }
+
     public JPanel getPrimaryPanel(){
-        if(primaryPanel == null) {
-            primaryPanel = new JPanel(){
-                public void paintComponent(Graphics g){
-                    ImageIcon icon = new ImageIcon("Image\\background.jpg");
-                    g.drawImage(icon.getImage(),0,0,null);
-                    setOpaque(false);
-                    super.paintComponent(g);
-                }
-            };
-            primaryPanel.setLayout(null);
-            primaryPanel.setPreferredSize(new Dimension(1280,960));
-            primaryPanel.setBackground(Color.BLACK);
-        }
+        if(primaryPanel == null)
+            setInitPrimaryPanel();
         return primaryPanel;
     }
 
@@ -66,7 +69,8 @@ public class AppManager {
     }
 
     public static AppManager getS_instance() {
-        if(s_instance == null) s_instance = new AppManager();
+        if(s_instance == null)
+            s_instance = new AppManager();
         return s_instance;
     }
 }
