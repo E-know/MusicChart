@@ -85,7 +85,7 @@ public abstract class MusicChartParser {
 
         return _chartList;
     } // JSONArray getChartList()
-
+    /*
     public JSONObject getSongData() { // 노래 한 곡에 대한 상세 정보를 담는 JSONObject인 songDetailInfo를 반환하는 메소드
         if (!isParsed()) { // 파싱을 한 적이 없으면
             System.out.println(_isNotParsed);
@@ -135,7 +135,7 @@ public abstract class MusicChartParser {
 
         return null; // 반복문 내에서 못찾으면 정보가 없는 것 = null 반환
     } // JSONObject getSongData(String title)
-
+    *//*
     public int getRank(String title) { // 노래 제목을 통해 해당 노래의 순위를 반환하는 메소드
         if (!isParsed()) { // 파싱이 이루어지지 않았다면
             System.out.println(_isNotParsed);
@@ -172,7 +172,7 @@ public abstract class MusicChartParser {
             return -1;
         }
     } // int getRank(JSONObject jObj)
-
+    */
     public String getTitle(int rank) { // 노래 순위를 통해 해당 노래의 제목을 반환하는 메소드
         if (rank < 1 || rank > 100) { // 1 <= rank <= 100을 벗어나는 범위라면
             System.out.println("1~100위 이내의 순위를 입력해주세요");
@@ -190,7 +190,7 @@ public abstract class MusicChartParser {
         } else
             return ((JSONObject) _chartList.get(rank - 1)).get("title").toString();
     } // String getTitle(int rank)
-
+    /*
     public String getTitle(JSONObject jObj) { // JSONArray의 원소 중 하나를 이용하여 해당 노래의 제목을 반환하는 메소드
 
         if (!isParsed()) { // 파싱이 이루어지지 않았다면
@@ -210,7 +210,7 @@ public abstract class MusicChartParser {
             return null;
         }
     } // String getTitle(JSONObject jObj)
-
+    */
     public String getArtistName(int rank) { // 노래 순위를 통해 해당 노래의 가수 이름을 반환하는 메소드
         if (rank < 1 || rank > 100) { // 1 <= rank <= 100을 벗어나는 범위라면
             System.out.println("1 ~ 100위 이내의 순위를 입력해주세요");
@@ -228,7 +228,7 @@ public abstract class MusicChartParser {
         }
         return ((JSONObject) _chartList.get(rank - 1)).get("artist").toString();
     } // String getArtistName(int rank)
-
+    /*
     public String getArtistName(String title) { // 노래 제목을 통해 해당 노래의 가수 이름을 반환하는 메소드
 
         if (!isParsed()) { // 파싱이 이루어지지 않았다면
@@ -247,7 +247,7 @@ public abstract class MusicChartParser {
         }
         return null; // 반복문 내에서 못찾으면 정보가 없는 것 = null 반환
     } // String getArtistName(String title)
-
+    *//*
     public String getArtistName(JSONObject jObj) { // JSONArray의 원소 중 하나를 이용하여 해당 노래의 가수 이름을 반환하는 메소드
         if (!isParsed()) { // 파싱이 이루어지지 않았다면
             System.out.println(_isNotParsed);
@@ -266,7 +266,7 @@ public abstract class MusicChartParser {
             return null;
         }
     } // String getArtistName(JSONObject jObj)
-
+    */
     public String getAlbumName(int rank) { // 노래 순위를 통해 해당 노래의 앨범 이름을 반환하는 메소드
         if (rank < 1 || rank > 100) { // 1 <= rank <= 100을 벗어나는 범위라면
             System.out.println("1~100위 이내의 순위를 입력해주세요");
@@ -284,7 +284,7 @@ public abstract class MusicChartParser {
 
         return ((JSONObject) _chartList.get(rank - 1)).get("albumName").toString();
     } // String getArtistName(int rank)
-
+    /*
     public String getAlbumName(String title) { // 노래 제목을 통해 해당 노래의 앨범 이름을 반환하는 메소드
         if (!isParsed()) { // 파싱이 이루어지지 않았다면
             System.out.println(_isNotParsed);
@@ -302,7 +302,7 @@ public abstract class MusicChartParser {
         }
         return null;
     } // String getAlbumName(String title)
-
+    *//*
     public String getAlbumName(JSONObject jObj) { // JSONArray의 원소 중 하나를 이용하여 해당 노래의 앨범 이름을 반환하는 메소드
         if (!isParsed()) { // 파싱이 이루어지지 않았다면
             System.out.println(_isNotParsed);
@@ -321,7 +321,7 @@ public abstract class MusicChartParser {
             return null;
         }
     } // String getAlbumName(JSONObject jObj)
-
+    */
     public String getSongId(int rank) { // 노래 순위를 통해 해당 노래의 앨범 이름을 반환하는 메소드
         if (rank < 1 || rank > 100) { // 1 <= rank <= 100을 벗어나는 범위라면
             System.out.println("1~100위 이내의 순위를 입력해주세요");
@@ -340,7 +340,7 @@ public abstract class MusicChartParser {
 
         return ((JSONObject) _chartList.get(rank - 1)).get("songId").toString();
     } // String getSongId(int rank)
-
+    /*
     public String getSongId(String title) { // 노래 제목을 통해 해당 노래의 노래 아이디를 반환하는 메소드, 노래 아이디는 상세 페이지 url을 얻을 때 사용 됨
         if (!isParsed()) { // 파싱이 이루어지지 않았다면
             System.out.println(_isNotParsed);
@@ -358,7 +358,7 @@ public abstract class MusicChartParser {
         }
         return null;
     } // String getSongId(String title)
-
+    *//*
     public String getSongId(JSONObject jObj) { // JSONArray의 원소 중 하나를 이용하여 해당 노래의 앨범 이름을 반환하는 메소드
         if (!isParsed()) { // 파싱이 이루어지지 않았다면
             System.out.println(_isNotParsed);
@@ -377,10 +377,10 @@ public abstract class MusicChartParser {
             return null;
         }
     } // String getSongId(JSONObject jObj)
-
+    */
     // getLikeNum()은 BugsChartParser와 GenieChartParser에서만 사용가능하므로 추상클래스에서는 제외됨
     // getLikeNum(int rank), getLikeNum(String title)는 MelonChartParser에서만 사용가능하므로 추상클래스에서는 제외됨
-
+    /*
     public String getLikeNum(JSONObject jObj) { // JSONArray의 원소 중 하나를 이용하여 해당 노래의 좋아요 개수를 반환하는 메소드
         if (!isParsed()) { // 파싱이 이루어지지 않았다면
             System.out.println(_isNotParsed);
@@ -399,7 +399,7 @@ public abstract class MusicChartParser {
             return null;
         }
     } // String getLikeNum(JSONObject jObj)
-
+    *//*
     // songDetailDataParsing 후에만 사용가능한 메소드
     public String getImageUrl() { // 노래 한 곡에 대한 상세 파싱이 이루어졌다면 그 곡의 큰 이미지 url을 반환하는 메소드
         if (!isParsed()) { // 파싱이 이루어지지 않았다면
@@ -413,7 +413,7 @@ public abstract class MusicChartParser {
         System.out.println("getImageUrl() : " + _isOnlyDetailParse);
         return null;
     } // String getImageUrl()
-
+    */
     public String getImageUrl(int rank) { // 노래 순위를 통해 해당 노래의 이미지 url을 반환하는 메소드
         if (rank < 1 || rank > 100) { // 1 <= rank <= 100을 벗어나는 범위라면
             System.out.println("1~100위 이내의 순위를 입력해주세요");
@@ -430,7 +430,7 @@ public abstract class MusicChartParser {
         else
             return ((JSONObject) _chartList.get(rank - 1)).get("smallImageUrl").toString(); // 차트 100곡에 대한 파싱이 이루어졌다면 JSONArray에 있는 노래들 중 순위에 맞는 원소의 작은 이미지 url을 반환
     } // String getImageUrl(int rank)
-
+    /*
     public String getImageUrl(String title) { // 노래 제목을 통해 해당 노래의 이미지 url을 반환하는 메소드
         if (!isParsed()) { // 파싱이 이루어지지 않았다면
             System.out.println(_isNotParsed);
@@ -468,7 +468,7 @@ public abstract class MusicChartParser {
         System.out.println(_jsonDontHaveKey);
         return null;
     } // String getImageUrl(JSONObject jObj)
-
+    */
     // getGenre(), getGenre(JSONObject jObj)는 MelonChartParser와 GenieChartParser에서만 사용가능하므로 추상클래스에서는 제외됨
     // getReleaseDate(), getReleaseDate(JSONObject jObj)는 MelonChartParser에서만 사용가능하므로 추상클래스에서는 제외됨
 } // MusicChartParser class

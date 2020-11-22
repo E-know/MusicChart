@@ -332,7 +332,7 @@ public class MelonChartParser extends MusicChartParser {
 
         return ((JSONObject) _chartList.get(rank - 1)).get("likeNum").toString();
     } // String getLikeNum(int rank)
-
+    /*
     //chartDataParsing 후에만 사용가능한 메소드
     public String getLikeNum(String title) { // 노래 제목을 이용하여 해당 노래의 좋아요 개수를 반환하는 메소드
         if (!isParsed()) { // 파싱이 이루어지지 않았다면
@@ -352,7 +352,7 @@ public class MelonChartParser extends MusicChartParser {
 
         return null;
     } // String getLikeNum(String title)
-
+    */
     // songDetailDataParsing 후에만 사용가능한 메소드
     public String getReleaseDate() { // 노래 한 곡에 대한 상세 파싱이 이루어졌다면 그 곡의 발매일을 반환하는 메소드
         if (!isParsed()) { // 파싱이 이루어지지 않았다면
@@ -365,7 +365,7 @@ public class MelonChartParser extends MusicChartParser {
         System.out.println("getReleaseDate() : " + _isOnlyDetailParse);
         return null;
     } // String getReleaseDate()
-
+    /*
     // songDetailDataParsing 후에만 사용가능한 메소드
     public String getReleaseDate(JSONObject jObj) { // 노래 한 곡에 대한 상세 파싱이 이루어졌다면 JSONObject를 이용하여 그 곡의 발매일을 반환하는 메소드
         if (!isParsed()) { // 파싱이 이루어지지 않았다면
@@ -390,7 +390,7 @@ public class MelonChartParser extends MusicChartParser {
         System.out.println("getReleaseDate(JSONObject jObj) : " + _isOnlyDetailParse);
         return null;
     } // String getReleaseDate(JSONObject jObj)
-
+    */
     // songDetailDataParsing 후에만 사용가능한 메소드
     public String getGenre() { // 노래 한 곡에 대한 상세 정보 파싱이 이루어졌다면 그 곡의 장르를 반환하는 메소드
         if (!isParsed()) { // 파싱이 이루어지지 않았다면
@@ -403,7 +403,7 @@ public class MelonChartParser extends MusicChartParser {
         System.out.println("getGenre() : " + _isOnlyDetailParse);
         return null;
     } // String getGenre()
-
+    /*
     // songDetailDataParsing 후에만 사용가능한 메소드
     public String getGenre(JSONObject jObj) { // 노래 한 곡에 대한 상세 정보 파싱이 이루어졌다면 JSONObject를 이용하여 그 곡의 장르를 반환하는 메소드
         if (!isParsed()) { // 파싱이 이루어지지 않았다면
@@ -428,4 +428,5 @@ public class MelonChartParser extends MusicChartParser {
         System.out.println("getGenre(JSONObject jObj) : " + _isOnlyDetailParse);
         return null;
     } // String getGenre(JSONObject jObj)
+    */
 } // MelonChartParser class

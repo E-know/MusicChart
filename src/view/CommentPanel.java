@@ -4,6 +4,7 @@ import DB.ConnectDB;
 import main.AppManager;
 import model.ChartData;
 import model.DetailData;
+import org.json.simple.JSONObject;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -31,7 +32,7 @@ public class CommentPanel extends JPanel {
     private JLabel _lblTitle, _lblArtist, _lblImage;
 
     ConnectDB DB = new ConnectDB();
-
+    public int CommmentPanelRank;
     /*
      * Description of Class
      *   음악 정보를 Paser에 AppManager를 통하여 직접 접근하여서 노래를 받아온다.
@@ -192,6 +193,7 @@ public class CommentPanel extends JPanel {
 
         inputMusicInfoToPnlMusicInfo(rank);
         inputCommentToListComment(rank);
+        setCommnetPanelRank(rank);
     }
 
     /*Description of Method readComment
@@ -242,5 +244,10 @@ public class CommentPanel extends JPanel {
     public void addBtnBackListener(ActionListener listenForBtnBack) {
         _btnBack.addActionListener((listenForBtnBack));
     }
-
+    public void setCommnetPanelRank(int rank){
+        CommmentPanelRank = rank;
+    }
+    public int getCommentPanelRank(){
+        return CommmentPanelRank;
+    }
 }//CommentUI

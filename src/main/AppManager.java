@@ -16,7 +16,8 @@ public class AppManager {
     private CommentPanelController theCommentPanelController;
 
     private AppManager(){
-    	s_instance = this;
+        s_instance = this;
+
     }
 
     public JPanel getPrimaryPanel(){

@@ -10,8 +10,8 @@ public class Main {
 
         frame.getContentPane().add(AppManager.getS_instance().getPrimaryPanel());
         AppManager.getS_instance().PrimaryPanel();
-        ChartData.getS_instance();
-        DetailData.getS_instance();
+        //ChartData.getS_instance();
+        //DetailData.getS_instance();
 
         frame.pack();
         frame.setVisible(true);
