@@ -10,7 +10,7 @@ import java.awt.*;
 public class AppManager {
     private static AppManager s_instance;
     private CommentPanel pnlCommentPanel;
-    private SiteChartsPanel pnlChartPrimary;
+    private SiteChartsPanel pnlSiteChartsPanel;
     private JPanel primaryPanel;
 
     private AppManager(){
@@ -42,7 +42,7 @@ public class AppManager {
         return pnlCommentPanel;
     }
     public SiteChartsPanel getChartPrimaryPanel() {
-        return pnlChartPrimary;
+        return pnlSiteChartsPanel;
     }
 
     public void setPnlCommentPanel(){
@@ -50,9 +50,9 @@ public class AppManager {
         new CommentPanelController(pnlCommentPanel);
     }
 
-    public void setPnlChartPrimary(){
-        pnlChartPrimary = new SiteChartsPanel();
-        new ChartPrimaryPanelController(pnlChartPrimary);
+    public void setPnlSiteChartsPanel(){
+        pnlSiteChartsPanel = new SiteChartsPanel();
+        new ChartPrimaryPanelController(pnlSiteChartsPanel);
     }
 
     public void PrimaryPanel(){
@@ -60,11 +60,11 @@ public class AppManager {
             setInitPrimaryPanel();
         }
         setPnlCommentPanel();
-        setPnlChartPrimary();
+        setPnlSiteChartsPanel();
         addToPrimaryPanel(pnlCommentPanel);
-        addToPrimaryPanel(pnlChartPrimary);
-        pnlChartPrimary.setLayout(null);
-        pnlChartPrimary.setVisible(true);
+        addToPrimaryPanel(pnlSiteChartsPanel);
+        pnlSiteChartsPanel.setLayout(null);
+        pnlSiteChartsPanel.setVisible(true);
     }
 
     public void addToPrimaryPanel(JPanel pnlAdd){
