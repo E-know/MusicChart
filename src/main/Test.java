@@ -1,12 +1,11 @@
 package main;
 
-import model.BugsAlbumCommentParser;
-import model.BugsChartParser;
-import model.MelonAlbumCommentParser;
-import model.MelonChartParser;
+import model.*;
 
 public class Test {
-    public static void main(String[] args) {/*
+    public static void main(String[] args) {
+        //MELON
+        /*
         MelonChartParser melon = new MelonChartParser();
         melon.isParsed();
         melon.chartDataParsing(null);
@@ -14,14 +13,21 @@ public class Test {
 
         MelonAlbumCommentParser com = new MelonAlbumCommentParser();
         com.setAlbumUrl(melon.getAlbumUrl(1));
-        com.crawl();*/
+        com.crawl();
+*/
 
-        //BugsAlbumCommentParser bugs = new BugsAlbumCommentParser();
-        //bugs.crawl();
+        //BUGS
+        /*
+        BugsAlbumCommentParser bugs = new BugsAlbumCommentParser();
+        bugs.crawl();
 
         BugsChartParser b = new BugsChartParser();
         b.chartDataParsing(null);
         System.out.print(b.getAlbumUrl(1));
+*/
 
+        //GENIE
+        GenieAlbumCommentParser genie = new GenieAlbumCommentParser();
+        genie.crawl();
     }
 }
