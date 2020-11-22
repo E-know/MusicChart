@@ -12,8 +12,6 @@ public class AppManager {
     private CommentPanel pnlCommentPanel;
     private SiteChartsPanel pnlChartPrimary;
     private JPanel primaryPanel;
-    private ChartPrimaryPanelController theChartPrimaryPanelController;
-    private CommentPanelController theCommentPanelController;
 
     private AppManager(){
     	s_instance = this;
@@ -42,11 +40,11 @@ public class AppManager {
     public SiteChartsPanel getChartPrimaryPanel() {return pnlChartPrimary;}
     public void setPnlCommentPanel(){
         pnlCommentPanel = new CommentPanel();
-        theCommentPanelController = new CommentPanelController(pnlCommentPanel);
+        new CommentPanelController(pnlCommentPanel);
     }
     public void setPnlChartPrimary(){
         pnlChartPrimary = new SiteChartsPanel();
-        theChartPrimaryPanelController = new ChartPrimaryPanelController(pnlChartPrimary);
+        new ChartPrimaryPanelController(pnlChartPrimary);
     }
     public void PrimaryPanel(){
         if(primaryPanel == null){
