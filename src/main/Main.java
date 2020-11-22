@@ -8,8 +8,7 @@ public class Main {
         JFrame frame = new JFrame("The People of Music");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        frame.getContentPane().add(AppManager.getS_instance().getPrimaryPanel());
-        AppManager.getS_instance().PrimaryPanel();
+        frame.getContentPane().add(AppManager.getS_instance().getPnlPrimaryPanel());
         //ChartData.getS_instance();
         //DetailData.getS_instance();
 
