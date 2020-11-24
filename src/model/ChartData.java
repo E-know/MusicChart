@@ -15,11 +15,12 @@ public class ChartData {
     private ChartData(){
         s_instance = this;
         Site_M_B_G = 1;
+        /*
         chartData = new JSONArray[4];
         chartData[1] = new JSONArray();
         chartData[2] = new JSONArray();
         chartData[3] = new JSONArray();
-
+        */
         melon = new MelonChartParser();
         bugs = new BugsChartParser();
         genie = new GenieChartParser();
@@ -37,7 +38,9 @@ public class ChartData {
     public BugsChartParser getBugsChartParser() {
         return bugs;
     }
-    public GenieChartParser getGenieChartParser() { return genie; }
+    public GenieChartParser getGenieChartParser() {
+        return genie;
+    }
 
     public MusicChartParser getParser() {
         switch (Site_M_B_G) {
@@ -66,7 +69,7 @@ public class ChartData {
                 break;
         }
     }
-
+    /*
     public void setJSONArray(JSONArray arr, int index) {
         switch(index) {
             case 0:
@@ -111,6 +114,7 @@ public class ChartData {
     public JSONArray getDisplayedJSONArray() {
         return chartData[Site_M_B_G];
     }
+    */
     public static ChartData getS_instance() {
         if(s_instance == null) s_instance = new ChartData();
         return s_instance;
