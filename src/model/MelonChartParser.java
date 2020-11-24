@@ -145,7 +145,7 @@ public class MelonChartParser extends MusicChartParser {
                     songAllInfo.put("albumName", elem.select("div.ellipsis").get(2).select("a").text().toString());
 
                     //System.out.println(elem.select("div.ellipsis").get(2).select("a").attr("href").substring(37,45));
-                    songAllInfo.put("albumUrl", elem.select("div.ellipsis").get(2).select("a").attr("href").substring(37,45));
+                    songAllInfo.put("albumID", elem.select("div.ellipsis").get(2).select("a").attr("href").substring(37,45));
 
                     // 노래의 좋아요 개수를 뽑아내기 위한 url을 만듬, 멜론은 좋아요 개수를 따로 불러오는 방식이라 단순 크롤링으로는 불러와지지 않기 때문
                     String likeNumUrl = "https://www.melon.com/commonlike/getSongLike.json?contsIds="

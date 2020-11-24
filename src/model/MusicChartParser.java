@@ -191,7 +191,7 @@ public abstract class MusicChartParser {
             return ((JSONObject) _chartList.get(rank - 1)).get("title").toString();
     } // String getTitle(int rank)
 
-    public String getAlbumUrl(int rank){
+    public String getAlbumID(int rank){
         if (rank < 1 || rank > 100) { // 1 <= rank <= 100을 벗어나는 범위라면
             System.out.println("1~100위 이내의 순위를 입력해주세요");
             return null;
@@ -206,7 +206,7 @@ public abstract class MusicChartParser {
             System.out.println("getTitle(int rank) : " + _isOnlyChartParse);
             return null;
         } else
-            return ((JSONObject) _chartList.get(rank - 1)).get("albumUrl").toString();
+            return ((JSONObject) _chartList.get(rank - 1)).get("albumID").toString();
     }
 
     public String getTitle(JSONObject jObj) { // JSONArray의 원소 중 하나를 이용하여 해당 노래의 제목을 반환하는 메소드

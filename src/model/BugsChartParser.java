@@ -137,7 +137,7 @@ public class BugsChartParser extends MusicChartParser {
                     // key : albumName, value : 앨범 이름
                     songAllInfo.put("albumName", elem.select("td.left").get(1).select("a").first().text().toString());
 
-                    songAllInfo.put("albumUrl", elem.select("td.left").get(1).select("a").attr("href").substring(31,39));
+                    songAllInfo.put("albumID", elem.select("td.left").get(1).select("a").attr("href").substring(31,39));
 
                     // 값들을 JSONObject로 변환
                     JSONObject jsonSongInfo = new JSONObject(songAllInfo);
