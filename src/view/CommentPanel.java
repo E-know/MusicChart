@@ -32,7 +32,7 @@ public class CommentPanel extends JPanel {
     private JLabel _lblTitle, _lblArtist, _lblImage;
 
     ConnectDB DB = new ConnectDB();
-    public int CommmentPanelRank;
+    public int _commmentPanelRank;
     /*
      * Description of Class
      *   음악 정보를 Paser에 AppManager를 통하여 직접 접근하여서 노래를 받아온다.
@@ -245,9 +245,9 @@ public class CommentPanel extends JPanel {
         _btnBack.addActionListener((listenForBtnBack));
     }
     public void setCommnetPanelRank(int rank){
-        CommmentPanelRank = rank;
+        _commmentPanelRank = rank;
     }
     public int getCommentPanelRank(){
-        return CommmentPanelRank;
+        return _commmentPanelRank;
     }
 }//CommentUI
