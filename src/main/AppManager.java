@@ -1,6 +1,8 @@
 package main;
 
 import controller.*;
+import model.BugsAlbumCommentParser;
+import model.GenieAlbumCommentParser;
 import model.MelonAlbumCommentParser;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -25,14 +27,16 @@ public class AppManager {
     }
 
     private void crawlingComments(){
-/*        System.setProperty("webdriver.chrome.driver","src/driver/chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver","src/driver/chromedriver.exe");
         WebDriver driver = new ChromeDriver();
 
-       // MelonAlbumCommentParser melon = new MelonAlbumCommentParser(driver);
-        //melon.crawl();
+        new MelonAlbumCommentParser(driver).crawl();
 
+        new BugsAlbumCommentParser(driver).crawl();
 
-        driver.close();*/
+        new GenieAlbumCommentParser(driver).crawl();
+
+        driver.close();
     }
 
     public JPanel getPrimaryPanel() {
