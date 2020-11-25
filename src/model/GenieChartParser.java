@@ -348,7 +348,7 @@ public class GenieChartParser extends MusicChartParser {
         System.out.println("getGenre() : " + _isOnlyDetailParse);
         return null;
     } // String getGenre()
-
+    /*
     // songDetailDataParsing 후에만 사용가능한 메소드
     public String getGenre(JSONObject jObj) { // 노래 한 곡에 대한 상세 파싱이 이루어졌다면 JSONObject를 이용하여 그 곡의 장르를 반환하는 메소드
         if (!isParsed()) { // 파싱이 이루어졌다면
@@ -373,7 +373,7 @@ public class GenieChartParser extends MusicChartParser {
         System.out.println("getGenre(JSONObject jObj) : " + _isOnlyDetailParse);
         return null;
     } // String getGenre(JSONObject jObj)
-
+    */
     // songDetailDataParsing 후에만 사용가능한 메소드
     public String getSongTime() { // 노래 한 곡에 대한 상세 파싱이 이루어졌다면 그 곡의 재생 시간을 반환하는 메소드
         if (!isParsed()) { // 파싱이 이루어졌다면
@@ -386,7 +386,7 @@ public class GenieChartParser extends MusicChartParser {
         System.out.println("getSongTime() : " + _isOnlyDetailParse);
         return null;
     } // String getSongTime()
-
+    /*
     // songDetailDataParsing 후에만 사용가능한 메소드
     public String getSongTime(JSONObject jObj) { // 노래 한 곡에 대한 상세 파싱이 이루어졌다면 JSONObject를 이용하여 그 곡의 재생 시간을 반환하는 메소드
         if (!isParsed()) { // 파싱이 이루어졌다면
@@ -418,5 +418,5 @@ public class GenieChartParser extends MusicChartParser {
         System.out.println("getLikeNum() : " + _isOnlyDetailParse);
         return null;
     } // String getLikeNum()
-
+    */
 } // GenieChartParser class

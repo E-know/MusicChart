@@ -16,83 +16,83 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 /**
- * @author SejongUniv ¿ÀÃ¢ÇÑ
+ * @author SejongUniv ì˜¤ì°½í•œ
  * @version 1.7
  **/
 
 public abstract class MusicChartParser {
 
-    protected int _songCount = 0;            // ³ë·¡ °³¼ö¸¦ ´ã´ç
-    protected String _url;                    // ÆÄ½ÌÇÒ À¥ »çÀÌÆ® url
-    protected JSONArray _chartList;            // Â÷Æ® 100°î¿¡ ´ëÇÑ Á¤º¸¸¦ ´ãÀ» JSONArray, JSONObject 100°³·Î ÀÌ·ç¾îÁ®ÀÖÀ½
-    protected JSONObject _songDetailInfo;    // ³ë·¡ ÇÑ °îÀÇ »ó¼¼ Á¤º¸¸¦ ´ãÀ» JSONObject, Â÷Æ® 100°î¿¡¼­´Â ¾òÀ» ¼ö ¾ø´Â Á¤º¸µé¸¸ Æ÷ÇÔÇÔ
+    protected int _songCount = 0;            // ë…¸ë˜ ê°œìˆ˜ë¥¼ ë‹´ë‹¹
+    protected String _url;                    // íŒŒì‹±í•  ì›¹ ì‚¬ì´íŠ¸ url
+    protected JSONArray _chartList;            // ì°¨íŠ¸ 100ê³¡ì— ëŒ€í•œ ì •ë³´ë¥¼ ë‹´ì„ JSONArray, JSONObject 100ê°œë¡œ ì´ë£¨ì–´ì ¸ìˆìŒ
+    protected JSONObject _songDetailInfo;    // ë…¸ë˜ í•œ ê³¡ì˜ ìƒì„¸ ì •ë³´ë¥¼ ë‹´ì„ JSONObject, ì°¨íŠ¸ 100ê³¡ì—ì„œëŠ” ì–»ì„ ìˆ˜ ì—†ëŠ” ì •ë³´ë“¤ë§Œ í¬í•¨í•¨
 
-    // ÆÄ½Ì ¿À·ù½Ã º¸¿©ÁÙ ¹®ÀÚ¿­µé
-    protected String _isNotParsed = "ÆÄ½ÌÀÌ Á¤»óÀûÀ¸·Î ÀÌ·ç¾îÁöÁö ¾Ê¾Ò½À´Ï´Ù :(";
-    protected String _isOnlyChartParse = "ÇØ´ç ¸Ş¼Òµå´Â Â÷Æ® ÆÄ½Ì¿¡¸¸ »ç¿ë°¡´ÉÇÑ ¸Ş¼Òµå ÀÔ´Ï´Ù :(";
-    protected String _isOnlyDetailParse = "ÇØ´ç ¸Ş¼Òµå´Â ³ë·¡ 1°³ÀÇ »ó¼¼ Á¤º¸ ÆÄ½Ì¿¡¸¸ »ç¿ë°¡´ÉÇÑ ¸Ş¼Òµå ÀÔ´Ï´Ù :(";
-    protected String _jsonDontHaveKey = "JSONObject ³»¿¡ ÇØ´ç Å° °ªÀÌ ¾ø½À´Ï´Ù :(";
-    protected String _plzUseRightJSONObject = "¿Ã¹Ù¸¥ JSONObject °ªÀ» »ç¿ëÇØÁÖ¼¼¿ä :(";
-    protected String _songDetailParsingTitle = "»ó¼¼ Á¤º¸ ÆÄ½ÌÁß..";
-    protected String _songDetailParsingMessage = "ÇØ´ç ³ë·¡¿¡ ´ëÇÑ »ó¼¼ Á¤º¸¸¦ ÆÄ½ÌÇÏ´Â ÁßÀÔ´Ï´Ù :)";
+    // íŒŒì‹± ì˜¤ë¥˜ì‹œ ë³´ì—¬ì¤„ ë¬¸ìì—´ë“¤
+    protected String _isNotParsed = "íŒŒì‹±ì´ ì •ìƒì ìœ¼ë¡œ ì´ë£¨ì–´ì§€ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤ :(";
+    protected String _isOnlyChartParse = "í•´ë‹¹ ë©”ì†Œë“œëŠ” ì°¨íŠ¸ íŒŒì‹±ì—ë§Œ ì‚¬ìš©ê°€ëŠ¥í•œ ë©”ì†Œë“œ ì…ë‹ˆë‹¤ :(";
+    protected String _isOnlyDetailParse = "í•´ë‹¹ ë©”ì†Œë“œëŠ” ë…¸ë˜ 1ê°œì˜ ìƒì„¸ ì •ë³´ íŒŒì‹±ì—ë§Œ ì‚¬ìš©ê°€ëŠ¥í•œ ë©”ì†Œë“œ ì…ë‹ˆë‹¤ :(";
+    protected String _jsonDontHaveKey = "JSONObject ë‚´ì— í•´ë‹¹ í‚¤ ê°’ì´ ì—†ìŠµë‹ˆë‹¤ :(";
+    protected String _plzUseRightJSONObject = "ì˜¬ë°”ë¥¸ JSONObject ê°’ì„ ì‚¬ìš©í•´ì£¼ì„¸ìš” :(";
+    protected String _songDetailParsingTitle = "ìƒì„¸ ì •ë³´ íŒŒì‹±ì¤‘..";
+    protected String _songDetailParsingMessage = "í•´ë‹¹ ë…¸ë˜ì— ëŒ€í•œ ìƒì„¸ ì •ë³´ë¥¼ íŒŒì‹±í•˜ëŠ” ì¤‘ì…ë‹ˆë‹¤ :)";
 
-    // Â÷Æ® 100°îÀ» ÆÄ½ÌÇÏ´Â abstract ¸Ş¼Òµå, °¢ À½¿ø »çÀÌÆ® ÆÄ¼­º°·Î ÇÊ¼ö·Î ´Ù¸£°Ô ±¸ÇöÇØ¾ß ÇÔ
-    // parentComponent¿¡ JPanel, JFrame µîÀ» ³ÖÀ¸¸é ÆÄ½ÌÀ» ÇÏ¸é¼­ ÇØ´ç Å¬·¡½º¿¡ ·ÎµùÃ¢À» ¶ç¿öÁÜ
-    // ProgressMonitor¸¦ »ç¿ëÇßÀ¸³ª ÀÌ °ÍÀ» »ç¿ëÇÏ¸é ¹ö±×°¡ ÀÖ¾î ProgressMonitor ºÎºĞ¸¸ ÁÖ¼®Ã³¸® ÇØµÎ¾úÀ½, »ó¼¼ÇÑ ¹ö±× ³»¿ëÀº ¾Æ·¡¿¡ ±â¼úÇßÀ½
+    // ì°¨íŠ¸ 100ê³¡ì„ íŒŒì‹±í•˜ëŠ” abstract ë©”ì†Œë“œ, ê° ìŒì› ì‚¬ì´íŠ¸ íŒŒì„œë³„ë¡œ í•„ìˆ˜ë¡œ ë‹¤ë¥´ê²Œ êµ¬í˜„í•´ì•¼ í•¨
+    // parentComponentì— JPanel, JFrame ë“±ì„ ë„£ìœ¼ë©´ íŒŒì‹±ì„ í•˜ë©´ì„œ í•´ë‹¹ í´ë˜ìŠ¤ì— ë¡œë”©ì°½ì„ ë„ì›Œì¤Œ
+    // ProgressMonitorë¥¼ ì‚¬ìš©í–ˆìœ¼ë‚˜ ì´ ê²ƒì„ ì‚¬ìš©í•˜ë©´ ë²„ê·¸ê°€ ìˆì–´ ProgressMonitor ë¶€ë¶„ë§Œ ì£¼ì„ì²˜ë¦¬ í•´ë‘ì—ˆìŒ, ìƒì„¸í•œ ë²„ê·¸ ë‚´ìš©ì€ ì•„ë˜ì— ê¸°ìˆ í–ˆìŒ
     public abstract void chartDataParsing(Component parentComponent);
 
-    // ³ë·¡ ÇÑ °îÀÇ »ó¼¼ Á¤º¸¸¦ ÆÄ½ÌÇÏ´Â abstract ¸Ş¼Òµå, ¿©·¯ parameterµéÀ» Áö¿øÇÔ
-    // parentComponent¿¡ JPanel, JFrame µîÀ» ³ÖÀ¸¸é ÆÄ½ÌÀ» ÇÏ¸é¼­ ÇØ´ç Å¬·¡½º¿¡ ·ÎµùÃ¢À» ¶ç¿öÁÜ
-    // ProgressMonitor¸¦ »ç¿ëÇßÀ¸³ª ÀÌ °ÍÀ» »ç¿ëÇÏ¸é ¹ö±×°¡ ÀÖ¾î ProgressMonitor ºÎºĞ¸¸ ÁÖ¼®Ã³¸® ÇØµÎ¾úÀ½, »ó¼¼ÇÑ ¹ö±× ³»¿ëÀº ¾Æ·¡¿¡ ±â¼úÇßÀ½
+    // ë…¸ë˜ í•œ ê³¡ì˜ ìƒì„¸ ì •ë³´ë¥¼ íŒŒì‹±í•˜ëŠ” abstract ë©”ì†Œë“œ, ì—¬ëŸ¬ parameterë“¤ì„ ì§€ì›í•¨
+    // parentComponentì— JPanel, JFrame ë“±ì„ ë„£ìœ¼ë©´ íŒŒì‹±ì„ í•˜ë©´ì„œ í•´ë‹¹ í´ë˜ìŠ¤ì— ë¡œë”©ì°½ì„ ë„ì›Œì¤Œ
+    // ProgressMonitorë¥¼ ì‚¬ìš©í–ˆìœ¼ë‚˜ ì´ ê²ƒì„ ì‚¬ìš©í•˜ë©´ ë²„ê·¸ê°€ ìˆì–´ ProgressMonitor ë¶€ë¶„ë§Œ ì£¼ì„ì²˜ë¦¬ í•´ë‘ì—ˆìŒ, ìƒì„¸í•œ ë²„ê·¸ ë‚´ìš©ì€ ì•„ë˜ì— ê¸°ìˆ í–ˆìŒ
     //public abstract void songDetailDataParsing(String songId, Component parentComponent);
 
     public abstract void songDetailDataParsing(JSONObject jObj, Component parentComponent);
 
    // public abstract void songDetailDataParsing(int rank, JSONArray chartListData, Component parentComponent);
 
-    //public abstract void songDetailDataParsing(String title, JSONArray chartListData, Component parentComponent); // ºñÃßÃµ ÇÏ´Â ¸Ş¼Òµå, title¿¡ ¸Â´Â µ¥ÀÌÅÍ¸¦ Ã³À½ºÎÅÍ Ã£¾Æ°¡¾ß ÇÏ±â ¶§¹®¿¡ Á» ´õ ºñÈ¿À²ÀûÀÓ
+    //public abstract void songDetailDataParsing(String title, JSONArray chartListData, Component parentComponent); // ë¹„ì¶”ì²œ í•˜ëŠ” ë©”ì†Œë“œ, titleì— ë§ëŠ” ë°ì´í„°ë¥¼ ì²˜ìŒë¶€í„° ì°¾ì•„ê°€ì•¼ í•˜ê¸° ë•Œë¬¸ì— ì¢€ ë” ë¹„íš¨ìœ¨ì ì„
 
-    protected Thread _chartThread;                // Â÷Æ® 100°îÀ» ÆÄ½ÌÇÒ ¶§ »ç¿ëÇÒ Thread
-    protected Thread _songDetailThread;            // ³ë·¡ ÇÑ °î¿¡ ´ëÇÑ »ó¼¼ Á¤º¸¸¦ ÆÄ½ÌÇÒ ¶§ »ç¿ëÇÒ Thread
+    protected Thread _chartThread;                // ì°¨íŠ¸ 100ê³¡ì„ íŒŒì‹±í•  ë•Œ ì‚¬ìš©í•  Thread
+    protected Thread _songDetailThread;            // ë…¸ë˜ í•œ ê³¡ì— ëŒ€í•œ ìƒì„¸ ì •ë³´ë¥¼ íŒŒì‹±í•  ë•Œ ì‚¬ìš©í•  Thread
 
     /*
      * @deprecated
-     * ÆÄ½Ì Áß¿¡ ·ÎµùÃ¢À¸·Î »ç¿ëÇÒ ProgressMonitor
-     * ±Ùµ¥ ÀÌ°É »ç¿ëÇÏ¸é Thread°¡ Á¾·áµÇÁö ¾Ê´Â ¿À·ù¿Í ¿øÇÏ´Â ´ë·Î ProgressMonitor°¡ ³ª¿ÀÁö ¾Ê´Â ¹ö±×°¡ ÀÖ¾î Deprecated Ã³¸®ÇØ³õ¾ÒÀ½
-     * ProgressBar µîÀ» Ä¿½ºÅÒÇØ¼­ »ç¿ëÇØ¾ß ÇÒ µí, ÇöÀç ÆÄ¼­¿¡¼­´Â ÁÖ¼®Ã³¸® ÇØµÎ¾úÀ½
+     * íŒŒì‹± ì¤‘ì— ë¡œë”©ì°½ìœ¼ë¡œ ì‚¬ìš©í•  ProgressMonitor
+     * ê·¼ë° ì´ê±¸ ì‚¬ìš©í•˜ë©´ Threadê°€ ì¢…ë£Œë˜ì§€ ì•ŠëŠ” ì˜¤ë¥˜ì™€ ì›í•˜ëŠ” ëŒ€ë¡œ ProgressMonitorê°€ ë‚˜ì˜¤ì§€ ì•ŠëŠ” ë²„ê·¸ê°€ ìˆì–´ Deprecated ì²˜ë¦¬í•´ë†“ì•˜ìŒ
+     * ProgressBar ë“±ì„ ì»¤ìŠ¤í…€í•´ì„œ ì‚¬ìš©í•´ì•¼ í•  ë“¯, í˜„ì¬ íŒŒì„œì—ì„œëŠ” ì£¼ì„ì²˜ë¦¬ í•´ë‘ì—ˆìŒ
      */
     @Deprecated
     protected ProgressMonitor progressMonitor;
 
-    public boolean isParsed() { // ÆÄ½ÌÀÌ ÀÌ·ç¾îÁ³´ÂÁö ÆÇ´ÜÇÏ´Â ¸Ş¼Òµå
-        // chartDataParsing()ÀÌ³ª songDetailDataParsing()À» ÇÑ ¹øÀÌ¶óµµ È£ÃâÇßÀ¸¸é songCount´Â 1 ÀÌ»óÀÓ
+    public boolean isParsed() { // íŒŒì‹±ì´ ì´ë£¨ì–´ì¡ŒëŠ”ì§€ íŒë‹¨í•˜ëŠ” ë©”ì†Œë“œ
+        // chartDataParsing()ì´ë‚˜ songDetailDataParsing()ì„ í•œ ë²ˆì´ë¼ë„ í˜¸ì¶œí–ˆìœ¼ë©´ songCountëŠ” 1 ì´ìƒì„
         if (_songCount == 0)
             return false;
         else
             return true;
     } // boolean isParsed()
 
-    public JSONArray getChartList() { // Â÷Æ® 100°î¿¡ ´ëÇÑ Á¤º¸¸¦ ´ã´Â JSONArrayÀÎ chartList¸¦ ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
-        if (!isParsed()) {// ÆÄ½ÌÀ» ÇÑ ÀûÀÌ ¾øÀ¸¸é
+    public JSONArray getChartList() { // ì°¨íŠ¸ 100ê³¡ì— ëŒ€í•œ ì •ë³´ë¥¼ ë‹´ëŠ” JSONArrayì¸ chartListë¥¼ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
+        if (!isParsed()) {// íŒŒì‹±ì„ í•œ ì ì´ ì—†ìœ¼ë©´
             System.out.println(_isNotParsed);
             return null;
         }
 
-        if (_songCount == 1) { // ³ë·¡ ÇÑ °î¿¡ ´ëÇÑ »ó¼¼ ÆÄ½ÌÀ» Çß´Ù¸é
+        if (_songCount == 1) { // ë…¸ë˜ í•œ ê³¡ì— ëŒ€í•œ ìƒì„¸ íŒŒì‹±ì„ í–ˆë‹¤ë©´
             System.out.println("getChartList() : " + _isOnlyChartParse);
             return null;
         }
 
         return _chartList;
     } // JSONArray getChartList()
-
-    public JSONObject getSongData() { // ³ë·¡ ÇÑ °î¿¡ ´ëÇÑ »ó¼¼ Á¤º¸¸¦ ´ã´Â JSONObjectÀÎ songDetailInfo¸¦ ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
-        if (!isParsed()) { // ÆÄ½ÌÀ» ÇÑ ÀûÀÌ ¾øÀ¸¸é
+    /*
+    public JSONObject getSongData() { // ë…¸ë˜ í•œ ê³¡ì— ëŒ€í•œ ìƒì„¸ ì •ë³´ë¥¼ ë‹´ëŠ” JSONObjectì¸ songDetailInfoë¥¼ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
+        if (!isParsed()) { // íŒŒì‹±ì„ í•œ ì ì´ ì—†ìœ¼ë©´
             System.out.println(_isNotParsed);
             return null;
         }
 
-        if (_songCount == 100) { // Â÷Æ® 100°î¿¡ ´ëÇÑ ÆÄ½ÌÀ» Çß´Ù¸é
+        if (_songCount == 100) { // ì°¨íŠ¸ 100ê³¡ì— ëŒ€í•œ íŒŒì‹±ì„ í–ˆë‹¤ë©´
             System.out.println("getSongData() : " + _isOnlyDetailParse);
             return null;
         }
@@ -100,62 +100,62 @@ public abstract class MusicChartParser {
         return _songDetailInfo;
     } // JSONObject getSongData()
 
-    public JSONObject getSongData(int rank) { // ³ë·¡ ÇÑ °î¿¡ ´ëÇÑ »ó¼¼ Á¤º¸ ¶Ç´Â Â÷Æ® 100À§ÀÇ ³ë·¡ 1°î¿¡ ´ëÇÑ Á¤º¸¸¦ ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
+    public JSONObject getSongData(int rank) { // ë…¸ë˜ í•œ ê³¡ì— ëŒ€í•œ ìƒì„¸ ì •ë³´ ë˜ëŠ” ì°¨íŠ¸ 100ìœ„ì˜ ë…¸ë˜ 1ê³¡ì— ëŒ€í•œ ì •ë³´ë¥¼ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
 
-        if (rank < 1 || rank > 100) { // 1 <= rank <= 100À» ¹ş¾î³ª´Â ¹üÀ§¶ó¸é
-            System.out.println("1 ~ 100À§ ÀÌ³»ÀÇ ¼øÀ§¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä :)");
+        if (rank < 1 || rank > 100) { // 1 <= rank <= 100ì„ ë²—ì–´ë‚˜ëŠ” ë²”ìœ„ë¼ë©´
+            System.out.println("1 ~ 100ìœ„ ì´ë‚´ì˜ ìˆœìœ„ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš” :)");
             return null;
         }
 
-        if (!isParsed()) { // ÆÄ½ÌÀÌ ÀÌ·ç¾îÁöÁö ¾Ê¾Ò´Ù¸é
+        if (!isParsed()) { // íŒŒì‹±ì´ ì´ë£¨ì–´ì§€ì§€ ì•Šì•˜ë‹¤ë©´
             System.out.println(_isNotParsed);
             return null;
         }
 
-        if (_songCount == 1)        // ³ë·¡ ÇÑ °î¿¡ ´ëÇÑ »ó¼¼ Á¤º¸ ÆÄ½ÌÀÌ ÀÌ·ç¾îÁ³´Ù¸é »ó¼¼ Á¤º¸ ¹İÈ¯(»ó¼¼ Á¤º¸´Â ¼øÀ§¿¡ »ó°üÀÌ ¾øÀ½)
+        if (_songCount == 1)        // ë…¸ë˜ í•œ ê³¡ì— ëŒ€í•œ ìƒì„¸ ì •ë³´ íŒŒì‹±ì´ ì´ë£¨ì–´ì¡Œë‹¤ë©´ ìƒì„¸ ì •ë³´ ë°˜í™˜(ìƒì„¸ ì •ë³´ëŠ” ìˆœìœ„ì— ìƒê´€ì´ ì—†ìŒ)
             return _songDetailInfo;
-        else                        // Â÷Æ® 100°î¿¡ ´ëÇÑ ÆÄ½ÌÀÌ ÀÌ·ç¾îÁ³´Ù¸é JSONArray¿¡ ÀÖ´Â rank ¼øÀ§¿¡ ¸Â´Â ¿ø¼Ò¸¦ ¹İÈ¯
+        else                        // ì°¨íŠ¸ 100ê³¡ì— ëŒ€í•œ íŒŒì‹±ì´ ì´ë£¨ì–´ì¡Œë‹¤ë©´ JSONArrayì— ìˆëŠ” rank ìˆœìœ„ì— ë§ëŠ” ì›ì†Œë¥¼ ë°˜í™˜
             return (JSONObject) _chartList.get(rank - 1);
     } // JSONObject getSongData(int rank)
 
-    public JSONObject getSongData(String title) { // ³ë·¡ ÇÑ °î¿¡ ´ëÇÑ »ó¼¼ Á¤º¸ ¶Ç´Â Â÷Æ® 100À§ÀÇ ³ë·¡ 1°î¿¡ ´ëÇÑ Á¤º¸¸¦ ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
+    public JSONObject getSongData(String title) { // ë…¸ë˜ í•œ ê³¡ì— ëŒ€í•œ ìƒì„¸ ì •ë³´ ë˜ëŠ” ì°¨íŠ¸ 100ìœ„ì˜ ë…¸ë˜ 1ê³¡ì— ëŒ€í•œ ì •ë³´ë¥¼ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
 
-        if (!isParsed()) { // ÆÄ½ÌÀÌ ÀÌ·ç¾îÁöÁö ¾Ê¾Ò´Ù¸é
+        if (!isParsed()) { // íŒŒì‹±ì´ ì´ë£¨ì–´ì§€ì§€ ì•Šì•˜ë‹¤ë©´
             System.out.println(_isNotParsed);
             return null;
         }
 
-        if (_songCount == 1) // ³ë·¡ ÇÑ °î¿¡ ´ëÇÑ »ó¼¼ Á¤º¸ ÆÄ½ÌÀÌ ÀÌ·ç¾îÁ³´Ù¸é »ó¼¼ Á¤º¸ ¹İÈ¯(»ó¼¼ Á¤º¸´Â ¼øÀ§¿¡ »ó°üÀÌ ¾øÀ½)
+        if (_songCount == 1) // ë…¸ë˜ í•œ ê³¡ì— ëŒ€í•œ ìƒì„¸ ì •ë³´ íŒŒì‹±ì´ ì´ë£¨ì–´ì¡Œë‹¤ë©´ ìƒì„¸ ì •ë³´ ë°˜í™˜(ìƒì„¸ ì •ë³´ëŠ” ìˆœìœ„ì— ìƒê´€ì´ ì—†ìŒ)
             return _songDetailInfo;
 
-        for (int i = 0; i < _songCount; i++) { // Â÷Æ® 100°î¿¡ ´ëÇÑ ÆÄ½ÌÀÌ ÀÌ·ç¾îÁ³´Ù¸é JSONArray¿¡ ÀÖ´Â ³ë·¡µé Áß title Á¦¸ñ¿¡ ¸Â´Â ¿ø¼Ò¸¦ ¹İÈ¯
+        for (int i = 0; i < _songCount; i++) { // ì°¨íŠ¸ 100ê³¡ì— ëŒ€í•œ íŒŒì‹±ì´ ì´ë£¨ì–´ì¡Œë‹¤ë©´ JSONArrayì— ìˆëŠ” ë…¸ë˜ë“¤ ì¤‘ title ì œëª©ì— ë§ëŠ” ì›ì†Œë¥¼ ë°˜í™˜
             if (((JSONObject) _chartList.get(i)).get("title") == title)
                 return (JSONObject) _chartList.get(i);
         }
 
-        return null; // ¹İº¹¹® ³»¿¡¼­ ¸øÃ£À¸¸é Á¤º¸°¡ ¾ø´Â °Í = null ¹İÈ¯
+        return null; // ë°˜ë³µë¬¸ ë‚´ì—ì„œ ëª»ì°¾ìœ¼ë©´ ì •ë³´ê°€ ì—†ëŠ” ê²ƒ = null ë°˜í™˜
     } // JSONObject getSongData(String title)
-
-    public int getRank(String title) { // ³ë·¡ Á¦¸ñÀ» ÅëÇØ ÇØ´ç ³ë·¡ÀÇ ¼øÀ§¸¦ ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
-        if (!isParsed()) { // ÆÄ½ÌÀÌ ÀÌ·ç¾îÁöÁö ¾Ê¾Ò´Ù¸é
+    *//*
+    public int getRank(String title) { // ë…¸ë˜ ì œëª©ì„ í†µí•´ í•´ë‹¹ ë…¸ë˜ì˜ ìˆœìœ„ë¥¼ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
+        if (!isParsed()) { // íŒŒì‹±ì´ ì´ë£¨ì–´ì§€ì§€ ì•Šì•˜ë‹¤ë©´
             System.out.println(_isNotParsed);
             return -1;
         }
 
-        if (_songCount == 1) { // ³ë·¡ ÇÑ °î¿¡ ´ëÇÑ »ó¼¼ Á¤º¸ ÆÄ½ÌÀÌ ÀÌ·ç¾îÁ³´Ù¸é -1 ¹İÈ¯(»ó¼¼ Á¤º¸¿¡´Â ¼øÀ§°¡ ¾ø±â ¶§¹®)
+        if (_songCount == 1) { // ë…¸ë˜ í•œ ê³¡ì— ëŒ€í•œ ìƒì„¸ ì •ë³´ íŒŒì‹±ì´ ì´ë£¨ì–´ì¡Œë‹¤ë©´ -1 ë°˜í™˜(ìƒì„¸ ì •ë³´ì—ëŠ” ìˆœìœ„ê°€ ì—†ê¸° ë•Œë¬¸)
             System.out.println("getRank(String title) :" + _isOnlyChartParse);
             return -1;
         }
 
-        for (int i = 0; i < _songCount; i++) { // Â÷Æ® 100°î¿¡ ´ëÇÑ ÆÄ½ÌÀÌ ÀÌ·ç¾îÁ³´Ù¸é JSONArray¿¡ ÀÖ´Â ³ë·¡µé Áß title Á¦¸ñ¿¡ ¸Â´Â ¿ø¼ÒÀÇ ¼øÀ§¸¦ ¹İÈ¯
+        for (int i = 0; i < _songCount; i++) { // ì°¨íŠ¸ 100ê³¡ì— ëŒ€í•œ íŒŒì‹±ì´ ì´ë£¨ì–´ì¡Œë‹¤ë©´ JSONArrayì— ìˆëŠ” ë…¸ë˜ë“¤ ì¤‘ title ì œëª©ì— ë§ëŠ” ì›ì†Œì˜ ìˆœìœ„ë¥¼ ë°˜í™˜
             if (((JSONObject) _chartList.get(i)).get("title") == title)
                 return Integer.parseInt(((JSONObject) _chartList.get(i)).get("rank").toString());
         }
-        return -1; // ¹İº¹¹® ³»¿¡¼­ ¸øÃ£À¸¸é Á¤º¸°¡ ¾ø´Â °Í = -1 ¹İÈ¯
+        return -1; // ë°˜ë³µë¬¸ ë‚´ì—ì„œ ëª»ì°¾ìœ¼ë©´ ì •ë³´ê°€ ì—†ëŠ” ê²ƒ = -1 ë°˜í™˜
     } // int getRank(String title)
 
-    public int getRank(JSONObject jObj) { // JSONArrayÀÇ ¿ø¼Ò Áß ÇÏ³ª¸¦ ÀÌ¿ëÇÏ¿© ÇØ´ç ³ë·¡ÀÇ ¼øÀ§¸¦ ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
-        if (!isParsed()) { // ÆÄ½ÌÀÌ ÀÌ·ç¾îÁöÁö ¾Ê¾Ò´Ù¸é
+    public int getRank(JSONObject jObj) { // JSONArrayì˜ ì›ì†Œ ì¤‘ í•˜ë‚˜ë¥¼ ì´ìš©í•˜ì—¬ í•´ë‹¹ ë…¸ë˜ì˜ ìˆœìœ„ë¥¼ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
+        if (!isParsed()) { // íŒŒì‹±ì´ ì´ë£¨ì–´ì§€ì§€ ì•Šì•˜ë‹¤ë©´
             System.out.println(_isNotParsed);
             return -1;
         }
@@ -165,53 +165,56 @@ public abstract class MusicChartParser {
             return -1;
         }
 
-        if (jObj.containsKey("rank")) // rank key°ª À¯È¿¼º °Ë»ç
+        if (jObj.containsKey("rank")) // rank keyê°’ ìœ íš¨ì„± ê²€ì‚¬
             return Integer.parseInt(jObj.get("rank").toString());
         else {
             System.out.println(_jsonDontHaveKey);
             return -1;
         }
     } // int getRank(JSONObject jObj)
-
-    public String getTitle(int rank) { // ³ë·¡ ¼øÀ§¸¦ ÅëÇØ ÇØ´ç ³ë·¡ÀÇ Á¦¸ñÀ» ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
-        if (rank < 1 || rank > 100) { // 1 <= rank <= 100À» ¹ş¾î³ª´Â ¹üÀ§¶ó¸é
-            System.out.println("1~100À§ ÀÌ³»ÀÇ ¼øÀ§¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä");
+    */
+    public String getTitle(int rank) { // ë…¸ë˜ ìˆœìœ„ë¥¼ í†µí•´ í•´ë‹¹ ë…¸ë˜ì˜ ì œëª©ì„ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
+        if (rank < 1 || rank > 100) { // 1 <= rank <= 100ì„ ë²—ì–´ë‚˜ëŠ” ë²”ìœ„ë¼ë©´
+            System.out.println("1~100ìœ„ ì´ë‚´ì˜ ìˆœìœ„ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”");
             return null;
         }
 
-        if (!isParsed()) { // ÆÄ½ÌÀÌ ÀÌ·ç¾îÁöÁö ¾Ê¾Ò´Ù¸é
+        if (!isParsed()) { // íŒŒì‹±ì´ ì´ë£¨ì–´ì§€ì§€ ì•Šì•˜ë‹¤ë©´
             System.out.println(_isNotParsed);
             return null;
         }
 
-        if (_songCount == 1) { // ³ë·¡ ÇÑ °î¿¡ ´ëÇÑ »ó¼¼ Á¤º¸ ÆÄ½ÌÀÌ ÀÌ·ç¾îÁ³´Ù¸é null ¹İÈ¯(»ó¼¼ Á¤º¸¿¡´Â Á¦¸ñÀÌ ¾ø±â ¶§¹®)
+        if (_songCount == 1) { // ë…¸ë˜ í•œ ê³¡ì— ëŒ€í•œ ìƒì„¸ ì •ë³´ íŒŒì‹±ì´ ì´ë£¨ì–´ì¡Œë‹¤ë©´ null ë°˜í™˜(ìƒì„¸ ì •ë³´ì—ëŠ” ì œëª©ì´ ì—†ê¸° ë•Œë¬¸)
             System.out.println("getTitle(int rank) : " + _isOnlyChartParse);
             return null;
         } else
             return ((JSONObject) _chartList.get(rank - 1)).get("title").toString();
     } // String getTitle(int rank)
 
+
     public String getAlbumID(int rank){
-        if (rank < 1 || rank > 100) { // 1 <= rank <= 100À» ¹ş¾î³ª´Â ¹üÀ§¶ó¸é
-            System.out.println("1~100À§ ÀÌ³»ÀÇ ¼øÀ§¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä");
+        if (rank < 1 || rank > 100) { // 1 <= rank <= 100ì„ ë²—ì–´ë‚˜ëŠ” ë²”ìœ„ë¼ë©´
+            System.out.println("1~100ìœ„ ì´ë‚´ì˜ ìˆœìœ„ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”");
             return null;
         }
 
-        if (!isParsed()) { // ÆÄ½ÌÀÌ ÀÌ·ç¾îÁöÁö ¾Ê¾Ò´Ù¸é
+        if (!isParsed()) { // íŒŒì‹±ì´ ì´ë£¨ì–´ì§€ì§€ ì•Šì•˜ë‹¤ë©´
             System.out.println(_isNotParsed);
             return null;
         }
 
-        if (_songCount == 1) { // ³ë·¡ ÇÑ °î¿¡ ´ëÇÑ »ó¼¼ Á¤º¸ ÆÄ½ÌÀÌ ÀÌ·ç¾îÁ³´Ù¸é null ¹İÈ¯(»ó¼¼ Á¤º¸¿¡´Â Á¦¸ñÀÌ ¾ø±â ¶§¹®)
+        if (_songCount == 1) { // ë…¸ë˜ í•œ ê³¡ì— ëŒ€í•œ ìƒì„¸ ì •ë³´ íŒŒì‹±ì´ ì´ë£¨ì–´ì¡Œë‹¤ë©´ null ë°˜í™˜(ìƒì„¸ ì •ë³´ì—ëŠ” ì œëª©ì´ ì—†ê¸° ë•Œë¬¸)
             System.out.println("getTitle(int rank) : " + _isOnlyChartParse);
             return null;
         } else
             return ((JSONObject) _chartList.get(rank - 1)).get("albumID").toString();
     }
 
-    public String getTitle(JSONObject jObj) { // JSONArrayÀÇ ¿ø¼Ò Áß ÇÏ³ª¸¦ ÀÌ¿ëÇÏ¿© ÇØ´ç ³ë·¡ÀÇ Á¦¸ñÀ» ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
+    /*
 
-        if (!isParsed()) { // ÆÄ½ÌÀÌ ÀÌ·ç¾îÁöÁö ¾Ê¾Ò´Ù¸é
+    public String getTitle(JSONObject jObj) { // JSONArrayì˜ ì›ì†Œ ì¤‘ í•˜ë‚˜ë¥¼ ì´ìš©í•˜ì—¬ í•´ë‹¹ ë…¸ë˜ì˜ ì œëª©ì„ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
+
+        if (!isParsed()) { // íŒŒì‹±ì´ ì´ë£¨ì–´ì§€ì§€ ì•Šì•˜ë‹¤ë©´
             System.out.println(_isNotParsed);
             return null;
         }
@@ -221,53 +224,53 @@ public abstract class MusicChartParser {
             return null;
         }
 
-        if (jObj.containsKey("title")) // title key°ª À¯È¿¼º °Ë»ç
+        if (jObj.containsKey("title")) // title keyê°’ ìœ íš¨ì„± ê²€ì‚¬
             return jObj.get("title").toString();
         else {
             System.out.println(_jsonDontHaveKey);
             return null;
         }
     } // String getTitle(JSONObject jObj)
-
-    public String getArtistName(int rank) { // ³ë·¡ ¼øÀ§¸¦ ÅëÇØ ÇØ´ç ³ë·¡ÀÇ °¡¼ö ÀÌ¸§À» ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
-        if (rank < 1 || rank > 100) { // 1 <= rank <= 100À» ¹ş¾î³ª´Â ¹üÀ§¶ó¸é
-            System.out.println("1 ~ 100À§ ÀÌ³»ÀÇ ¼øÀ§¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä");
+    */
+    public String getArtistName(int rank) { // ë…¸ë˜ ìˆœìœ„ë¥¼ í†µí•´ í•´ë‹¹ ë…¸ë˜ì˜ ê°€ìˆ˜ ì´ë¦„ì„ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
+        if (rank < 1 || rank > 100) { // 1 <= rank <= 100ì„ ë²—ì–´ë‚˜ëŠ” ë²”ìœ„ë¼ë©´
+            System.out.println("1 ~ 100ìœ„ ì´ë‚´ì˜ ìˆœìœ„ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”");
             return null;
         }
 
-        if (!isParsed()) { // ÆÄ½ÌÀÌ ÀÌ·ç¾îÁöÁö ¾Ê¾Ò´Ù¸é
+        if (!isParsed()) { // íŒŒì‹±ì´ ì´ë£¨ì–´ì§€ì§€ ì•Šì•˜ë‹¤ë©´
             System.out.println(_isNotParsed);
             return null;
         }
 
-        if (_songCount == 1) { // ³ë·¡ ÇÑ °î¿¡ ´ëÇÑ »ó¼¼ ÆÄ½ÌÀÌ ÀÌ·ç¾îÁ³´Ù¸é
+        if (_songCount == 1) { // ë…¸ë˜ í•œ ê³¡ì— ëŒ€í•œ ìƒì„¸ íŒŒì‹±ì´ ì´ë£¨ì–´ì¡Œë‹¤ë©´
             System.out.println("getArtistName(int rank) : " + _isOnlyChartParse);
             return null;
         }
         return ((JSONObject) _chartList.get(rank - 1)).get("artist").toString();
     } // String getArtistName(int rank)
+    /*
+    public String getArtistName(String title) { // ë…¸ë˜ ì œëª©ì„ í†µí•´ í•´ë‹¹ ë…¸ë˜ì˜ ê°€ìˆ˜ ì´ë¦„ì„ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
 
-    public String getArtistName(String title) { // ³ë·¡ Á¦¸ñÀ» ÅëÇØ ÇØ´ç ³ë·¡ÀÇ °¡¼ö ÀÌ¸§À» ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
-
-        if (!isParsed()) { // ÆÄ½ÌÀÌ ÀÌ·ç¾îÁöÁö ¾Ê¾Ò´Ù¸é
+        if (!isParsed()) { // íŒŒì‹±ì´ ì´ë£¨ì–´ì§€ì§€ ì•Šì•˜ë‹¤ë©´
             System.out.println(_isNotParsed);
             return null;
         }
 
-        if (_songCount == 1) { // ³ë·¡ ÇÑ°î¿¡ ´ëÇÑ »ó¼¼ ÆÄ½ÌÀÌ ÀÌ·ç¾îÁ³´Ù¸é
+        if (_songCount == 1) { // ë…¸ë˜ í•œê³¡ì— ëŒ€í•œ ìƒì„¸ íŒŒì‹±ì´ ì´ë£¨ì–´ì¡Œë‹¤ë©´
             System.out.println("getArtistName(String title) : " + _isOnlyChartParse);
             return null;
         }
 
-        for (int i = 0; i < _songCount; i++) { // Â÷Æ® 100°î¿¡ ´ëÇÑ ÆÄ½ÌÀÌ ÀÌ·ç¾îÁ³´Ù¸é JSONArray¿¡ ÀÖ´Â ³ë·¡µé Áß title Á¦¸ñ¿¡ ¸Â´Â ¿ø¼ÒÀÇ °¡¼ö ÀÌ¸§À» ¹İÈ¯
+        for (int i = 0; i < _songCount; i++) { // ì°¨íŠ¸ 100ê³¡ì— ëŒ€í•œ íŒŒì‹±ì´ ì´ë£¨ì–´ì¡Œë‹¤ë©´ JSONArrayì— ìˆëŠ” ë…¸ë˜ë“¤ ì¤‘ title ì œëª©ì— ë§ëŠ” ì›ì†Œì˜ ê°€ìˆ˜ ì´ë¦„ì„ ë°˜í™˜
             if (((JSONObject) _chartList.get(i)).get("title") == title)
                 return ((JSONObject) _chartList.get(i)).get("artist").toString();
         }
-        return null; // ¹İº¹¹® ³»¿¡¼­ ¸øÃ£À¸¸é Á¤º¸°¡ ¾ø´Â °Í = null ¹İÈ¯
+        return null; // ë°˜ë³µë¬¸ ë‚´ì—ì„œ ëª»ì°¾ìœ¼ë©´ ì •ë³´ê°€ ì—†ëŠ” ê²ƒ = null ë°˜í™˜
     } // String getArtistName(String title)
-
-    public String getArtistName(JSONObject jObj) { // JSONArrayÀÇ ¿ø¼Ò Áß ÇÏ³ª¸¦ ÀÌ¿ëÇÏ¿© ÇØ´ç ³ë·¡ÀÇ °¡¼ö ÀÌ¸§À» ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
-        if (!isParsed()) { // ÆÄ½ÌÀÌ ÀÌ·ç¾îÁöÁö ¾Ê¾Ò´Ù¸é
+    *//*
+    public String getArtistName(JSONObject jObj) { // JSONArrayì˜ ì›ì†Œ ì¤‘ í•˜ë‚˜ë¥¼ ì´ìš©í•˜ì—¬ í•´ë‹¹ ë…¸ë˜ì˜ ê°€ìˆ˜ ì´ë¦„ì„ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
+        if (!isParsed()) { // íŒŒì‹±ì´ ì´ë£¨ì–´ì§€ì§€ ì•Šì•˜ë‹¤ë©´
             System.out.println(_isNotParsed);
             return null;
         }
@@ -277,52 +280,52 @@ public abstract class MusicChartParser {
             return null;
         }
 
-        if (jObj.containsKey("artist")) // artist key°ª À¯È¿¼º °Ë»ç
+        if (jObj.containsKey("artist")) // artist keyê°’ ìœ íš¨ì„± ê²€ì‚¬
             return jObj.get("artist").toString();
         else {
             System.out.println(_jsonDontHaveKey);
             return null;
         }
     } // String getArtistName(JSONObject jObj)
-
-    public String getAlbumName(int rank) { // ³ë·¡ ¼øÀ§¸¦ ÅëÇØ ÇØ´ç ³ë·¡ÀÇ ¾Ù¹ü ÀÌ¸§À» ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
-        if (rank < 1 || rank > 100) { // 1 <= rank <= 100À» ¹ş¾î³ª´Â ¹üÀ§¶ó¸é
-            System.out.println("1~100À§ ÀÌ³»ÀÇ ¼øÀ§¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä");
+    */
+    public String getAlbumName(int rank) { // ë…¸ë˜ ìˆœìœ„ë¥¼ í†µí•´ í•´ë‹¹ ë…¸ë˜ì˜ ì•¨ë²” ì´ë¦„ì„ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
+        if (rank < 1 || rank > 100) { // 1 <= rank <= 100ì„ ë²—ì–´ë‚˜ëŠ” ë²”ìœ„ë¼ë©´
+            System.out.println("1~100ìœ„ ì´ë‚´ì˜ ìˆœìœ„ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”");
             return null;
         }
-        if (!isParsed()) { // ÆÄ½ÌÀÌ ÀÌ·ç¾îÁöÁö ¾Ê¾Ò´Ù¸é
+        if (!isParsed()) { // íŒŒì‹±ì´ ì´ë£¨ì–´ì§€ì§€ ì•Šì•˜ë‹¤ë©´
             System.out.println(_isNotParsed);
             return null;
         }
 
-        if (_songCount == 1) { // ³ë·¡ ÇÑ °î¿¡ ´ëÇÑ »ó¼¼ ÆÄ½ÌÀÌ ÀÌ·ç¾îÁ³´Ù¸é
+        if (_songCount == 1) { // ë…¸ë˜ í•œ ê³¡ì— ëŒ€í•œ ìƒì„¸ íŒŒì‹±ì´ ì´ë£¨ì–´ì¡Œë‹¤ë©´
             System.out.println("getAlbumName(int rank) : " + _isOnlyChartParse);
             return null;
         }
 
         return ((JSONObject) _chartList.get(rank - 1)).get("albumName").toString();
     } // String getArtistName(int rank)
-
-    public String getAlbumName(String title) { // ³ë·¡ Á¦¸ñÀ» ÅëÇØ ÇØ´ç ³ë·¡ÀÇ ¾Ù¹ü ÀÌ¸§À» ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
-        if (!isParsed()) { // ÆÄ½ÌÀÌ ÀÌ·ç¾îÁöÁö ¾Ê¾Ò´Ù¸é
+    /*
+    public String getAlbumName(String title) { // ë…¸ë˜ ì œëª©ì„ í†µí•´ í•´ë‹¹ ë…¸ë˜ì˜ ì•¨ë²” ì´ë¦„ì„ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
+        if (!isParsed()) { // íŒŒì‹±ì´ ì´ë£¨ì–´ì§€ì§€ ì•Šì•˜ë‹¤ë©´
             System.out.println(_isNotParsed);
             return null;
         }
 
-        if (_songCount == 1) { // ³ë·¡ ÇÑ °î¿¡ ´ëÇÑ »ó¼¼ ÆÄ½ÌÀÌ ÀÌ·ç¾îÁ³´Ù¸é
+        if (_songCount == 1) { // ë…¸ë˜ í•œ ê³¡ì— ëŒ€í•œ ìƒì„¸ íŒŒì‹±ì´ ì´ë£¨ì–´ì¡Œë‹¤ë©´
             System.out.println("getAlbumName(String title) : " + _isOnlyChartParse);
             return null;
         }
 
-        for (int i = 0; i < _songCount; i++) { // Â÷Æ® 100°î¿¡ ´ëÇÑ ÆÄ½ÌÀÌ ÀÌ·ç¾îÁ³´Ù¸é JSONArray¿¡ ÀÖ´Â ³ë·¡µé Áß title Á¦¸ñ¿¡ ¸Â´Â ¿ø¼ÒÀÇ ¾Ù¹ü ÀÌ¸§À» ¹İÈ¯
+        for (int i = 0; i < _songCount; i++) { // ì°¨íŠ¸ 100ê³¡ì— ëŒ€í•œ íŒŒì‹±ì´ ì´ë£¨ì–´ì¡Œë‹¤ë©´ JSONArrayì— ìˆëŠ” ë…¸ë˜ë“¤ ì¤‘ title ì œëª©ì— ë§ëŠ” ì›ì†Œì˜ ì•¨ë²” ì´ë¦„ì„ ë°˜í™˜
             if (((JSONObject) _chartList.get(i)).get("title") == title)
                 return ((JSONObject) _chartList.get(i)).get("albumName").toString();
         }
         return null;
     } // String getAlbumName(String title)
-
-    public String getAlbumName(JSONObject jObj) { // JSONArrayÀÇ ¿ø¼Ò Áß ÇÏ³ª¸¦ ÀÌ¿ëÇÏ¿© ÇØ´ç ³ë·¡ÀÇ ¾Ù¹ü ÀÌ¸§À» ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
-        if (!isParsed()) { // ÆÄ½ÌÀÌ ÀÌ·ç¾îÁöÁö ¾Ê¾Ò´Ù¸é
+    *//*
+    public String getAlbumName(JSONObject jObj) { // JSONArrayì˜ ì›ì†Œ ì¤‘ í•˜ë‚˜ë¥¼ ì´ìš©í•˜ì—¬ í•´ë‹¹ ë…¸ë˜ì˜ ì•¨ë²” ì´ë¦„ì„ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
+        if (!isParsed()) { // íŒŒì‹±ì´ ì´ë£¨ì–´ì§€ì§€ ì•Šì•˜ë‹¤ë©´
             System.out.println(_isNotParsed);
             return null;
         }
@@ -332,53 +335,53 @@ public abstract class MusicChartParser {
             return null;
         }
 
-        if (jObj.containsKey("albumName")) // albumName key°ª À¯È¿¼º °Ë»ç
+        if (jObj.containsKey("albumName")) // albumName keyê°’ ìœ íš¨ì„± ê²€ì‚¬
             return jObj.get("albumName").toString();
         else {
             System.out.println(_jsonDontHaveKey);
             return null;
         }
     } // String getAlbumName(JSONObject jObj)
-
-    public String getSongId(int rank) { // ³ë·¡ ¼øÀ§¸¦ ÅëÇØ ÇØ´ç ³ë·¡ÀÇ ¾Ù¹ü ÀÌ¸§À» ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
-        if (rank < 1 || rank > 100) { // 1 <= rank <= 100À» ¹ş¾î³ª´Â ¹üÀ§¶ó¸é
-            System.out.println("1~100À§ ÀÌ³»ÀÇ ¼øÀ§¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä");
+    */
+    public String getSongId(int rank) { // ë…¸ë˜ ìˆœìœ„ë¥¼ í†µí•´ í•´ë‹¹ ë…¸ë˜ì˜ ì•¨ë²” ì´ë¦„ì„ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
+        if (rank < 1 || rank > 100) { // 1 <= rank <= 100ì„ ë²—ì–´ë‚˜ëŠ” ë²”ìœ„ë¼ë©´
+            System.out.println("1~100ìœ„ ì´ë‚´ì˜ ìˆœìœ„ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”");
             return null;
         }
 
-        if (!isParsed()) { // ÆÄ½ÌÀÌ ÀÌ·ç¾îÁöÁö ¾Ê¾Ò´Ù¸é
+        if (!isParsed()) { // íŒŒì‹±ì´ ì´ë£¨ì–´ì§€ì§€ ì•Šì•˜ë‹¤ë©´
             System.out.println(_isNotParsed);
             return null;
         }
 
-        if (_songCount == 1) { // ³ë·¡ ÇÑ °î¿¡ ´ëÇÑ »ó¼¼ ÆÄ½ÌÀÌ ÀÌ·ç¾îÁ³´Ù¸é
+        if (_songCount == 1) { // ë…¸ë˜ í•œ ê³¡ì— ëŒ€í•œ ìƒì„¸ íŒŒì‹±ì´ ì´ë£¨ì–´ì¡Œë‹¤ë©´
             System.out.println("getSongId(int rank) : " + _isOnlyChartParse);
             return null;
         }
 
         return ((JSONObject) _chartList.get(rank - 1)).get("songId").toString();
     } // String getSongId(int rank)
-
-    public String getSongId(String title) { // ³ë·¡ Á¦¸ñÀ» ÅëÇØ ÇØ´ç ³ë·¡ÀÇ ³ë·¡ ¾ÆÀÌµğ¸¦ ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå, ³ë·¡ ¾ÆÀÌµğ´Â »ó¼¼ ÆäÀÌÁö urlÀ» ¾òÀ» ¶§ »ç¿ë µÊ
-        if (!isParsed()) { // ÆÄ½ÌÀÌ ÀÌ·ç¾îÁöÁö ¾Ê¾Ò´Ù¸é
+    /*
+    public String getSongId(String title) { // ë…¸ë˜ ì œëª©ì„ í†µí•´ í•´ë‹¹ ë…¸ë˜ì˜ ë…¸ë˜ ì•„ì´ë””ë¥¼ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ, ë…¸ë˜ ì•„ì´ë””ëŠ” ìƒì„¸ í˜ì´ì§€ urlì„ ì–»ì„ ë•Œ ì‚¬ìš© ë¨
+        if (!isParsed()) { // íŒŒì‹±ì´ ì´ë£¨ì–´ì§€ì§€ ì•Šì•˜ë‹¤ë©´
             System.out.println(_isNotParsed);
             return null;
         }
 
-        if (_songCount == 1) { // ³ë·¡  ÇÑ °î¿¡ ´ëÇÑ »ó¼¼ ÆÄ½ÌÀÌ ÀÌ·ç¾îÁ³´Ù¸é
+        if (_songCount == 1) { // ë…¸ë˜  í•œ ê³¡ì— ëŒ€í•œ ìƒì„¸ íŒŒì‹±ì´ ì´ë£¨ì–´ì¡Œë‹¤ë©´
             System.out.println("getSongId(String title) : " + _isOnlyChartParse);
             return null;
         }
 
-        for (int i = 0; i < _songCount; i++) { // Â÷Æ® 100°î¿¡ ´ëÇÑ ÆÄ½ÌÀÌ ÀÌ·ç¾îÁ³´Ù¸é JSONArray¿¡ ÀÖ´Â ³ë·¡µé Áß title Á¦¸ñ¿¡ ¸Â´Â ¿ø¼ÒÀÇ ³ë·¡ ¾ÆÀÌµğ¸¦ ¹İÈ¯
+        for (int i = 0; i < _songCount; i++) { // ì°¨íŠ¸ 100ê³¡ì— ëŒ€í•œ íŒŒì‹±ì´ ì´ë£¨ì–´ì¡Œë‹¤ë©´ JSONArrayì— ìˆëŠ” ë…¸ë˜ë“¤ ì¤‘ title ì œëª©ì— ë§ëŠ” ì›ì†Œì˜ ë…¸ë˜ ì•„ì´ë””ë¥¼ ë°˜í™˜
             if (((JSONObject) _chartList.get(i)).get("title") == title)
                 return ((JSONObject) _chartList.get(i)).get("songId").toString();
         }
         return null;
     } // String getSongId(String title)
-
-    public String getSongId(JSONObject jObj) { // JSONArrayÀÇ ¿ø¼Ò Áß ÇÏ³ª¸¦ ÀÌ¿ëÇÏ¿© ÇØ´ç ³ë·¡ÀÇ ¾Ù¹ü ÀÌ¸§À» ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
-        if (!isParsed()) { // ÆÄ½ÌÀÌ ÀÌ·ç¾îÁöÁö ¾Ê¾Ò´Ù¸é
+    *//*
+    public String getSongId(JSONObject jObj) { // JSONArrayì˜ ì›ì†Œ ì¤‘ í•˜ë‚˜ë¥¼ ì´ìš©í•˜ì—¬ í•´ë‹¹ ë…¸ë˜ì˜ ì•¨ë²” ì´ë¦„ì„ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
+        if (!isParsed()) { // íŒŒì‹±ì´ ì´ë£¨ì–´ì§€ì§€ ì•Šì•˜ë‹¤ë©´
             System.out.println(_isNotParsed);
             return null;
         }
@@ -388,19 +391,19 @@ public abstract class MusicChartParser {
             return null;
         }
 
-        if (jObj.containsKey("songId")) // songId key°ª À¯È¿¼º °Ë»ç
+        if (jObj.containsKey("songId")) // songId keyê°’ ìœ íš¨ì„± ê²€ì‚¬
             return jObj.get("songId").toString();
         else {
             System.out.println(_jsonDontHaveKey);
             return null;
         }
     } // String getSongId(JSONObject jObj)
-
-    // getLikeNum()Àº BugsChartParser¿Í GenieChartParser¿¡¼­¸¸ »ç¿ë°¡´ÉÇÏ¹Ç·Î Ãß»óÅ¬·¡½º¿¡¼­´Â Á¦¿ÜµÊ
-    // getLikeNum(int rank), getLikeNum(String title)´Â MelonChartParser¿¡¼­¸¸ »ç¿ë°¡´ÉÇÏ¹Ç·Î Ãß»óÅ¬·¡½º¿¡¼­´Â Á¦¿ÜµÊ
-
-    public String getLikeNum(JSONObject jObj) { // JSONArrayÀÇ ¿ø¼Ò Áß ÇÏ³ª¸¦ ÀÌ¿ëÇÏ¿© ÇØ´ç ³ë·¡ÀÇ ÁÁ¾Æ¿ä °³¼ö¸¦ ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
-        if (!isParsed()) { // ÆÄ½ÌÀÌ ÀÌ·ç¾îÁöÁö ¾Ê¾Ò´Ù¸é
+    */
+    // getLikeNum()ì€ BugsChartParserì™€ GenieChartParserì—ì„œë§Œ ì‚¬ìš©ê°€ëŠ¥í•˜ë¯€ë¡œ ì¶”ìƒí´ë˜ìŠ¤ì—ì„œëŠ” ì œì™¸ë¨
+    // getLikeNum(int rank), getLikeNum(String title)ëŠ” MelonChartParserì—ì„œë§Œ ì‚¬ìš©ê°€ëŠ¥í•˜ë¯€ë¡œ ì¶”ìƒí´ë˜ìŠ¤ì—ì„œëŠ” ì œì™¸ë¨
+    /*
+    public String getLikeNum(JSONObject jObj) { // JSONArrayì˜ ì›ì†Œ ì¤‘ í•˜ë‚˜ë¥¼ ì´ìš©í•˜ì—¬ í•´ë‹¹ ë…¸ë˜ì˜ ì¢‹ì•„ìš” ê°œìˆ˜ë¥¼ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
+        if (!isParsed()) { // íŒŒì‹±ì´ ì´ë£¨ì–´ì§€ì§€ ì•Šì•˜ë‹¤ë©´
             System.out.println(_isNotParsed);
             return null;
         }
@@ -410,62 +413,62 @@ public abstract class MusicChartParser {
             return null;
         }
 
-        if (jObj.containsKey("likeNum")) // likeNum key°ª À¯È¿¼º °Ë»ç
+        if (jObj.containsKey("likeNum")) // likeNum keyê°’ ìœ íš¨ì„± ê²€ì‚¬
             return jObj.get("likeNum").toString();
         else {
             System.out.println(_jsonDontHaveKey);
             return null;
         }
     } // String getLikeNum(JSONObject jObj)
-
-    // songDetailDataParsing ÈÄ¿¡¸¸ »ç¿ë°¡´ÉÇÑ ¸Ş¼Òµå
-    public String getImageUrl() { // ³ë·¡ ÇÑ °î¿¡ ´ëÇÑ »ó¼¼ ÆÄ½ÌÀÌ ÀÌ·ç¾îÁ³´Ù¸é ±× °îÀÇ Å« ÀÌ¹ÌÁö urlÀ» ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
-        if (!isParsed()) { // ÆÄ½ÌÀÌ ÀÌ·ç¾îÁöÁö ¾Ê¾Ò´Ù¸é
+    *//*
+    // songDetailDataParsing í›„ì—ë§Œ ì‚¬ìš©ê°€ëŠ¥í•œ ë©”ì†Œë“œ
+    public String getImageUrl() { // ë…¸ë˜ í•œ ê³¡ì— ëŒ€í•œ ìƒì„¸ íŒŒì‹±ì´ ì´ë£¨ì–´ì¡Œë‹¤ë©´ ê·¸ ê³¡ì˜ í° ì´ë¯¸ì§€ urlì„ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
+        if (!isParsed()) { // íŒŒì‹±ì´ ì´ë£¨ì–´ì§€ì§€ ì•Šì•˜ë‹¤ë©´
             System.out.println(_isNotParsed);
             return null;
         }
 
-        if (_songCount == 1) // ³ë·¡ ÇÑ °î¿¡ ´ëÇÑ »ó¼¼ ÆÄ½ÌÀÌ ÀÌ·ç¾îÁ³´Ù¸é
+        if (_songCount == 1) // ë…¸ë˜ í•œ ê³¡ì— ëŒ€í•œ ìƒì„¸ íŒŒì‹±ì´ ì´ë£¨ì–´ì¡Œë‹¤ë©´
             return _songDetailInfo.get("imageUrl").toString();
 
         System.out.println("getImageUrl() : " + _isOnlyDetailParse);
         return null;
     } // String getImageUrl()
-
-    public String getImageUrl(int rank) { // ³ë·¡ ¼øÀ§¸¦ ÅëÇØ ÇØ´ç ³ë·¡ÀÇ ÀÌ¹ÌÁö urlÀ» ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
-        if (rank < 1 || rank > 100) { // 1 <= rank <= 100À» ¹ş¾î³ª´Â ¹üÀ§¶ó¸é
-            System.out.println("1~100À§ ÀÌ³»ÀÇ ¼øÀ§¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä");
+    */
+    public String getImageUrl(int rank) { // ë…¸ë˜ ìˆœìœ„ë¥¼ í†µí•´ í•´ë‹¹ ë…¸ë˜ì˜ ì´ë¯¸ì§€ urlì„ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
+        if (rank < 1 || rank > 100) { // 1 <= rank <= 100ì„ ë²—ì–´ë‚˜ëŠ” ë²”ìœ„ë¼ë©´
+            System.out.println("1~100ìœ„ ì´ë‚´ì˜ ìˆœìœ„ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”");
             return null;
         }
 
-        if (!isParsed()) { // ÆÄ½ÌÀÌ ÀÌ·ç¾îÁöÁö ¾Ê¾Ò´Ù¸é
+        if (!isParsed()) { // íŒŒì‹±ì´ ì´ë£¨ì–´ì§€ì§€ ì•Šì•˜ë‹¤ë©´
             System.out.println(_isNotParsed);
             return null;
         }
 
         if (_songCount == 1)
-            return _songDetailInfo.get("imageUrl").toString(); // ³ë·¡ ÇÑ °î¿¡ ´ëÇÑ »ó¼¼ Á¤º¸ ÆÄ½ÌÀÌ ÀÌ·ç¾îÁ³´Ù¸é ±× °îÀÇ Å« ÀÌ¹ÌÁö urlÀ» ¹İÈ¯(»ó¼¼ Á¤º¸´Â ¼øÀ§¿¡ »ó°üÀÌ ¾øÀ½)
+            return _songDetailInfo.get("imageUrl").toString(); // ë…¸ë˜ í•œ ê³¡ì— ëŒ€í•œ ìƒì„¸ ì •ë³´ íŒŒì‹±ì´ ì´ë£¨ì–´ì¡Œë‹¤ë©´ ê·¸ ê³¡ì˜ í° ì´ë¯¸ì§€ urlì„ ë°˜í™˜(ìƒì„¸ ì •ë³´ëŠ” ìˆœìœ„ì— ìƒê´€ì´ ì—†ìŒ)
         else
-            return ((JSONObject) _chartList.get(rank - 1)).get("smallImageUrl").toString(); // Â÷Æ® 100°î¿¡ ´ëÇÑ ÆÄ½ÌÀÌ ÀÌ·ç¾îÁ³´Ù¸é JSONArray¿¡ ÀÖ´Â ³ë·¡µé Áß ¼øÀ§¿¡ ¸Â´Â ¿ø¼ÒÀÇ ÀÛÀº ÀÌ¹ÌÁö urlÀ» ¹İÈ¯
+            return ((JSONObject) _chartList.get(rank - 1)).get("smallImageUrl").toString(); // ì°¨íŠ¸ 100ê³¡ì— ëŒ€í•œ íŒŒì‹±ì´ ì´ë£¨ì–´ì¡Œë‹¤ë©´ JSONArrayì— ìˆëŠ” ë…¸ë˜ë“¤ ì¤‘ ìˆœìœ„ì— ë§ëŠ” ì›ì†Œì˜ ì‘ì€ ì´ë¯¸ì§€ urlì„ ë°˜í™˜
     } // String getImageUrl(int rank)
-
-    public String getImageUrl(String title) { // ³ë·¡ Á¦¸ñÀ» ÅëÇØ ÇØ´ç ³ë·¡ÀÇ ÀÌ¹ÌÁö urlÀ» ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
-        if (!isParsed()) { // ÆÄ½ÌÀÌ ÀÌ·ç¾îÁöÁö ¾Ê¾Ò´Ù¸é
+    /*
+    public String getImageUrl(String title) { // ë…¸ë˜ ì œëª©ì„ í†µí•´ í•´ë‹¹ ë…¸ë˜ì˜ ì´ë¯¸ì§€ urlì„ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
+        if (!isParsed()) { // íŒŒì‹±ì´ ì´ë£¨ì–´ì§€ì§€ ì•Šì•˜ë‹¤ë©´
             System.out.println(_isNotParsed);
             return null;
         }
-        if (_songCount == 1) // ³ë·¡ ÇÑ °î¿¡ ´ëÇÑ »ó¼¼ ÆÄ½ÌÀÌ ÀÌ·ç¾îÁ³´Ù¸é
-            return _songDetailInfo.get("imageUrl").toString(); // ³ë·¡ ÇÑ °î¿¡ ´ëÇÑ »ó¼¼ Á¤º¸ ÆÄ½ÌÀÌ ÀÌ·ç¾îÁ³´Ù¸é ±× °îÀÇ Å« ÀÌ¹ÌÁö urlÀ» ¹İÈ¯(»ó¼¼ Á¤º¸´Â Á¦¸ñ°ú »ó°üÀÌ ¾øÀ½)
+        if (_songCount == 1) // ë…¸ë˜ í•œ ê³¡ì— ëŒ€í•œ ìƒì„¸ íŒŒì‹±ì´ ì´ë£¨ì–´ì¡Œë‹¤ë©´
+            return _songDetailInfo.get("imageUrl").toString(); // ë…¸ë˜ í•œ ê³¡ì— ëŒ€í•œ ìƒì„¸ ì •ë³´ íŒŒì‹±ì´ ì´ë£¨ì–´ì¡Œë‹¤ë©´ ê·¸ ê³¡ì˜ í° ì´ë¯¸ì§€ urlì„ ë°˜í™˜(ìƒì„¸ ì •ë³´ëŠ” ì œëª©ê³¼ ìƒê´€ì´ ì—†ìŒ)
 
-        for (int i = 0; i < _songCount; i++) { // Â÷Æ® 100°î¿¡ ´ëÇÑ ÆÄ½ÌÀÌ ÀÌ·ç¾îÁ³´Ù¸é JSONArray¿¡ ÀÖ´Â ³ë·¡µé Áß title Á¦¸ñ¿¡ ¸Â´Â ¿ø¼ÒÀÇ ÀÛÀº ÀÌ¹ÌÁö urlÀ» ¹İÈ¯
+        for (int i = 0; i < _songCount; i++) { // ì°¨íŠ¸ 100ê³¡ì— ëŒ€í•œ íŒŒì‹±ì´ ì´ë£¨ì–´ì¡Œë‹¤ë©´ JSONArrayì— ìˆëŠ” ë…¸ë˜ë“¤ ì¤‘ title ì œëª©ì— ë§ëŠ” ì›ì†Œì˜ ì‘ì€ ì´ë¯¸ì§€ urlì„ ë°˜í™˜
             if (((JSONObject) _chartList.get(i)).get("title") == title)
                 return ((JSONObject) _chartList.get(i)).get("smallImageUrl").toString();
         }
         return null;
     } // String getImageUrl(String title)
 
-    public String getImageUrl(JSONObject jObj) { // JSONArrayÀÇ ¿ø¼Ò Áß ÇÏ³ª¸¦ ÀÌ¿ëÇÏ¿© ÇØ´ç ³ë·¡ÀÇ ÁÁ¾Æ¿ä °³¼ö¸¦ ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
-        if (!isParsed()) { // ÆÄ½ÌÀÌ ÀÌ·ç¾îÁöÁö ¾Ê¾Ò´Ù¸é
+    public String getImageUrl(JSONObject jObj) { // JSONArrayì˜ ì›ì†Œ ì¤‘ í•˜ë‚˜ë¥¼ ì´ìš©í•˜ì—¬ í•´ë‹¹ ë…¸ë˜ì˜ ì¢‹ì•„ìš” ê°œìˆ˜ë¥¼ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
+        if (!isParsed()) { // íŒŒì‹±ì´ ì´ë£¨ì–´ì§€ì§€ ì•Šì•˜ë‹¤ë©´
             System.out.println(_isNotParsed);
             return null;
         }
@@ -475,10 +478,10 @@ public abstract class MusicChartParser {
             return null;
         }
 
-        if (_songCount == 1) { // ³ë·¡ ÇÑ °î¿¡ ´ëÇÑ »ó¼¼ ÆÄ½ÌÀÌ ÀÌ·ç¾îÁ³´Ù¸é Å« ÀÌ¹ÌÁö url ¹İÈ¯
+        if (_songCount == 1) { // ë…¸ë˜ í•œ ê³¡ì— ëŒ€í•œ ìƒì„¸ íŒŒì‹±ì´ ì´ë£¨ì–´ì¡Œë‹¤ë©´ í° ì´ë¯¸ì§€ url ë°˜í™˜
             if (jObj.containsKey("imageUrl"))
                 return jObj.get("imageUrl").toString();
-        } else { // Â÷Æ® 100°î¿¡ ´ëÇÑ ÆÄ½ÌÀÌ ÀÌ·ç¾îÁ³´Ù¸é ÀÛÀº ÀÌ¹ÌÁö url ¹İÈ¯
+        } else { // ì°¨íŠ¸ 100ê³¡ì— ëŒ€í•œ íŒŒì‹±ì´ ì´ë£¨ì–´ì¡Œë‹¤ë©´ ì‘ì€ ì´ë¯¸ì§€ url ë°˜í™˜
             if (jObj.containsKey("smallImageUrl"))
                 return jObj.get("smallImageUrl").toString();
         }
@@ -486,7 +489,7 @@ public abstract class MusicChartParser {
         System.out.println(_jsonDontHaveKey);
         return null;
     } // String getImageUrl(JSONObject jObj)
-
-    // getGenre(), getGenre(JSONObject jObj)´Â MelonChartParser¿Í GenieChartParser¿¡¼­¸¸ »ç¿ë°¡´ÉÇÏ¹Ç·Î Ãß»óÅ¬·¡½º¿¡¼­´Â Á¦¿ÜµÊ
-    // getReleaseDate(), getReleaseDate(JSONObject jObj)´Â MelonChartParser¿¡¼­¸¸ »ç¿ë°¡´ÉÇÏ¹Ç·Î Ãß»óÅ¬·¡½º¿¡¼­´Â Á¦¿ÜµÊ
+    */
+    // getGenre(), getGenre(JSONObject jObj)ëŠ” MelonChartParserì™€ GenieChartParserì—ì„œë§Œ ì‚¬ìš©ê°€ëŠ¥í•˜ë¯€ë¡œ ì¶”ìƒí´ë˜ìŠ¤ì—ì„œëŠ” ì œì™¸ë¨
+    // getReleaseDate(), getReleaseDate(JSONObject jObj)ëŠ” MelonChartParserì—ì„œë§Œ ì‚¬ìš©ê°€ëŠ¥í•˜ë¯€ë¡œ ì¶”ìƒí´ë˜ìŠ¤ì—ì„œëŠ” ì œì™¸ë¨
 } // MusicChartParser class

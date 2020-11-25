@@ -85,8 +85,6 @@ public class MelonChartParser extends MusicChartParser {
     private String melonChartParsingTitle = "멜론 차트 파싱중..";
     private String melonChartParsingMessage = "멜론 차트 100곡에 대한 정보를 불러오는 중 입니다 :)";
 
-    public int chart = 1;
-
     public MelonChartParser() { // 초기화 작업을 진행함
         _songCount = 0;                // 파싱한 노래 개수(초기값은 0)
         _chartList = null;            // 차트 100곡에 대한 정보를 담을 JSONArray
@@ -101,7 +99,7 @@ public class MelonChartParser extends MusicChartParser {
         @Override
         public void run() {
             // 멜론 차트 1~100위의 노래를 파싱함
-            _songCount = 0; // 노래 개수 초기화
+            _songCount = 1; // 노래 개수 초기화
             _url = "https://www.melon.com/chart/index.htm"; // 파싱할 url
 
             try {
@@ -130,7 +128,7 @@ public class MelonChartParser extends MusicChartParser {
                     songAllInfo.put("songId", elem.attr("data-song-no").toString());
 
                     // key : rank, value : 순위
-                    songAllInfo.put("rank", Integer.toString(chart++));
+                    songAllInfo.put("rank", Integer.toString(_songCount++));
 
                     // key : smallImageUrl, value : 노래 이미지(사이즈 작음) 링크 (큰 사이즈 이미지는 detailDataParsing에서 다룸)
                     songAllInfo.put("smallImageUrl", elem.select("a > img").first().attr("src").toString());
@@ -171,7 +169,6 @@ public class MelonChartParser extends MusicChartParser {
 
                     // JSONArray에 값 추가, 노래 개수 증가
                     _chartList.add(jsonSongInfo);
-                    _songCount++;
                     //progressMonitor.setProgress(songCount);
                 }
 
@@ -335,7 +332,7 @@ public class MelonChartParser extends MusicChartParser {
 
         return ((JSONObject) _chartList.get(rank - 1)).get("likeNum").toString();
     } // String getLikeNum(int rank)
-
+    /*
     //chartDataParsing 후에만 사용가능한 메소드
     public String getLikeNum(String title) { // 노래 제목을 이용하여 해당 노래의 좋아요 개수를 반환하는 메소드
         if (!isParsed()) { // 파싱이 이루어지지 않았다면
@@ -355,7 +352,7 @@ public class MelonChartParser extends MusicChartParser {
 
         return null;
     } // String getLikeNum(String title)
-
+    */
     // songDetailDataParsing 후에만 사용가능한 메소드
     public String getReleaseDate() { // 노래 한 곡에 대한 상세 파싱이 이루어졌다면 그 곡의 발매일을 반환하는 메소드
         if (!isParsed()) { // 파싱이 이루어지지 않았다면
@@ -368,7 +365,7 @@ public class MelonChartParser extends MusicChartParser {
         System.out.println("getReleaseDate() : " + _isOnlyDetailParse);
         return null;
     } // String getReleaseDate()
-
+    /*
     // songDetailDataParsing 후에만 사용가능한 메소드
     public String getReleaseDate(JSONObject jObj) { // 노래 한 곡에 대한 상세 파싱이 이루어졌다면 JSONObject를 이용하여 그 곡의 발매일을 반환하는 메소드
         if (!isParsed()) { // 파싱이 이루어지지 않았다면
@@ -393,7 +390,7 @@ public class MelonChartParser extends MusicChartParser {
         System.out.println("getReleaseDate(JSONObject jObj) : " + _isOnlyDetailParse);
         return null;
     } // String getReleaseDate(JSONObject jObj)
-
+    */
     // songDetailDataParsing 후에만 사용가능한 메소드
     public String getGenre() { // 노래 한 곡에 대한 상세 정보 파싱이 이루어졌다면 그 곡의 장르를 반환하는 메소드
         if (!isParsed()) { // 파싱이 이루어지지 않았다면
@@ -406,7 +403,7 @@ public class MelonChartParser extends MusicChartParser {
         System.out.println("getGenre() : " + _isOnlyDetailParse);
         return null;
     } // String getGenre()
-
+    /*
     // songDetailDataParsing 후에만 사용가능한 메소드
     public String getGenre(JSONObject jObj) { // 노래 한 곡에 대한 상세 정보 파싱이 이루어졌다면 JSONObject를 이용하여 그 곡의 장르를 반환하는 메소드
         if (!isParsed()) { // 파싱이 이루어지지 않았다면
@@ -431,4 +428,5 @@ public class MelonChartParser extends MusicChartParser {
         System.out.println("getGenre(JSONObject jObj) : " + _isOnlyDetailParse);
         return null;
     } // String getGenre(JSONObject jObj)
+    */
 } // MelonChartParser class
