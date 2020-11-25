@@ -140,6 +140,9 @@ public class GenieChartParser extends MusicChartParser {
                     // key : albumName, value : 앨범 이름
                     songAllInfo.put("albumName", elem.select("td.info").first().select("a").get(2).text().toString());
 
+                    // key : albumUrl value : 앨범 Num
+                    songAllInfo.put("albumID",elem.select("td.info").first().select("a").get(2).attr("onclick").substring(18,26));
+
                     // 값들을 JSONObject로 변환
                     JSONObject jsonSongInfo = new JSONObject(songAllInfo);
 
@@ -185,6 +188,9 @@ public class GenieChartParser extends MusicChartParser {
 
                     // key : albumName, value : 앨범 이름
                     songAllInfo.put("albumName", elem.select("td.info").first().select("a").get(2).text().toString());
+
+                    // key : albumUrl value : 앨범 Num
+                    songAllInfo.put("albumID",elem.select("td.info").first().select("a").get(2).attr("onclick").substring(18,26));
 
                     // 값들을 JSONObject로 변환
                     JSONObject jsonSongInfo = new JSONObject(songAllInfo);
