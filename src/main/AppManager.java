@@ -1,6 +1,11 @@
 package main;
 
 import controller.*;
+import model.BugsAlbumCommentParser;
+import model.GenieAlbumCommentParser;
+import model.MelonAlbumCommentParser;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import view.SiteChartsPanel;
 import view.CommentPanel;
 
@@ -13,6 +18,7 @@ public class AppManager {
     private SiteChartsPanel pnlSiteChartsPanel;
     private JPanel primaryPanel;
 
+
     private AppManager(){
     	setInitPrimaryPanel();
         setInitSiteChartsPanel();
@@ -21,6 +27,22 @@ public class AppManager {
         primaryPanel.add(pnlCommentPanel);
         pnlCommentPanel.setVisible(false);
         primaryPanel.add(pnlSiteChartsPanel);
+        crawlingComments();
+
+    }
+    
+      
+    private void crawlingComments(){
+        System.setProperty("webdriver.chrome.driver","src/driver/chromedriver.exe");
+        WebDriver driver = new ChromeDriver();
+
+        new MelonAlbumCommentParser(driver).crawl();
+
+        new BugsAlbumCommentParser(driver).crawl();
+
+        new GenieAlbumCommentParser(driver).crawl();
+
+        driver.close();
     }
 
     private void setInitPrimaryPanel(){
@@ -37,10 +59,12 @@ public class AppManager {
         primaryPanel.setBackground(Color.BLACK);
     }
 
+
     private void setInitCommentPanel(){
         pnlCommentPanel = new CommentPanel();
         new CommentPanelController(pnlCommentPanel);
     }
+
 
     public void setInitSiteChartsPanel(){
         pnlSiteChartsPanel = new SiteChartsPanel();
@@ -75,6 +99,7 @@ public class AppManager {
     public static AppManager getS_instance() {
         if(s_instance == null)
             s_instance = new AppManager();
+
         return s_instance;
     }
 }
