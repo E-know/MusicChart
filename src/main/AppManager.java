@@ -1,6 +1,9 @@
 package main;
 
 import controller.*;
+import model.MelonAlbumCommentParser;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import view.SiteChartsPanel;
 import view.CommentPanel;
 
@@ -15,22 +18,35 @@ public class AppManager {
     private ChartPrimaryPanelController theChartPrimaryPanelController;
     private CommentPanelController theCommentPanelController;
 
-    private AppManager(){
-    	s_instance = this;
+    private AppManager() {
+        s_instance = this;
+
+        crawlingComments();
     }
 
-    public JPanel getPrimaryPanel(){
-        if(primaryPanel == null) {
-            primaryPanel = new JPanel(){
-                public void paintComponent(Graphics g){
+    private void crawlingComments(){
+/*        System.setProperty("webdriver.chrome.driver","src/driver/chromedriver.exe");
+        WebDriver driver = new ChromeDriver();
+
+       // MelonAlbumCommentParser melon = new MelonAlbumCommentParser(driver);
+        //melon.crawl();
+
+
+        driver.close();*/
+    }
+
+    public JPanel getPrimaryPanel() {
+        if (primaryPanel == null) {
+            primaryPanel = new JPanel() {
+                public void paintComponent(Graphics g) {
                     ImageIcon icon = new ImageIcon("Image\\background.jpg");
-                    g.drawImage(icon.getImage(),0,0,null);
+                    g.drawImage(icon.getImage(), 0, 0, null);
                     setOpaque(false);
                     super.paintComponent(g);
                 }
             };
             primaryPanel.setLayout(null);
-            primaryPanel.setPreferredSize(new Dimension(1280,960));
+            primaryPanel.setPreferredSize(new Dimension(1280, 960));
             primaryPanel.setBackground(Color.BLACK);
         }
         return primaryPanel;
@@ -39,17 +55,23 @@ public class AppManager {
     public CommentPanel getPnlCommentUI() {
         return pnlCommentPanel;
     }
-    public SiteChartsPanel getChartPrimaryPanel() {return pnlChartPrimary;}
-    public void setPnlCommentPanel(){
+
+    public SiteChartsPanel getChartPrimaryPanel() {
+        return pnlChartPrimary;
+    }
+
+    public void setPnlCommentPanel() {
         pnlCommentPanel = new CommentPanel();
         theCommentPanelController = new CommentPanelController(pnlCommentPanel);
     }
-    public void setPnlChartPrimary(){
+
+    public void setPnlChartPrimary() {
         pnlChartPrimary = new SiteChartsPanel();
         theChartPrimaryPanelController = new ChartPrimaryPanelController(pnlChartPrimary);
     }
-    public void PrimaryPanel(){
-        if(primaryPanel == null){
+
+    public void PrimaryPanel() {
+        if (primaryPanel == null) {
             primaryPanel = new JPanel();
             primaryPanel.setVisible(true);
             primaryPanel.setLayout(null);
@@ -62,13 +84,13 @@ public class AppManager {
         pnlChartPrimary.setVisible(true);
     }
 
-    public void addToPrimaryPanel(JPanel pnlAdd){
+    public void addToPrimaryPanel(JPanel pnlAdd) {
         pnlAdd.setVisible(false);
         primaryPanel.add(pnlAdd);
     }
 
     public static AppManager getS_instance() {
-        if(s_instance == null) s_instance = new AppManager();
+        if (s_instance == null) s_instance = new AppManager();
         return s_instance;
     }
 }

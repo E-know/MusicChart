@@ -5,39 +5,72 @@ import org.openqa.selenium.chrome.ChromeDriver
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
+import org.jsoup.select.Elements
+import java.lang.Thread.sleep
 
-class GenieAlbumCommentParser : CommentParser {
+class GenieAlbumCommentParser(val driver: WebDriver) {
 	//Properties
-	private var driver: WebDriver? = null
 	private val WEB_DRIVER_ID = "webdriver.chrome.driver"
 	private val WEB_DRIVER_PATH = "src/driver/chromedriver.exe"
-	val albumnum = "81743752"
-	private var base_url: String? = "https://www.genie.co.kr/detail/albumInfo?axnm=$albumnum"
+	private val base_url: String = "https://www.genie.co.kr/detail/albumInfo?axnm="
 
 	init {
 		System.setProperty(WEB_DRIVER_ID, WEB_DRIVER_PATH)
-		driver = ChromeDriver()
 	}
 
-	override fun crawl() : Unit {
-		if (base_url == null) {
-			println("Url is null")
-			return
-		}
-		try {
-			//get page (= 브라우저에서 url을 주소창에 넣은 후 request 한 것과 같다)
-			driver!!.get(base_url)
-			val html = driver!!.pageSource
-			val doc: Document = Jsoup.parseBodyFragment(html)
-			val arr = doc.select("div.reply-text > p")
-			//val arr = doc.select("d.reply-text > p").toMutableList()
-			//print(doc.select("div.reply-text > p"))
+	fun crawl(): MutableMap<String, List<String>> {
+		val result = mutableMapOf<String, List<String>>()
+		val _setAlbumID = mutableSetOf<String>()
 
+		for (i in 1..100) {
+			if (!ChartData.getS_instance().genieChartParser.isParsed)
+				ChartData.getS_instance().genieChartParser.chartDataParsing(null)
+			_setAlbumID.add(ChartData.getS_instance().genieChartParser.getAlbumID(i))
+		}
+
+		try {
+			var doc: Document
+			var arr: Elements
+			var html: String
+			var sleep_Flag = false
+			for (id in _setAlbumID) {
+				do {
+					driver.get("https://www.genie.co.kr/detail/albumInfo?axnm=${id}")
+					if(sleep_Flag) {
+						sleep_Flag = false
+						sleep(500)
+					}
+					html = driver.pageSource
+					doc = Jsoup.parseBodyFragment(html)
+					arr = doc.select("div.reply-text > p")
+					if(!arr.any())
+						sleep_Flag = true
+					else
+						println(id)
+				} while (!arr.any())
+
+
+				val strarr = mutableListOf<String>()
+				for(i in 0 until arr.size){
+					strarr.add(arr[i].text())
+					if(i == 4)
+						break
+				}
+
+				result[id] = strarr
+
+			}
+
+			for(ele in result){
+				println("Key : ${ele.key}")
+				for(str in ele.value)
+					println(str)
+			}
 		} catch (e: Exception) {
 			e.printStackTrace()
-		} finally {
-			driver!!.close()
 		}
+
+		return result
 	}
 
 
