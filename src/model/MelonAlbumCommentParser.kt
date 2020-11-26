@@ -11,7 +11,7 @@ class MelonAlbumCommentParser(var driver: WebDriver) {
 	//Properties
 	private val WEB_DRIVER_ID = "webdriver.chrome.driver"
 	private val WEB_DRIVER_PATH = "src/driver/chromedriver.exe"
-	private var base_url: String? = "https://www.melon.com/album/detail.htm?albumId="
+	private var base_url: String = "https://www.melon.com/album/detail.htm?albumId="
 
 	init {
 		System.setProperty(WEB_DRIVER_ID, WEB_DRIVER_PATH)
@@ -19,18 +19,7 @@ class MelonAlbumCommentParser(var driver: WebDriver) {
 
 	fun crawl() : MutableMap<String,List<String>>{
 		val result = mutableMapOf<String, List<String>>()
-		val _setAlbumID = mutableSetOf<String>()
-
-		if (base_url == null) {
-			println("Url is null")
-			return result
-		}
-
-		for (i in 1..100) {
-			if(!ChartData.getS_instance().melonChartParser.isParsed)
-				ChartData.getS_instance().melonChartParser.chartDataParsing(null)
-			_setAlbumID.add(ChartData.getS_instance().melonChartParser.getAlbumID(i).filter { it in '0'..'9' })
-		}
+		val _setAlbumID = getAlbumIDtoSet()
 
 		try {
 			var doc: Document
@@ -60,7 +49,7 @@ class MelonAlbumCommentParser(var driver: WebDriver) {
 	}
 
 
-	fun MutableList<String>.refine(): MutableList<String> {
+	private fun MutableList<String>.refine(): MutableList<String> {
 		this.replaceAll {
 			if (it.contains("재생 다운로드 곡명"))
 				it.substring(5, it.indexOf("재생 다운로드 곡명"))
@@ -70,5 +59,15 @@ class MelonAlbumCommentParser(var driver: WebDriver) {
 				it.substring(1)
 		}
 		return this.subList(3, 8)
+	}
+
+	private fun getAlbumIDtoSet(): Set<String> {
+		val result = mutableSetOf<String>()
+		for (i in 1..100) {
+			if(!ChartData.getS_instance().melonChartParser.isParsed)
+				ChartData.getS_instance().melonChartParser.chartDataParsing(null)
+			result.add(ChartData.getS_instance().melonChartParser.getAlbumID(i).filter { it in '0'..'9' })
+		}
+		return result
 	}
 }
