@@ -62,7 +62,7 @@ class GenieAlbumCommentParser(val driver: WebDriver) {
 			}
 
 			for(ele in result){
-				println("Key : ${ele.key}")
+				println("Genie - Key : ${ele.key}")
 				for(str in ele.value)
 					println(str)
 			}

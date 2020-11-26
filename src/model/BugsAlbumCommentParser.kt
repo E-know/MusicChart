@@ -60,7 +60,7 @@ class BugsAlbumCommentParser(var driver: WebDriver) {
 
 
 			for (ele in result) {
-				println("Key : ${ele.key}")
+				println("Bugs - Key : ${ele.key}")
 				for (str in ele.value)
 					println(str)
 			}
