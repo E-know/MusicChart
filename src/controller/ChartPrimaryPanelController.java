@@ -31,6 +31,7 @@ public class ChartPrimaryPanelController {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            /*
             switch (ChartData.getS_instance().getSite_M_B_G()){
                 case 1:
                     the_Chart_Primary_Panel._formatted_Melon = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
@@ -45,10 +46,26 @@ public class ChartPrimaryPanelController {
                     //ChartData.getS_instance().setSite_M_B_G(3);
                     break;
             }
+            */
+            setChartTime();
             the_Chart_Primary_Panel._lblTime.setText("Renewal time : " + getChartTime());
             ChartData.getS_instance().DataPassing(view_Loading);
         }
     }//ButtonRefreshListener
+
+    public void setChartTime() {
+        switch (ChartData.getS_instance().getSite_M_B_G()) {
+            case 1:
+                the_Chart_Primary_Panel._formatted_Melon = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+                break;
+            case 2:
+                the_Chart_Primary_Panel._formatted_Bugs = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+                break;
+            case 3:
+                the_Chart_Primary_Panel._formatted_Genie = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+                break;
+        }
+    }
 
     public String getChartTime() {
         switch (ChartData.getS_instance().getSite_M_B_G()) {
