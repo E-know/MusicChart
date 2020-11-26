@@ -102,7 +102,7 @@ public class SiteChartsPanel extends JPanel{
     }
 
     private void setInitLblTime(){
-        _lblTime = new JLabel("Renewal time : " + _formatted_Melon); //¸Ç Ã³À½¿¡ ¸á·Ğ Â÷Æ®¸¦ ºÒ·¯¿À±â¿¡ ÀÌ·¸°Ô °íÄ§, ½Ã°£ ´Ş¶óÁö´Â ¹ö±× ÀÖ¾úÀ½
+        _lblTime = new JLabel("Renewal time : " + _formatted_Melon); //ë§¨ ì²˜ìŒì— ë©œë¡  ì°¨íŠ¸ë¥¼ ë¶ˆëŸ¬ì˜¤ê¸°ì— ì´ë ‡ê²Œ ê³ ì¹¨, ì‹œê°„ ë‹¬ë¼ì§€ëŠ” ë²„ê·¸ ìˆì—ˆìŒ
 
         _lblTime.setBounds(900,870,200,40);
         _lblTime.setFont(new Font("Verdana", Font.BOLD + Font.PLAIN, 14));
