@@ -140,6 +140,9 @@ public class GenieChartParser extends MusicChartParser {
                     // key : albumName, value : 앨범 이름
                     songAllInfo.put("albumName", elem.select("td.info").first().select("a").get(2).text().toString());
 
+                    // key : albumUrl value : 앨범 Num
+                    songAllInfo.put("albumID",elem.select("td.info").first().select("a").get(2).attr("onclick").substring(18,26));
+
                     // 값들을 JSONObject로 변환
                     JSONObject jsonSongInfo = new JSONObject(songAllInfo);
 
@@ -185,6 +188,9 @@ public class GenieChartParser extends MusicChartParser {
 
                     // key : albumName, value : 앨범 이름
                     songAllInfo.put("albumName", elem.select("td.info").first().select("a").get(2).text().toString());
+
+                    // key : albumUrl value : 앨범 Num
+                    songAllInfo.put("albumID",elem.select("td.info").first().select("a").get(2).attr("onclick").substring(18,26));
 
                     // 값들을 JSONObject로 변환
                     JSONObject jsonSongInfo = new JSONObject(songAllInfo);
@@ -342,32 +348,7 @@ public class GenieChartParser extends MusicChartParser {
         System.out.println("getGenre() : " + _isOnlyDetailParse);
         return null;
     } // String getGenre()
-    /*
-    // songDetailDataParsing 후에만 사용가능한 메소드
-    public String getGenre(JSONObject jObj) { // 노래 한 곡에 대한 상세 파싱이 이루어졌다면 JSONObject를 이용하여 그 곡의 장르를 반환하는 메소드
-        if (!isParsed()) { // 파싱이 이루어졌다면
-            System.out.println(_isNotParsed);
-            return null;
-        }
 
-        if (jObj == null) {
-            System.out.println(_plzUseRightJSONObject);
-            return null;
-        }
-
-        if (_songCount == 1) { // 노래 한 곡에 대한 상세 파싱이 이루어졌다면
-            if (jObj.containsKey("genre")) // genre key값에 대한 유효성 검사
-                return jObj.get("genre").toString();
-            else {
-                System.out.println(_jsonDontHaveKey);
-                return null;
-            }
-        }
-
-        System.out.println("getGenre(JSONObject jObj) : " + _isOnlyDetailParse);
-        return null;
-    } // String getGenre(JSONObject jObj)
-    */
     // songDetailDataParsing 후에만 사용가능한 메소드
     public String getSongTime() { // 노래 한 곡에 대한 상세 파싱이 이루어졌다면 그 곡의 재생 시간을 반환하는 메소드
         if (!isParsed()) { // 파싱이 이루어졌다면
@@ -380,37 +361,5 @@ public class GenieChartParser extends MusicChartParser {
         System.out.println("getSongTime() : " + _isOnlyDetailParse);
         return null;
     } // String getSongTime()
-    /*
-    // songDetailDataParsing 후에만 사용가능한 메소드
-    public String getSongTime(JSONObject jObj) { // 노래 한 곡에 대한 상세 파싱이 이루어졌다면 JSONObject를 이용하여 그 곡의 재생 시간을 반환하는 메소드
-        if (!isParsed()) { // 파싱이 이루어졌다면
-            System.out.println(_isNotParsed);
-            return null;
-        }
 
-        if (jObj == null) {
-            System.out.println(_plzUseRightJSONObject);
-            return null;
-        }
-
-        if (_songCount == 1) // 노래 한 곡에 대한 상세 파싱이 이루어졌다면
-            return jObj.get("songTime").toString();
-
-        System.out.println(_jsonDontHaveKey);
-        return null;
-    } // String getSongTime(JSONObject jObj)
-
-    // songDetailDataParsing 후에만 사용가능한 메소드
-    public String getLikeNum() { // 노래 한 곡에 대한 상세 파싱이 이루어졌다면 그 곡의 좋아요 개수를 반환하는 메소드
-        if (!isParsed()) { // 파싱이 이루어졌다면
-            System.out.println(_isNotParsed);
-            return null;
-        }
-        if (_songCount == 1) // 노래 한 곡에 대한 상세 파싱이 이루어졌다면
-            return _songDetailInfo.get("likeNum").toString();
-
-        System.out.println("getLikeNum() : " + _isOnlyDetailParse);
-        return null;
-    } // String getLikeNum()
-    */
 } // GenieChartParser class
