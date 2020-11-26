@@ -1,11 +1,13 @@
 package model
 
+import jdk.internal.net.http.common.Log
 import main.AppManager
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.chrome.ChromeDriver
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
+import java.util.logging.Logger
 
 class MelonAlbumCommentParser(var driver: WebDriver) {
 	//Properties
@@ -31,14 +33,13 @@ class MelonAlbumCommentParser(var driver: WebDriver) {
 				html = driver.pageSource
 				doc = Jsoup.parseBodyFragment(html)
 				arr = doc.body().select("div.cntt").text().split("³»¿ë").toMutableList()
-				println(id)
 				result[id] = arr.refine()
 			}
 
 			for (ele in result) {
-				println("KEY : ${ele.key}")
+				Logger.getGlobal().info("Melon-Key${ele.key}")
 				for (str in ele.value)
-					println(str)
+					Logger.getGlobal().info(str)
 			}
 
 		} catch (e: Exception) {
