@@ -109,7 +109,7 @@ public class ConnectDB {
         ArrayList<Integer> songList = new ArrayList<>();
         try {
             _stmt = _con.createStatement();
-            String sql = "SELECT title FROM recentList WHERE hostName = '" + hostName + "'";
+            String sql = "SELECT title FROM recentList ORDER BY DATE DESC WHERE hostName = '" + hostName + "'";
             _rs = _stmt.executeQuery(sql);
             while (_rs.next()) {
                 songList.add(_rs.getInt("title"));

@@ -169,6 +169,13 @@ public class ChartPanel extends JPanel {
 		_tableChart.repaint();
 	}
 
+	public void recentData() {
+		_lblTitle.setText("최근 본 목록");
+		_tableModel.setContents(ChartData.getS_instance().getParser().getChartList());
+		makeTable();
+		_tableChart.repaint();
+	}
+
 	/*
 	Name: filter
 	Parameter: (String) 검색할 내용, (int) 검색 요소로 제목(2) 또는 가수(3)

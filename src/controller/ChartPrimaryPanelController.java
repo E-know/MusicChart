@@ -17,6 +17,7 @@ public class ChartPrimaryPanelController {
         this.the_Chart_Primary_Panel.addBtnMelonListener(new ButtonMelonListener());
         this.the_Chart_Primary_Panel.addBtnBugsListener(new ButtonBugsListener());
         this.the_Chart_Primary_Panel.addBtnGenieListener(new ButtonGenieListener());
+        this.the_Chart_Primary_Panel.addRecentListener(new ButtonRecentListener());
         this.the_Chart_Primary_Panel.addKeyActionListener(new KeyActionListener());
     }
 
@@ -112,6 +113,23 @@ public class ChartPrimaryPanelController {
             System.out.println("Genie");
             the_Chart_Primary_Panel._pnlChartPanel.changeData();
             the_Chart_Primary_Panel._lblTime.setText("Renewal time : " + the_Chart_Primary_Panel._formatted_Genie);
+            the_Chart_Primary_Panel._txtSearch.setText("");
+            the_Chart_Primary_Panel._pnlChartPanel.filterTitleANDArtist(null,2);
+        }
+    }//ButtonGenieListener
+
+    private class ButtonRecentListener implements ActionListener {
+        private Component view_Loading;
+        public ButtonRecentListener() { }
+        public ButtonRecentListener(Component parentComponent){
+            view_Loading = parentComponent;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            System.out.println("Recent");
+            the_Chart_Primary_Panel._pnlChartPanel.recentData();
+            the_Chart_Primary_Panel._lblTime.setText("Renewal time : ");
             the_Chart_Primary_Panel._txtSearch.setText("");
             the_Chart_Primary_Panel._pnlChartPanel.filterTitleANDArtist(null,2);
         }
