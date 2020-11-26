@@ -32,6 +32,7 @@ public class CommentPanelController {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (!the_Comment_Panel._txtComment.getText().equals("")) {
+                DB.getDB();
                 DB.insertDB(the_Comment_Panel._sqlTitle,
                         the_Comment_Panel._strArtist,
                         ChartData.getS_instance().getParser().getAlbumName(the_Comment_Panel.getCommentPanelRank()),
@@ -63,6 +64,7 @@ public class CommentPanelController {
         public void actionPerformed(ActionEvent e) {
             if (Integer.parseInt(the_Comment_Panel._txtPassword.getText()) == Integer.parseInt(the_Comment_Panel._arrPassword.get(the_Comment_Panel._listComment.getSelectedIndex()))) {
                 System.out.println("Same Password! At : " + String.valueOf(the_Comment_Panel._listComment.getSelectedIndex()));
+                DB.getDB();
                 DB.deleteDB(the_Comment_Panel._sqlTitle, the_Comment_Panel._txtPassword.getText());
                 
                 the_Comment_Panel._arrPassword.remove(the_Comment_Panel._listComment.getSelectedIndex());

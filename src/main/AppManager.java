@@ -8,16 +8,20 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import view.SiteChartsPanel;
 import view.CommentPanel;
+import model.InsertDatabase;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
+import java.util.Map;
+import java.sql.*;
 
 public class AppManager {
     private static AppManager s_instance;
     private CommentPanel pnlCommentPanel;
     private SiteChartsPanel pnlSiteChartsPanel;
     private JPanel primaryPanel;
-
+    InsertDatabase InsertDatabase = new InsertDatabase();
 
     private AppManager(){
     	setInitPrimaryPanel();
@@ -28,7 +32,6 @@ public class AppManager {
         pnlCommentPanel.setVisible(false);
         primaryPanel.add(pnlSiteChartsPanel);
         crawlingComments();
-
     }
     
       
@@ -36,11 +39,9 @@ public class AppManager {
         System.setProperty("webdriver.chrome.driver","src/driver/chromedriver.exe");
         WebDriver driver = new ChromeDriver();
 
-        new MelonAlbumCommentParser(driver).crawl();
-
-        new BugsAlbumCommentParser(driver).crawl();
-
-        new GenieAlbumCommentParser(driver).crawl();
+        InsertDatabase.insertCommentDatabase(new MelonAlbumCommentParser(driver).crawl());
+        InsertDatabase.insertCommentDatabase(new BugsAlbumCommentParser(driver).crawl());
+        InsertDatabase.insertCommentDatabase(new GenieAlbumCommentParser(driver).crawl());
 
         driver.close();
     }
@@ -64,7 +65,6 @@ public class AppManager {
         pnlCommentPanel = new CommentPanel();
         new CommentPanelController(pnlCommentPanel);
     }
-
 
     public void setInitSiteChartsPanel(){
         pnlSiteChartsPanel = new SiteChartsPanel();
