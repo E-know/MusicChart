@@ -22,6 +22,7 @@ import java.net.UnknownHostException;
 public class CommentPanel extends JPanel {
     private JPanel _pnlComment, _pnlMusicInfo;
     private JButton _btnRegister, _btnDelete, _btnBack;
+    private JScrollPane _scrollBar;
 
     public JTextField _txtComment, _txtPassword;
     public ArrayList<String> _arrComment;
@@ -125,6 +126,7 @@ public class CommentPanel extends JPanel {
         setInitializationTxtPassword();
         setInitializationBtnRegister();
         setInitializationBtnDelete();
+        setInitializationScroll();
     }
 
     private void setInitializationListComment() { //Called by setInitializationPnlComment
@@ -163,6 +165,12 @@ public class CommentPanel extends JPanel {
         _btnDelete.setBackground(Color.WHITE);
         _btnDelete.setFont(new Font("한강남산체 M", Font.PLAIN, 13));
         _pnlComment.add(_btnDelete);
+    }
+
+    private void setInitializationScroll() {
+        _scrollBar = new JScrollPane(_listComment, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);  // 스크롤패널을 선언
+        _scrollBar.setBounds(32, 260, 960, 400);
+        add(_scrollBar);
     }
     //==================================================================================================================
 
@@ -213,7 +221,7 @@ public class CommentPanel extends JPanel {
     }
 
     /*Description of Method readComment
-     *   덧글과 각 비밀번호가 적혀있는 txt 파일을 읽어와 각각의 ArrayList에 저장하는 메소드
+     *   덧글과 각 비밀번호가 적혀있는 db 파일을 읽어와 각각의 ArrayList에 저장하는 메소드
      * */
     private void readCommentFromDB(int rank) {
         _sqlTitle = ChartData.getS_instance().getParser().getTitle(rank);
@@ -222,24 +230,22 @@ public class CommentPanel extends JPanel {
         if (_sqlTitle.contains("'")) {
             _sqlTitle = _sqlTitle.replace("'", ":");
         }
+
         DB.getDB();
         ArrayList<String> albumIdList = DB.getAlbumId(_sqlTitle);
-        System.out.println(albumIdList);
-        ArrayList<String> comment;
-        ArrayList<String> password;
-        for (String albumId : albumIdList) {
-            comment = DB.readCommentDB(albumId);
-            password = DB.readPwdDB(albumId);
 
-            System.out.println("comment " + comment + ", pwd" + password);
-            for (String ptr : comment) {
-                _arrComment.add(ptr);
-            }
-            for (String ptr : password) {
-                _arrPassword.add(ptr);
-            }
+        for (String albumId : albumIdList) {
+            addArrayListString(_arrComment, DB.readCommentDB(albumId));
+            addArrayListString(_arrPassword, DB.readPwdDB(albumId));
+            System.out.println("comment " + _arrComment + ", pwd" + _arrPassword);
         }
     }//readComment
+
+    private void addArrayListString(ArrayList<String> commentList, ArrayList<String> siteComment){
+        for(String str : siteComment){
+            commentList.add(str);
+        }
+    }
 
     /*
      *Description of Method clearAll
