@@ -14,7 +14,7 @@ class MelonAlbumCommentParser(var driver: WebDriver) {
 		System.setProperty(WEB_DRIVER_ID, WEB_DRIVER_PATH)
 	}
 
-	fun crawl() : MutableMap<String,List<String>>{
+	fun crawl(): MutableMap<String, List<String>> {
 		val result = mutableMapOf<String, List<String>>()
 		val _setAlbumID = getAlbumIDtoSet()
 
@@ -46,21 +46,17 @@ class MelonAlbumCommentParser(var driver: WebDriver) {
 
 
 	private fun MutableList<String>.refine(): MutableList<String> {
-		this.replaceAll {
-			if (it.contains("Àç»ý ´Ù¿î·Îµå °î¸í"))
-				it.substring(5, it.indexOf("Àç»ý ´Ù¿î·Îµå °î¸í"))
-			else if (it.contains("NEW"))
-				it.substring(5)
-			else
-				it.substring(1)
+		val result = mutableListOf<String>()
+		for(i in 3 until 8){
+			result.add(this[i].replace(" NEW ","").filter { it in '°¡'..'ÆR' || it.toInt() in 0..127 })
 		}
-		return this.subList(3, 8)
+		return result
 	}
 
 	private fun getAlbumIDtoSet(): Set<String> {
 		val result = mutableSetOf<String>()
 		for (i in 1..100) {
-			if(!ChartData.getS_instance().melonChartParser.isParsed)
+			if (!ChartData.getS_instance().melonChartParser.isParsed)
 				ChartData.getS_instance().melonChartParser.chartDataParsing(null)
 			result.add(ChartData.getS_instance().melonChartParser.getAlbumID(i).filter { it in '0'..'9' })
 		}
