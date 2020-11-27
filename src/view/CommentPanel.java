@@ -19,7 +19,7 @@ import java.sql.*;
 
 public class CommentPanel extends JPanel {
     private JPanel _pnlComment, _pnlMusicInfo;
-    private JButton _btnRegister, _btnDelete, _btnBack;
+    private JButton _btnRegister, _btnDelete, _btnBack, _btnYouTube;
 
     public JTextField _txtComment, _txtPassword;
     public ArrayList<String> _arrComment;
@@ -77,13 +77,14 @@ public class CommentPanel extends JPanel {
     private void setInitializationPnlMusicInfo() { //Called by Constructor
         _pnlMusicInfo = new JPanel();
         _pnlMusicInfo.setBackground(new Color(255, 255, 255, 50));
-        _pnlMusicInfo.setBounds(32, 32, 960, 160);
+        _pnlMusicInfo.setBounds(32, 32, 960, 190);
         _pnlMusicInfo.setLayout(null);
         this.add(_pnlMusicInfo);
 
         setInitializationLblTitle();
         setInitializationLblArtist();
         setInitializationLblImage();
+        setInitializationBtnYouTube();
     }
 
     private void setInitializationLblArtist() { // Called by setInitializationPnlMusicInfo
@@ -107,6 +108,13 @@ public class CommentPanel extends JPanel {
         _lblImage = new JLabel();
         _lblImage.setBounds(800, 0, 160, 160);
         _pnlMusicInfo.add(_lblImage);
+    }
+
+    private void setInitializationBtnYouTube() {
+        _btnYouTube = new JButton("Search in Youtube");
+        _btnYouTube.setBounds(800, 160, 160, 30);
+        _btnYouTube.setBackground(Color.WHITE);
+        _pnlMusicInfo.add(_btnYouTube);
     }
 
     // PnlComment에 대한 초기 설정 = 밑 함수들은 PnlComment에 붙은 것들이다.============================================
@@ -233,17 +241,11 @@ public class CommentPanel extends JPanel {
         _txtComment.setText("");
     }
 
-    public void addBtnRegisterListener(ActionListener listenForBtnRegister) {
-        _btnRegister.addActionListener((listenForBtnRegister));
-    }
+    public void addBtnRegisterListener(ActionListener listenForBtnRegister) { _btnRegister.addActionListener((listenForBtnRegister)); }
+    public void addBtnDeleteListener(ActionListener listenForBtnDelete) { _btnDelete.addActionListener((listenForBtnDelete)); }
+    public void addBtnBackListener(ActionListener listenForBtnBack) { _btnBack.addActionListener((listenForBtnBack)); }
+    public void addBtnYouTubeListener(ActionListener listenForBtnYouTube) { _btnYouTube.addActionListener((listenForBtnYouTube)); }
 
-    public void addBtnDeleteListener(ActionListener listenForBtnDelete) {
-        _btnDelete.addActionListener((listenForBtnDelete));
-    }
-
-    public void addBtnBackListener(ActionListener listenForBtnBack) {
-        _btnBack.addActionListener((listenForBtnBack));
-    }
     public void setCommnetPanelRank(int rank){
         _commmentPanelRank = rank;
     }
