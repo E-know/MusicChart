@@ -168,7 +168,7 @@ public class CommentPanel extends JPanel {
     }
 
     private void setInitializationScroll() {
-        _scrollBar = new JScrollPane(_listComment, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);  // 스크롤패널을 선언
+        _scrollBar = new JScrollPane(_listComment, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);  // 스크롤패널을 선언
         _scrollBar.setBounds(32, 260, 960, 400);
         add(_scrollBar);
     }
@@ -205,7 +205,7 @@ public class CommentPanel extends JPanel {
             _sqlTitle = _sqlTitle.replace("'", ":");
         }
         try {
-            DB.insertRecentListDB(_sqlTitle, InetAddress.getLocalHost().getHostName());
+            DB.insertRecentListDB(_sqlTitle, ChartData.getS_instance().getSite_M_B_G(), rank,InetAddress.getLocalHost().getHostName());
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }

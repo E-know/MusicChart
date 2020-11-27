@@ -7,6 +7,9 @@ import view.CommentPanel;
 import java.awt.*;
 import java.sql.*;
 import java.util.ArrayList;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import org.json.simple.JSONArray;
 
 public class ConnectDB {
@@ -63,61 +66,68 @@ public class ConnectDB {
             e1.printStackTrace();
         }
     }
-//    public ArrayList<String> readCommentDB(String title){
-//        ArrayList<String> comment = new ArrayList<String>();
-//        try {
-//            _stmt = _con.createStatement();
-//            String sql = "SELECT comment FROM songinfo WHERE title = '" + title + "'";
-//            _rs = _stmt.executeQuery(sql);
-//            while (_rs.next()) {
-//                comment.add(_rs.getString("comment"));
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return comment;
-//    }
-//    public ArrayList<String> readPwdDB(String title){
-//        ArrayList<String> password = new ArrayList<String>();
-//        try {
-//            _stmt = _con.createStatement();
-//            String sql = "SELECT pwd FROM songinfo WHERE title = '" + title + "'";
-//            _rs = _stmt.executeQuery(sql);
-//            while (_rs.next()) {
-//                password.add(_rs.getString("pwd"));
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return password;
-//    }
 
-
-    ////////////////////////////////////////////////////////////////////////////////////
-    public void insertRecentListDB(String title, String hostName){
+    //////////////////////////////최근 본 목록 관련 메소드
+    public void insertRecentListDB(String title, int siteNum, int rank, String hostName){
+        java.util.Date utilDate = new java.util.Date();
+        java.sql.Time sqlTime = new java.sql.Time(utilDate.getTime());
         try {
-            String sql = "INSERT INTO recentList VALUES (?, ?)";
+            String sql = "INSERT INTO recentList VALUES (?, ?, ?, ?, ?)";
             _pstmt = _con.prepareStatement(sql);
             _pstmt.setString(1, title);
-            _pstmt.setString(2, hostName);
+            _pstmt.setInt(2, siteNum);
+            _pstmt.setInt(3, rank);
+            _pstmt.setString(4, hostName);
+            _pstmt.setTime(5, sqlTime);
             _pstmt.executeUpdate();
         } catch (SQLException e1) {
             e1.printStackTrace();
         }
     }
-    public ArrayList<Integer> readRecentList(String hostName){
-        ArrayList<Integer> songList = new ArrayList<>();
+    public ArrayList<String> readRecentList(String hostName){
+        ArrayList<String> recentListSite = new ArrayList<>();
         try {
             _stmt = _con.createStatement();
-            String sql = "SELECT title FROM recentList ORDER BY DATE DESC WHERE hostName = '" + hostName + "'";
+            String sql = "SELECT title  FROM recentList WHERE hostName = '" + hostName + "' ORDER BY clickTime DESC";
             _rs = _stmt.executeQuery(sql);
             while (_rs.next()) {
-                songList.add(_rs.getInt("title"));
+                recentListSite.add(_rs.getString("title"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return songList;
+
+        return recentListSite;
+    }
+    public ArrayList<Integer> readRecentListSite(String hostName){
+        ArrayList<Integer> recentListSite = new ArrayList<>();
+        try {
+            _stmt = _con.createStatement();
+            String sql = "SELECT siteNum  FROM recentList WHERE hostName = '" + hostName + "' ORDER BY clickTime DESC";
+             _rs = _stmt.executeQuery(sql);
+            while (_rs.next()) {
+                recentListSite.add(_rs.getInt("siteNum"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return recentListSite;
+    }
+    public ArrayList<Integer> readRecentListRank(String hostName){
+        ArrayList<Integer> recentListRank = new ArrayList<>();
+        try {
+            _stmt = _con.createStatement();
+            String sql = "SELECT rankNum  FROM recentList WHERE hostName = '" + hostName + "' ORDER BY clickTime DESC";
+            _rs = _stmt.executeQuery(sql);
+            while (_rs.next()) {
+                recentListRank.add(_rs.getInt("rankNum"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return recentListRank;
     }
     public void deleteRecentDB(String hostName){
         try {
@@ -129,7 +139,7 @@ public class ConnectDB {
             e1.printStackTrace();
         }
     }
-
+    //////////////////////////////크롤링한 댓글들 DB에 넣는 관련 메소드
     public void insertCommentDB(String albumID, int order, String comment, String pwd){
         try {
             String sql = "INSERT INTO commentList VALUES (?, ?, ?, ?)";
@@ -153,7 +163,6 @@ public class ConnectDB {
             e1.printStackTrace();
         }
     }
-
     public ResultSet getCommentInfo(String albumID){
         try {
             _stmt = _con.createStatement();
@@ -165,6 +174,7 @@ public class ConnectDB {
 
         return _rs;
     }
+    //////////////////////////////차트를 DB에 넣는 관련 메소드
     public ResultSet getSongInfo(String title, int siteNum){
         try {
             _stmt = _con.createStatement();
@@ -190,6 +200,7 @@ public class ConnectDB {
             e1.printStackTrace();
         }
     }
+    //////////////////////////////CommentDB를 읽어오는 관련 메소드
     public ArrayList<String> getAlbumId(String title){
         ArrayList<String> albumId = new ArrayList<String>();
         try {
@@ -208,7 +219,6 @@ public class ConnectDB {
         ArrayList<String> comment = new ArrayList<String>();
         try {
             _stmt = _con.createStatement();
-            System.out.println("albumID : "+albumId);
             String sql = "SELECT comment FROM commentList WHERE albumId = '" + albumId + "'";
             _rs = _stmt.executeQuery(sql);
             while (_rs.next()) {

@@ -106,7 +106,6 @@ public class ChartPrimaryPanelController {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-
             if(ChartData.getS_instance().getSite_M_B_G() == 3) return;
             ChartData.getS_instance().setSite_M_B_G(3);
             if(!ChartData.getS_instance().getParser().isParsed()) ChartData.getS_instance().DataPassing(view_Loading);
@@ -127,13 +126,15 @@ public class ChartPrimaryPanelController {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            if(ChartData.getS_instance().getSite_M_B_G() == 4) return;
+            ChartData.getS_instance().setSite_M_B_G(4);
             System.out.println("Recent");
             the_Chart_Primary_Panel._pnlChartPanel.recentData();
             the_Chart_Primary_Panel._lblTime.setText("Renewal time : ");
             the_Chart_Primary_Panel._txtSearch.setText("");
             the_Chart_Primary_Panel._pnlChartPanel.filterTitleANDArtist(null,2);
         }
-    }//ButtonGenieListener
+    }//ButtonRecentListener
 
     private class KeyActionListener implements KeyListener{
         private Component view_Loading;
