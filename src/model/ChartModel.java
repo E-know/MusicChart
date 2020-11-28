@@ -26,7 +26,8 @@ public class ChartModel extends AbstractTableModel {
         _arrColumnName[4] = "Album Title";
 
         _chartData = new Object[musics.size()][5];
-        for (int i = 0; i < musics.size(); i++) _chartData[i] = new Object[5];
+        for (int i = 0; i < musics.size(); i++)
+            _chartData[i] = new Object[5];
         setContents(musics);
     } //생성자 끝
 
@@ -41,8 +42,8 @@ public class ChartModel extends AbstractTableModel {
             JSONObject obj = (JSONObject) musics.get(i);
             _chartData[i][0] = Integer.parseInt((String) (obj.get("rank")));
             try {
-                ImageIcon loadedImage = new ImageIcon(new URL((String) obj.get("smallImageUrl"))); //지정된 URL로부터 이미지를 받아옴
-                _chartData[i][1] = new ImageIcon(loadedImage.getImage().getScaledInstance(50, 50, Image.SCALE_FAST)); //받은 이미지를 50 * 50 크기로 변환하여 사용
+                Image loadedImage = new ImageIcon(new URL((String) obj.get("smallImageUrl"))).getImage().getScaledInstance(50,50,Image.SCALE_FAST); //지정된 URL로부터 이미지를 받아옴
+                _chartData[i][1] = new ImageIcon( loadedImage ); //받은 이미지를 50 * 50 크기로 변환하여 사용
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
