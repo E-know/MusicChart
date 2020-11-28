@@ -6,6 +6,7 @@ import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
 import org.jsoup.select.Elements
+import java.lang.Thread.sleep
 
 class BugsAlbumCommentParser(var driver: WebDriver) {
 	//System Property SetUp //Driver setup
@@ -37,21 +38,28 @@ class BugsAlbumCommentParser(var driver: WebDriver) {
 			var doc: Document
 			var arr: Elements
 			var html: String
-
+			var sleepFlag = false
 			for (id in _setAlbumID) {
 				do {
+					sleep(1000)
 					println(id)
 					driver.get("https://music.bugs.co.kr/album/${id}?wl_ref=list_tr_11_chart")
+					if(sleepFlag) {
+						sleep(500)
+						sleepFlag = false
+					}
 					html = driver.pageSource
 					doc = Jsoup.parseBodyFragment(html)
 					arr = doc.select("p[name=\"comment\"]")
-					if(!arr.any())
+					if(!arr.any()) {
 						println("Re $id")
+						sleepFlag = true
+					}
 				}while (!arr.any())
 
 				val strarr = mutableListOf<String>()
 				for (i in 0 until arr.size) {
-					strarr.add(arr[i].text())
+					strarr.add(arr[i].text().filter { it in '°¡'..'ÆR' || it.toInt() in 0..127})
 					if (i == 4)
 						break
 				}
@@ -60,7 +68,7 @@ class BugsAlbumCommentParser(var driver: WebDriver) {
 
 
 			for (ele in result) {
-				println("Key : ${ele.key}")
+				println("Bugs - Key : ${ele.key}")
 				for (str in ele.value)
 					println(str)
 			}
