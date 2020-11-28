@@ -33,10 +33,7 @@ public class CommentPanelController {
         public void actionPerformed(ActionEvent e) {
             if (!the_Comment_Panel._txtComment.getText().equals("")) {
                 DB.getDB();
-                DB.insertDB(the_Comment_Panel._sqlTitle,
-                        the_Comment_Panel._strArtist,
-                        ChartData.getS_instance().getParser().getAlbumName(the_Comment_Panel.getCommentPanelRank()),
-                        ChartData.getS_instance().getSite_M_B_G(),
+                DB.insertCommentDB(the_Comment_Panel._strAlbumId, 6,
                         the_Comment_Panel._txtComment.getText(),
                         the_Comment_Panel._txtPassword.getText());
 
@@ -65,8 +62,8 @@ public class CommentPanelController {
             if (Integer.parseInt(the_Comment_Panel._txtPassword.getText()) == Integer.parseInt(the_Comment_Panel._arrPassword.get(the_Comment_Panel._listComment.getSelectedIndex()))) {
                 System.out.println("Same Password! At : " + String.valueOf(the_Comment_Panel._listComment.getSelectedIndex()));
                 DB.getDB();
-                DB.deleteDB(the_Comment_Panel._sqlTitle, the_Comment_Panel._txtPassword.getText());
-                
+                DB.deleteDB(the_Comment_Panel._strAlbumId, the_Comment_Panel._txtPassword.getText());
+
                 the_Comment_Panel._arrPassword.remove(the_Comment_Panel._listComment.getSelectedIndex());
                 the_Comment_Panel._arrComment.remove(the_Comment_Panel._listComment.getSelectedIndex());
                 the_Comment_Panel._modelList.removeElementAt(the_Comment_Panel._listComment.getSelectedIndex());

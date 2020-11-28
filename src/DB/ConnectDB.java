@@ -40,33 +40,6 @@ public class ConnectDB {
         }
     }
 
-    public void insertDB(String title, String artist, String albumName, int siteNum, String comment, String pwd){
-        try {
-            String sql = "INSERT INTO chartInfo VALUES (?, ?, ?, ?, ?, ?)";
-            _pstmt = _con.prepareStatement(sql);
-            _pstmt.setString(1, title);
-            _pstmt.setString(2, artist);
-            _pstmt.setString(3, albumName);
-            _pstmt.setInt(4, siteNum);
-            _pstmt.setString(5, comment);
-            _pstmt.setString(6, pwd);
-            _pstmt.executeUpdate();
-        } catch (SQLException e1) {
-            e1.printStackTrace();
-        }
-    }
-    public void deleteDB(String title, String pwd){
-        try {
-            String sql = "DELETE FROM songinfo WHERE title = ? AND pwd = ?";
-            _pstmt = _con.prepareStatement(sql);
-            _pstmt.setString(1, title);
-            _pstmt.setString(2, pwd);
-            _pstmt.executeUpdate();
-        } catch (SQLException e1) {
-            e1.printStackTrace();
-        }
-    }
-
     //////////////////////////////최근 본 목록 관련 메소드
     public void insertRecentListDB(String title, int siteNum, int rank, String hostName){
         java.util.Date utilDate = new java.util.Date();
@@ -153,6 +126,19 @@ public class ConnectDB {
             e1.printStackTrace();
         }
     }
+
+    public void deleteDB(String albumId, String pwd){
+        try {
+            String sql = "DELETE FROM commentList WHERE albumId = ? AND pwd = ?";
+            _pstmt = _con.prepareStatement(sql);
+            _pstmt.setString(1, albumId);
+            _pstmt.setString(2, pwd);
+            _pstmt.executeUpdate();
+        } catch (SQLException e1) {
+            e1.printStackTrace();
+        }
+    }
+
     public void deleteCommentDB(String albumID){
         try {
             String sql = "DELETE FROM commentList WHERE albumID = ?";
@@ -186,6 +172,7 @@ public class ConnectDB {
 
         return _rs;
     }
+
     public void insertChartDB(String title, String artist, String albumName, int siteNum, String albumId){
         try {
             String sql = "INSERT INTO chartInfo VALUES (?, ?, ?, ?, ?)";

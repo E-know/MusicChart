@@ -6,6 +6,7 @@ import java.awt.*;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 public class InsertDatabase {
     ConnectDB DB = new ConnectDB();
@@ -20,22 +21,21 @@ public class InsertDatabase {
                 title = ChartData.getS_instance().getParser().getTitle(k);
                 artist = ChartData.getS_instance().getParser().getArtistName(k);
                 albumName = ChartData.getS_instance().getParser().getAlbumName(k);
-                albumId = ChartData.getS_instance().getParser().getAlbumID(k);
-                if(title == "오래된 노래"){
-                    System.out.println(title);
-                    System.out.println(artist);
-                    System.out.println(albumName);
-                    System.out.println(albumId);
-                }
+                albumId = ChartData.getS_instance().getParser().getAlbumID(k).replaceAll("[^0-9]", "");
+
                 sqltitle = title;
 
                 if(sqltitle.contains("'")){//노래 제목에 '가 들어간 경우 sql쿼리문에게 따로 처리를 해줘야함
-                    //System.out.println("sqltitle1: "+sqltitle);
                     sqltitle = sqltitle.replace("'",":");
-                    //System.out.println("sqltitle2: "+sqltitle);
+                }
+                if (sqltitle.contains(" ")) {//노래 제목에 공백이 들어간 경우 통일을 위해 따로 처리를 해줘야함
+                    sqltitle = sqltitle.replace(" ", "");
+                }
+                if (sqltitle.contains("by")) {//노래 제목에 by가 들어간 경우 통일을 위해 따로 처리를 해줘야함
+                    sqltitle = sqltitle.replace("by", "");
                 }
                 try {
-                    if(!DB.getSongInfo(sqltitle,i).next()){
+                    if(!DB.getSongInfo(sqltitle, i).next()){
                         DB.insertChartDB(sqltitle, artist, albumName, i, albumId);
                     }
                 } catch (SQLException throwables) {
@@ -55,17 +55,28 @@ public class InsertDatabase {
                 try {
                     order++;
                     if(DB.getCommentInfo(albumId).next() && order == 1){
-                        //댓글이 이미 저장되어있다???
-                        DB.deleteCommentDB(albumId);//걍 지움
-                        DB.insertCommentDB(albumId,order,comment,"0000");
-                    }
+                        //댓글이 이미 저장되어있다
+                        DB.deleteCommentDB(albumId);//삭제
+                        DB.insertCommentDB(albumId, order, comment, makePassword());
+                    }//최신 댓글들만 저장하기 위한 방법
                     else{
-                        DB.insertCommentDB(albumId,order,comment,"0000");
+                        DB.insertCommentDB(albumId, order, comment, makePassword());
                     }
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }
             }
         }
+    }//크롤링한 댓글들 저장
+
+    private String makePassword(){
+        Random rand = new Random();
+        String passwd = "";
+        for (int p = 0; p < 4; p++) {
+            //0~9 까지 난수 생성
+            String ran = Integer.toString(rand.nextInt(10));
+            passwd += ran;
+        }//4자리 비밀번호 설정
+        return passwd;
     }
 }

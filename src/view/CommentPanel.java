@@ -204,6 +204,12 @@ public class CommentPanel extends JPanel {
         if (_sqlTitle.contains("'")) {
             _sqlTitle = _sqlTitle.replace("'", ":");
         }
+        if (_sqlTitle.contains(" ")) {
+            _sqlTitle = _sqlTitle.replace(" ", "");
+        }
+        if (_sqlTitle.contains("by")) {
+            _sqlTitle = _sqlTitle.replace("by", "");
+        }
         try {
             DB.insertRecentListDB(_sqlTitle, ChartData.getS_instance().getSite_M_B_G(), rank,InetAddress.getLocalHost().getHostName());
         } catch (UnknownHostException e) {
@@ -225,15 +231,22 @@ public class CommentPanel extends JPanel {
      * */
     private void readCommentFromDB(int rank) {
         _sqlTitle = ChartData.getS_instance().getParser().getTitle(rank);
+        _strAlbumId = ChartData.getS_instance().getParser().getAlbumID(rank).replaceAll("[^0-9]", "");
         _strTitle = ChartData.getS_instance().getParser().getTitle(rank);
         _strArtist = ChartData.getS_instance().getParser().getArtistName(rank);
+
         if (_sqlTitle.contains("'")) {
             _sqlTitle = _sqlTitle.replace("'", ":");
         }
-
+        if (_sqlTitle.contains(" ")) {
+            _sqlTitle = _sqlTitle.replace(" ", "");
+        }
+        if (_sqlTitle.contains("by")) {
+            _sqlTitle = _sqlTitle.replace("by", "");
+        }
         DB.getDB();
         ArrayList<String> albumIdList = DB.getAlbumId(_sqlTitle);
-
+        System.out.println("albumIdList : "+albumIdList);
         for (String albumId : albumIdList) {
             addArrayListString(_arrComment, DB.readCommentDB(albumId));
             addArrayListString(_arrPassword, DB.readPwdDB(albumId));
