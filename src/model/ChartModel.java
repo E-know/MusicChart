@@ -42,14 +42,14 @@ public class ChartModel extends AbstractTableModel {
             JSONObject obj = (JSONObject) musics.get(i);
             _chartData[i][0] = Integer.parseInt((String) (obj.get("rank")));
             try {
-                Image loadedImage = new ImageIcon(new URL((String) obj.get("smallImageUrl"))).getImage().getScaledInstance(50,50,Image.SCALE_FAST); //지정된 URL로부터 이미지를 받아옴
-                _chartData[i][1] = new ImageIcon( loadedImage ); //받은 이미지를 50 * 50 크기로 변환하여 사용
+                Image loadedImage = new ImageIcon(new URL((String) obj.get("smallImageUrl"))).getImage().getScaledInstance(50, 50, Image.SCALE_FAST); //지정된 URL로부터 이미지를 받아옴
+                _chartData[i][1] = new ImageIcon(loadedImage); //받은 이미지를 50 * 50 크기로 변환하여 사용
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
-            _chartData[i][2] = (String) obj.get("title");
-            _chartData[i][3] = (String) obj.get("artist");
-            _chartData[i][4] = (String) obj.get("albumName");
+            _chartData[i][2] = obj.get("title").toString();
+            _chartData[i][3] = obj.get("artist").toString();
+            _chartData[i][4] = obj.get("albumName").toString();
         }
     }
 
