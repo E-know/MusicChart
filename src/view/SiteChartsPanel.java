@@ -12,7 +12,12 @@ import java.time.format.DateTimeFormatter;
 
 public class SiteChartsPanel extends JPanel{
     public ChartPanel _pnlChartPanel;
-    private JButton _btnRefresh, _btnSite_Melon, _btnSite_Bugs, _btnSite_Genie, _btnSearch, _btnRecent;
+
+    private JButton _btnRefresh;
+    private JButton _btnSite_Melon;
+    private JButton _btnSite_Bugs;
+    private JButton _btnSite_Genie;
+    private JButton _btnRecent;
 
     public JLabel _lblTime;
     public JComboBox<String> _strCombo;
@@ -57,7 +62,7 @@ public class SiteChartsPanel extends JPanel{
     }
 
     private void setInitBtnSearch(){
-        _btnSearch = new JButton("Search");
+        JButton _btnSearch = new JButton("Search");
         _btnSearch.setBounds(1090,30,150,40);
         _btnSearch.setForeground(Color.DARK_GRAY);
         _btnSearch.setBackground(Color.lightGray);
@@ -104,14 +109,13 @@ public class SiteChartsPanel extends JPanel{
     private void setInitPnlChartPanel(){
         _pnlChartPanel = new ChartPanel();
         _pnlChartPanel.setBounds(100,140,1080,700);
-        LineBorder SiteBorder = new LineBorder(Color.BLACK,3);
-        _pnlChartPanel.setBorder(SiteBorder);
+        _pnlChartPanel.setBorder(new LineBorder(Color.BLACK,3));
         _pnlChartPanel.setLayout(null);
         this.add(_pnlChartPanel);
     }
 
     private void setInitLblTime(){
-        _lblTime = new JLabel("Renewal time : " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
+        _lblTime = new JLabel("Renewal time : " + _formatted_Melon); //맨 처음에 멜론 차트를 불러오기에 이렇게 고침, 시간 달라지는 버그 있었음
 
         _lblTime.setBounds(900,870,200,40);
         _lblTime.setFont(new Font("Verdana", Font.BOLD + Font.PLAIN, 14));

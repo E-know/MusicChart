@@ -1,36 +1,23 @@
 package model
 
-import main.AppManager
 import org.openqa.selenium.WebDriver
-import org.openqa.selenium.chrome.ChromeDriver
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
-import org.jsoup.nodes.Element
+import java.lang.Thread.sleep
 
 class MelonAlbumCommentParser(var driver: WebDriver) {
 	//Properties
 	private val WEB_DRIVER_ID = "webdriver.chrome.driver"
 	private val WEB_DRIVER_PATH = "src/driver/chromedriver.exe"
-	private var base_url: String? = "https://www.melon.com/album/detail.htm?albumId="
+	private var base_url: String = "https://www.melon.com/album/detail.htm?albumId="
 
 	init {
 		System.setProperty(WEB_DRIVER_ID, WEB_DRIVER_PATH)
 	}
 
-	fun crawl() : MutableMap<String,List<String>>{
+	fun crawl(): MutableMap<String, List<String>> {
 		val result = mutableMapOf<String, List<String>>()
-		val _setAlbumID = mutableSetOf<String>()
-
-		if (base_url == null) {
-			println("Url is null")
-			return result
-		}
-
-		for (i in 1..100) {
-			if(!ChartData.getS_instance().melonChartParser.isParsed)
-				ChartData.getS_instance().melonChartParser.chartDataParsing(null)
-			_setAlbumID.add(ChartData.getS_instance().melonChartParser.getAlbumID(i).filter { it in '0'..'9' })
-		}
+		val _setAlbumID = getAlbumIDtoSet()
 
 		try {
 			var doc: Document
@@ -42,12 +29,12 @@ class MelonAlbumCommentParser(var driver: WebDriver) {
 				html = driver.pageSource
 				doc = Jsoup.parseBodyFragment(html)
 				arr = doc.body().select("div.cntt").text().split("³»¿ë").toMutableList()
-				println(id)
 				result[id] = arr.refine()
+				sleep(1000);
 			}
 
 			for (ele in result) {
-				println("KEY : ${ele.key}")
+				println("Melon-Key${ele.key}")
 				for (str in ele.value)
 					println(str)
 			}
@@ -60,15 +47,26 @@ class MelonAlbumCommentParser(var driver: WebDriver) {
 	}
 
 
-	fun MutableList<String>.refine(): MutableList<String> {
-		this.replaceAll {
-			if (it.contains("Àç»ý ´Ù¿î·Îµå °î¸í"))
-				it.substring(5, it.indexOf("Àç»ý ´Ù¿î·Îµå °î¸í"))
-			else if (it.contains("NEW"))
-				it.substring(5)
+	private fun MutableList<String>.refine(): MutableList<String> {
+		val result = mutableListOf<String>()
+		var str : String
+		for(i in 3 until this.size){
+			str = this[i].replace(" NEW ","").filter { it in '°¡'..'ÆR' || it.toInt() in 0..127 }
+			if(str.contains("´õº¸±â Àç»ý ´Ù¿î·Îµå °î¸í"))
+				result.add(str.substring(1,str.indexOf("´õº¸±â Àç»ý ´Ù¿î·Îµå °î¸í")))
 			else
-				it.substring(1)
+				result.add(str.substring(1))
 		}
-		return this.subList(3, 8)
+		return result
+	}
+
+	private fun getAlbumIDtoSet(): Set<String> {
+		val result = mutableSetOf<String>()
+		for (i in 1..100) {
+			if (!ChartData.getS_instance().melonChartParser.isParsed)
+				ChartData.getS_instance().melonChartParser.chartDataParsing(null)
+			result.add(ChartData.getS_instance().melonChartParser.getAlbumID(i).filter { it in '0'..'9' })
+		}
+		return result
 	}
 }

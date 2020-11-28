@@ -1,6 +1,7 @@
 package controller;
 
 import model.ChartData;
+import model.MusicChartParser;
 import view.SiteChartsPanel;
 import java.awt.*;
 import java.awt.event.*;
@@ -31,29 +32,61 @@ public class ChartPrimaryPanelController {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            /*
             switch (ChartData.getS_instance().getSite_M_B_G()){
                 case 1:
                     the_Chart_Primary_Panel._formatted_Melon = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
-                    the_Chart_Primary_Panel._lblTime.setText("Renewal time : " + the_Chart_Primary_Panel._formatted_Melon);
-                 //   ChartData.getS_instance().setSite_M_B_G(1);
-                    ChartData.getS_instance().DataPassing(view_Loading);
-                    System.out.println("why?");
+                    //ChartData.getS_instance().setSite_M_B_G(1);
                     break;
                 case 2:
                     the_Chart_Primary_Panel._formatted_Bugs = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
-                    the_Chart_Primary_Panel._lblTime.setText("Renewal time : " + the_Chart_Primary_Panel._formatted_Bugs);
-                  //  ChartData.getS_instance().setSite_M_B_G(2);
-                    ChartData.getS_instance().DataPassing(view_Loading);
+                    //ChartData.getS_instance().setSite_M_B_G(2);
                     break;
                 case 3:
                     the_Chart_Primary_Panel._formatted_Genie = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
-                    the_Chart_Primary_Panel._lblTime.setText("Renewal time : " + the_Chart_Primary_Panel._formatted_Genie);
-                   // ChartData.getS_instance().setSite_M_B_G(3);
-                    ChartData.getS_instance().DataPassing(view_Loading);
+                    //ChartData.getS_instance().setSite_M_B_G(3);
                     break;
             }
+            */
+            setChartTime();
+            the_Chart_Primary_Panel._lblTime.setText("Renewal time : " + getChartTime());
+            ChartData.getS_instance().DataPassing(view_Loading);
         }
     }//ButtonRefreshListener
+
+    public void setChartTime() {
+        switch (ChartData.getS_instance().getSite_M_B_G()) {
+            case 1:
+                the_Chart_Primary_Panel._formatted_Melon = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+                break;
+            case 2:
+                the_Chart_Primary_Panel._formatted_Bugs = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+                break;
+            case 3:
+                the_Chart_Primary_Panel._formatted_Genie = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+                break;
+        }
+    }
+
+    public String getChartTime() {
+        switch (ChartData.getS_instance().getSite_M_B_G()) {
+            case 1:
+                return the_Chart_Primary_Panel._formatted_Melon;
+            case 2:
+                return the_Chart_Primary_Panel._formatted_Bugs;
+            case 3:
+                return the_Chart_Primary_Panel._formatted_Genie;
+            default:
+                return null;
+        }
+    }
+
+    private void renewalChartTime() {
+        the_Chart_Primary_Panel._pnlChartPanel.changeData();
+        the_Chart_Primary_Panel._lblTime.setText("Renewal time : " + getChartTime());
+        the_Chart_Primary_Panel._txtSearch.setText("");
+        the_Chart_Primary_Panel._pnlChartPanel.filterTitleANDArtist(null,2);
+    }
 
     private class ButtonMelonListener implements ActionListener {
         private Component view_Loading;
@@ -68,11 +101,8 @@ public class ChartPrimaryPanelController {
             if(ChartData.getS_instance().getSite_M_B_G() == 1) return;
             ChartData.getS_instance().setSite_M_B_G(1);
             if(!ChartData.getS_instance().getParser().isParsed()) ChartData.getS_instance().DataPassing(view_Loading);
-            System.out.println("Melon");
-            the_Chart_Primary_Panel._pnlChartPanel.changeData();
-            the_Chart_Primary_Panel._lblTime.setText("Renewal time : " + the_Chart_Primary_Panel._formatted_Melon);
-            the_Chart_Primary_Panel._txtSearch.setText("");
-            the_Chart_Primary_Panel._pnlChartPanel.filterTitleANDArtist(null,2);
+            //System.out.println("Melon");
+            renewalChartTime();
         }
     }//ButtonMelonListener
 
@@ -89,11 +119,8 @@ public class ChartPrimaryPanelController {
             if(ChartData.getS_instance().getSite_M_B_G() == 2) return;
             ChartData.getS_instance().setSite_M_B_G(2);
             if(!ChartData.getS_instance().getParser().isParsed()) ChartData.getS_instance().DataPassing(view_Loading);
-            System.out.println("Bugs");
-            the_Chart_Primary_Panel._pnlChartPanel.changeData();
-            the_Chart_Primary_Panel._lblTime.setText("Renewal time : " + the_Chart_Primary_Panel._formatted_Bugs);
-            the_Chart_Primary_Panel._txtSearch.setText("");
-            the_Chart_Primary_Panel._pnlChartPanel.filterTitleANDArtist(null,2);
+            //System.out.println("Bugs");
+            renewalChartTime();
         }
     }//ButtonBugsListener
 
@@ -109,11 +136,8 @@ public class ChartPrimaryPanelController {
             if(ChartData.getS_instance().getSite_M_B_G() == 3) return;
             ChartData.getS_instance().setSite_M_B_G(3);
             if(!ChartData.getS_instance().getParser().isParsed()) ChartData.getS_instance().DataPassing(view_Loading);
-            System.out.println("Genie");
-            the_Chart_Primary_Panel._pnlChartPanel.changeData();
-            the_Chart_Primary_Panel._lblTime.setText("Renewal time : " + the_Chart_Primary_Panel._formatted_Genie);
-            the_Chart_Primary_Panel._txtSearch.setText("");
-            the_Chart_Primary_Panel._pnlChartPanel.filterTitleANDArtist(null,2);
+            //System.out.println("Genie");
+            renewalChartTime();
         }
     }//ButtonGenieListener
 

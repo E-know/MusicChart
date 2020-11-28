@@ -36,6 +36,7 @@ class GenieAlbumCommentParser(val driver: WebDriver) {
 			for (id in _setAlbumID) {
 				do {
 					driver.get("https://www.genie.co.kr/detail/albumInfo?axnm=${id}")
+					sleep(1000);
 					if(sleep_Flag) {
 						sleep_Flag = false
 						sleep(500)
@@ -52,7 +53,7 @@ class GenieAlbumCommentParser(val driver: WebDriver) {
 
 				val strarr = mutableListOf<String>()
 				for(i in 0 until arr.size){
-					strarr.add(arr[i].text())
+					strarr.add(arr[i].text().filter { it in '°¡'..'ÆR' || it.toInt() in 0..127})
 					if(i == 4)
 						break
 				}
@@ -62,7 +63,7 @@ class GenieAlbumCommentParser(val driver: WebDriver) {
 			}
 
 			for(ele in result){
-				println("Key : ${ele.key}")
+				println("Genie - Key : ${ele.key}")
 				for(str in ele.value)
 					println(str)
 			}
