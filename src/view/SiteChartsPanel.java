@@ -104,7 +104,8 @@ public class SiteChartsPanel extends JPanel{
     }
 
     private void setInitLblTime(){
-        _lblTime = new JLabel("Renewal time : " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
+        _lblTime = new JLabel("Renewal time : " + _formatted_Melon); //맨 처음에 멜론 차트를 불러오기에 이렇게 고침, 시간 달라지는 버그 있었음
+
         _lblTime.setBounds(900,870,200,40);
         _lblTime.setFont(new Font("Verdana", Font.BOLD + Font.PLAIN, 14));
         _lblTime.setBackground(Color.lightGray);
