@@ -41,6 +41,7 @@ class BugsAlbumCommentParser(var driver: WebDriver) {
 			var sleepFlag = false
 			for (id in _setAlbumID) {
 				do {
+					sleep(1000)
 					println(id)
 					driver.get("https://music.bugs.co.kr/album/${id}?wl_ref=list_tr_11_chart")
 					if(sleepFlag) {
@@ -58,7 +59,7 @@ class BugsAlbumCommentParser(var driver: WebDriver) {
 
 				val strarr = mutableListOf<String>()
 				for (i in 0 until arr.size) {
-					strarr.add(arr[i].text())
+					strarr.add(arr[i].text().filter { it in '°¡'..'ÆR' || it.toInt() in 0..127})
 					if (i == 4)
 						break
 				}

@@ -42,7 +42,7 @@ public class AppManager {
 
         new GenieAlbumCommentParser(driver).crawl();
 
-        driver.close();
+        driver.quit();
     }
 
     private void setInitPrimaryPanel(){

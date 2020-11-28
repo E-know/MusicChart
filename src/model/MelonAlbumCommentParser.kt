@@ -3,6 +3,7 @@ package model
 import org.openqa.selenium.WebDriver
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
+import java.lang.Thread.sleep
 
 class MelonAlbumCommentParser(var driver: WebDriver) {
 	//Properties
@@ -29,6 +30,7 @@ class MelonAlbumCommentParser(var driver: WebDriver) {
 				doc = Jsoup.parseBodyFragment(html)
 				arr = doc.body().select("div.cntt").text().split("³»¿ë").toMutableList()
 				result[id] = arr.refine()
+				sleep(1000);
 			}
 
 			for (ele in result) {
@@ -47,8 +49,13 @@ class MelonAlbumCommentParser(var driver: WebDriver) {
 
 	private fun MutableList<String>.refine(): MutableList<String> {
 		val result = mutableListOf<String>()
-		for(i in 3 until 8){
-			result.add(this[i].replace(" NEW ","").filter { it in '°¡'..'ÆR' || it.toInt() in 0..127 })
+		var str : String
+		for(i in 3 until this.size){
+			str = this[i].replace(" NEW ","").filter { it in '°¡'..'ÆR' || it.toInt() in 0..127 }
+			if(str.contains("´õº¸±â Àç»ý ´Ù¿î·Îµå °î¸í"))
+				result.add(str.substring(1,str.indexOf("´õº¸±â Àç»ý ´Ù¿î·Îµå °î¸í")))
+			else
+				result.add(str.substring(1))
 		}
 		return result
 	}
