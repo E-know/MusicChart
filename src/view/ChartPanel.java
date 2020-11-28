@@ -10,6 +10,8 @@ import javax.swing.table.*;
 
 import controller.ChartPanelController;
 import model.ChartData;
+import model.ChartModel;
+import model.SITE;
 import DB.ConnectDB;
 
 import org.json.simple.JSONArray;
@@ -79,9 +81,9 @@ public class ChartPanel extends JPanel {
 		add(_lblTitle);
     }
 
-    private void setInitTableChart(){
-	    setInitTableModel();
-	    setInitTableSorter();
+    private void setInitTableChart() {
+        setInitTableModel();
+        setInitTableSorter();
 
         _tableChart = new JTable(_tableModel);
         _tableChart.setBackground(_ColorListBackground);
@@ -93,7 +95,7 @@ public class ChartPanel extends JPanel {
 		add(_tableChart);
     }
 
-    private void setInitTableSorter(){
+    private void setInitTableSorter() {
         _tableSorter = new TableRowSorter<ChartModel>(_tableModel);
         _tableSorter.setComparator(0, new Comparator<Integer>() {
             @Override
@@ -103,246 +105,142 @@ public class ChartPanel extends JPanel {
         }); //표에서 순위를 기준으로 정렬되도록 설정(값이 작을수록 위에 있음)
     }
 
-    private void setInitTableModel(){
-        if(!ChartData.getS_instance().getParser().isParsed())
-			ChartData.getS_instance().getParser().chartDataParsing(this); //Melon 차트 정보 받아옴
+
+    private void setInitScrollBar() {
+        //스크롤바 제공, 스크롤 가능한 요소(여기서는 tableChart)를 가진다
+        JScrollPane _scrollBar = new JScrollPane(_tableChart, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        _scrollBar.setBounds(40, 130, 1000, 540);
+        add(_scrollBar);
+    }
+
+    private void setInitTableModel() {
+        if (!ChartData.getS_instance().getParser().isParsed())
+            ChartData.getS_instance().getParser().chartDataParsing(this); //Melon 차트 정보 받아옴
 
         _tableModel = new ChartModel(ChartData.getS_instance().getParser().getChartList());
     }
 
-	private void setInitScrollBar(){
-		//스크롤바 제공, 스크롤 가능한 요소(여기서는 tableChart)를 가진다
-		JScrollPane _scrollBar = new JScrollPane(_tableChart, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		_scrollBar.setBounds(40, 130, 1000, 540);
-		add(_scrollBar);
-	}
     /*
 	Name: buildTable
 	Parameter: -
 	Returns: -
 	Description: 셀에 항목을 표시하기 전에 기본적인 셀 속성 설정
 	*/
-	private void makeTable() {
-	    //index 0 - Ranking
-	    _tableChart.getColumnModel().getColumn(0).setResizable(false);
+    private void makeTable() {
+        //index 0 - Ranking
+        _tableChart.getColumnModel().getColumn(0).setResizable(false);
         _tableChart.getColumnModel().getColumn(0).setPreferredWidth(10);
         //index 1 - Album image
-		_tableChart.getColumnModel().getColumn(1).setResizable(false);
-		_tableChart.getColumnModel().getColumn(1).setPreferredWidth(60);
+        _tableChart.getColumnModel().getColumn(1).setResizable(false);
+        _tableChart.getColumnModel().getColumn(1).setPreferredWidth(60);
         //index 2 - Title
-		_tableChart.getColumnModel().getColumn(2).setResizable(false);
-		_tableChart.getColumnModel().getColumn(2).setPreferredWidth(280);
-		_tableChart.getColumnModel().getColumn(2).setMinWidth(100);
+        _tableChart.getColumnModel().getColumn(2).setResizable(false);
+        _tableChart.getColumnModel().getColumn(2).setPreferredWidth(280);
+        _tableChart.getColumnModel().getColumn(2).setMinWidth(100);
         //index 3 - Singer
-		_tableChart.getColumnModel().getColumn(3).setResizable(false);
-		_tableChart.getColumnModel().getColumn(3).setPreferredWidth(10);
-		_tableChart.getColumnModel().getColumn(3).setMinWidth(80);
+        _tableChart.getColumnModel().getColumn(3).setResizable(false);
+        _tableChart.getColumnModel().getColumn(3).setPreferredWidth(10);
+        _tableChart.getColumnModel().getColumn(3).setMinWidth(80);
+      
+        _tableChart.getColumnModel().getColumn(4).setResizable(false);
+        _tableChart.getColumnModel().getColumn(4).setPreferredWidth(40);
+    } //method used in constructor & dataChange
 
-		_tableChart.getColumnModel().getColumn(4).setResizable(false);
-		_tableChart.getColumnModel().getColumn(4).setPreferredWidth(40);
-	} //method used in constructor & dataChange
-	
-	// - - - - - getter & setter - - - - -
-	public JLabel get_lblTitle() {
-		return _lblTitle;
-	}
-	public String get_strChartName() {
-		return _strChartName;
-	}
-	public void set_strChartName(String name) {
-		_strChartName = name;
-	}
-	public JTable get_tableChart() {
-		return _tableChart;
-	}
-	public ChartModel get_tableModel() {
-		return _tableModel;
-	} //getter & setter 끝
-	
-	/*
-	Name: changeData
-	Parameter: -
-	Returns: -
-	Description: 다른 사이트의 차트를 표시하거나 새로고침할 때 표시되는 내용을 변경 
-	*/
-	public void changeData() {
-		switch(ChartData.getS_instance().getSite_M_B_G()){
-			case 1:
-				_strChartName = "Melon";
-				break;
-			case 2:
-				_strChartName = "Bugs";
-				break;
-			case 3:
-				_strChartName = "Genie";
-				break;
-		}
-		_lblTitle.setText(_strChartName + " TOP 100");
-		_tableModel.setContents(ChartData.getS_instance().getParser().getChartList());
-		makeTable();
-		_tableChart.repaint();
-	}
+    // - - - - - getter & setter - - - - -
+    public JLabel get_lblTitle() {
+        return _lblTitle;
+    }
 
-	public void recentData() {
-		//_tableChart.setVisible(false);
+    public String get_strChartName() {
+        return _strChartName;
+    }
 
-		_lblTitle.setText("List of recent views");
-		DB.getDB();
-		try {
-			_recentArrayListSite = DB.readRecentListSite(InetAddress.getLocalHost().getHostName());
-			_recentArrayListRank = DB.readRecentListRank(InetAddress.getLocalHost().getHostName());
-			_recentArrayListTitle = DB.readRecentList(InetAddress.getLocalHost().getHostName());
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		}
-		inputRecentList();
-	}
-	public void inputRecentList(){
-		_modelList = new DefaultListModel<String>();
-		for (String ptr : _recentArrayListTitle) {
-			_modelList.addElement(ptr);
-		}
-		_listComment = new JList<String>();
-		_listComment.setFont(new Font("서울한강체 M", Font.PLAIN, 20));
-		_listComment.setModel(_modelList);
-		System.out.println(_listComment);
-//		DefaultTableModel model = (DefaultTableModel) _tableChart.getModel();
-//		model.setNumRows(0);//초기화
-//		_tableChart.removeAll();
+    public void set_strChartName(String name) {
+        _strChartName = name;
+    }
 
-		_tableModel.setRecentContents(_recentArrayListRank,_recentArrayListSite);
-		makeTable();
-		_tableChart.repaint();
-	}
+    public JTable get_tableChart() {
+        return _tableChart;
+    }
 
-	/*
-	Name: filter
-	Parameter: (String) 검색할 내용, (int) 검색 요소로 제목(2) 또는 가수(3)
-	Returns: -
-	Description: 검색 결과에 맞는 곡만 표시되도록 설정
-	*/
-	public void filterTitleANDArtist(String text, int criteria) {
-		if(text == null) 
-		    _tableSorter.setRowFilter(null); //검색 중이 아닌 경우 모든 항목을 표시
-		else 
-		    _tableSorter.setRowFilter(RowFilter.regexFilter(text, criteria)); //실제 검색 실행하여 결과 표시
-	}
-	
-	// - - - - - ChartModel 클래스 - - - - -
-	public class ChartModel extends AbstractTableModel {
-		// - - - - - 인스턴스 데이터 - - - - -
-		//각각의 행 이름을 저장하는 배열
-		private String[] arrColumnName;
-		//각각의 셀의 항목을 저장하는 배열
-		private Object[][] chartData;
-		
-		// - - - - - 생성자 - - - - -
-		public ChartModel(JSONArray musics) {
-			arrColumnName = new String[5];
-			arrColumnName[0] = "Rank";
-			arrColumnName[1] = "Album Image";
-			arrColumnName[2] = "Title";
-			arrColumnName[3] = "Singer";
-			arrColumnName[4] = "Album Title";
-			
-			chartData = new Object[musics.size()][5];
-			for(int i = 0; i < musics.size(); i++) chartData[i] = new Object[5];
-			setContents(musics);
-		} //생성자 끝
-		
-		/*
-		Name: setContents
-		Parameter: (JSONArray) 항목이 들어있음
-		Returns: -
-		Description: 표에서 표시할 항목 설정
-		*/
-		private void setContents(JSONArray musics) {
-			for(int i = 0; i < musics.size(); i++) {
-				JSONObject obj = (JSONObject) musics.get(i);
-				chartData[i][0] = Integer.parseInt((String) (obj.get("rank")));
-				try {
-					ImageIcon loadedImage = new ImageIcon(new URL((String) obj.get("smallImageUrl"))); //지정된 URL로부터 이미지를 받아옴
-					chartData[i][1] = new ImageIcon(loadedImage.getImage().getScaledInstance(50, 50, Image.SCALE_FAST)); //받은 이미지를 50 * 50 크기로 변환하여 사용
-				} catch (MalformedURLException e) {
-					e.printStackTrace();
-				}
-				chartData[i][2] = (String) obj.get("title");
-				chartData[i][3] = (String) obj.get("artist");
-				chartData[i][4] = (String) obj.get("albumName");
-			}
-		}
+    public ChartModel get_tableModel() {
+        return _tableModel;
+    } //getter & setter 끝
 
-		private void setRecentContents(ArrayList<Integer> rankNum, ArrayList<Integer> siteNum) {
-			for(int i = 0; i < rankNum.size(); i++) {
-				ChartData.getS_instance().setSite_M_B_G(siteNum.get(i));
-				int rank = rankNum.get(i);
-				chartData[i][0] = rank;
-				try {
-					ImageIcon loadedImage = new ImageIcon(new URL(ChartData.getS_instance().getParser().getImageUrl(rank))); //지정된 URL로부터 이미지를 받아옴
-					chartData[i][1] = new ImageIcon(loadedImage.getImage().getScaledInstance(50, 50, Image.SCALE_FAST)); //받은 이미지를 50 * 50 크기로 변환하여 사용
-				} catch (MalformedURLException e) {
-					e.printStackTrace();
-				}
-				chartData[i][2] = (String) ChartData.getS_instance().getParser().getTitle(rank);
-				chartData[i][3] = (String) ChartData.getS_instance().getParser().getArtistName(rank);
-				chartData[i][4] = (String) ChartData.getS_instance().getParser().getAlbumName(rank);
-			}
-		}
-		private void removeAllChart(){
+    /*
+    Name: changeData
+    Parameter: -
+    Returns: -
+    Description: 다른 사이트의 차트를 표시하거나 새로고침할 때 표시되는 내용을 변경
+    */
+    public void changeData() {
+        switch (ChartData.getS_instance().getSite_M_B_G()) {
+            case SITE.MELON:
+                _strChartName = "Melon";
+                break;
+            case SITE.BUGS:
+                _strChartName = "Bugs";
+                break;
+            case SITE.GENIE:
+                _strChartName = "Genie";
+                break;
+        }
+        _lblTitle.setText(_strChartName + " TOP 100");
+        _tableModel.setContents(ChartData.getS_instance().getParser().getChartList());
+        makeTable();
+        _tableChart.repaint();
+    }
 
-		}
+    public void recentData() {
+		    //_tableChart.setVisible(false);
 
-		public Object[][] getChartData() {
-			return chartData;
-		}
-		public Object[] getMusicData(int index) {
-			return chartData[index];
-		}
-		@Override
-		public int getColumnCount() {
-			return arrColumnName.length;
-		}
-		@Override
-		public int getRowCount() {
-			return chartData.length;
-		}
-		@Override
-		public Object getValueAt(int row, int column) {
-			return chartData[row][column];
-		}
-		@Override
-		public void setValueAt(Object value, int row, int column) {
-			chartData[row][column] = value;
-		}
-		@Override
-		public String getColumnName(int column) {
-			return arrColumnName[column];
-		}
-		@Override
-		public Class<?> getColumnClass(int column) {
-			switch(column) {
-			case 0: //순위
-				return Integer.class;
-			case 1: //이미지
-				return ImageIcon.class;
-			case 2: //제목
-			case 3: //가수
-			case 4: //앨범
-				return String.class;
-			default:
-				return Object.class;
-			}
-		}
-		@Override
-		public boolean isCellEditable(int rowIndex, int columnIndex) {
-			return false;
-		}
-	} //ChartModel 클래스 끝
+	    	_lblTitle.setText("List of recent views");
+		    DB.getDB();
+		    try {
+    			_recentArrayListSite = DB.readRecentListSite(InetAddress.getLocalHost().getHostName());
+		    	_recentArrayListRank = DB.readRecentListRank(InetAddress.getLocalHost().getHostName());
+    			_recentArrayListTitle = DB.readRecentList(InetAddress.getLocalHost().getHostName());
+		    } catch (UnknownHostException e) {
+    			e.printStackTrace();
+		    }
+    		inputRecentList();
+	    }
+	    public void inputRecentList(){
+		    _modelList = new DefaultListModel<String>();
+    		for (String ptr : _recentArrayListTitle) {
+    			_modelList.addElement(ptr);
+		    }
+		    _listComment = new JList<String>();
+    		_listComment.setFont(new Font("서울한강체 M", Font.PLAIN, 20));
+    		_listComment.setModel(_modelList);
+    		System.out.println(_listComment);
+   //		DefaultTableModel model = (DefaultTableModel) _tableChart.getModel();
+   //		model.setNumRows(0);//초기화
+   //		_tableChart.removeAll();
+    
+    		_tableModel.setRecentContents(_recentArrayListRank,_recentArrayListSite);
+    		makeTable();
+    		_tableChart.repaint();
+    	}
 
-	public void addClickListener(MouseListener listenForMouse) {
-		_tableChart.addMouseListener((listenForMouse));
-	}
 
-	// - - - - - ClickListener 클래스 - - - - -
+    /*
+    Name: filter
+    Parameter: (String) 검색할 내용, (int) 검색 요소로 제목(2) 또는 가수(3)
+    Returns: -
+    Description: 검색 결과에 맞는 곡만 표시되도록 설정
+    */
+    public void filterTitleANDArtist(String text, int criteria) {
+        if (text == null)
+            _tableSorter.setRowFilter(null); //검색 중이 아닌 경우 모든 항목을 표시
+        else
+            _tableSorter.setRowFilter(RowFilter.regexFilter(text, criteria)); //실제 검색 실행하여 결과 표시
+    }
 
+    // - - - - - ChartModel 클래스 - - - - -
+
+    public void addClickListener(MouseListener listenForMouse) {
+        _tableChart.addMouseListener((listenForMouse));
+    }
 }
+

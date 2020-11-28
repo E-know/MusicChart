@@ -180,11 +180,8 @@ public class CommentPanel extends JPanel {
 
         try {
             DetailData.getS_instance().detailDataPassing(rank, ChartData.getS_instance().getParser().getChartList(), this);
-            URL url = new URL(DetailData.getS_instance().getDetailParser().getImageUrl(rank));
-            Image image = ImageIO.read(url).getScaledInstance(160, 160, Image.SCALE_SMOOTH);
+            Image image = ImageIO.read(new URL(DetailData.getS_instance().getDetailParser().getImageUrl(rank))).getScaledInstance(160, 160, Image.SCALE_SMOOTH);
             _lblImage.setIcon(new ImageIcon(image));
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -31,7 +31,7 @@ public class AppManager {
         primaryPanel.add(pnlCommentPanel);
         pnlCommentPanel.setVisible(false);
         primaryPanel.add(pnlSiteChartsPanel);
-        crawlingComments();
+        //crawlingComments();
     }
     
       
@@ -43,7 +43,7 @@ public class AppManager {
         InsertDatabase.insertCommentDatabase(new BugsAlbumCommentParser(driver).crawl());
         InsertDatabase.insertCommentDatabase(new GenieAlbumCommentParser(driver).crawl());
 
-        driver.close();
+        driver.quit();
     }
 
     private void setInitPrimaryPanel(){

@@ -2,7 +2,7 @@ package model;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import java.awt.*;
-public class DetailData {
+public class DetailData extends SiteMBG{
     private static DetailData s_instance;
 
     private MelonChartParser detailMelon;
@@ -18,11 +18,11 @@ public class DetailData {
     }
     public MusicChartParser getParser() {
         switch (ChartData.getS_instance().getSite_M_B_G()) {
-            case 1:
+            case MELON:
                 return detailMelon;
-            case 2:
+            case BUGS:
                 return detailBugs;
-            case 3:
+            case GENIE:
                 return detailGenie;
             default:
                 return null;
