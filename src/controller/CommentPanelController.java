@@ -10,6 +10,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.awt.Desktop;
+import java.net.URLEncoder;
+
 public class CommentPanelController {
     ConnectDB DB = new ConnectDB();
 
@@ -20,6 +26,7 @@ public class CommentPanelController {
         this.the_Comment_Panel.addBtnRegisterListener(new ButtonRegisterListener());
         this.the_Comment_Panel.addBtnDeleteListener(new ButtonDeleteListener());
         this.the_Comment_Panel.addBtnBackListener(new ButtonBackListener());
+        this.the_Comment_Panel.addBtnYouTubeListener(new ButtonYouTubeListener());
     }
 
     private class ButtonRegisterListener implements ActionListener{
@@ -49,7 +56,7 @@ public class CommentPanelController {
 
                 the_Comment_Panel.clearPanelTxt();
             }//obj == btnRegister
-        }//actionPerfomed
+        }//actionPerformed
     }//ButtonRegisterListener
 
     private class ButtonDeleteListener implements ActionListener{
@@ -70,7 +77,7 @@ public class CommentPanelController {
                 the_Comment_Panel._modelList.removeElementAt(the_Comment_Panel._listComment.getSelectedIndex());
             }
             the_Comment_Panel._txtPassword.setText("");
-        }//actionPerfomed
+        }//actionPerformed
     }//ButtonDeleteListener
 
     private class ButtonBackListener implements ActionListener{
@@ -85,8 +92,28 @@ public class CommentPanelController {
             the_Comment_Panel.clearMusicData();
             BackToChartPrimaryPanel();
             System.out.println("Back To ChartPrimary");
-        }//actionPerfomed
+        }//actionPerformed
     }//ButtonBackListener
+
+    private class ButtonYouTubeListener implements ActionListener{
+        private Component view_Loading;
+        public ButtonYouTubeListener() { }
+        public ButtonYouTubeListener(Component parentComponent){
+            view_Loading = parentComponent;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            try {
+                Desktop.getDesktop().browse(new URI("https://www.youtube.com/results?search_query=" + URLEncoder.encode(the_Comment_Panel._strTitle, "UTF-8")));
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } catch (URISyntaxException ex) {
+                ex.printStackTrace();
+            }
+            System.out.println("Search in Youtube");
+        }//actionPerformed
+    }//ButtonYoutubeListener
 
     public void BackToChartPrimaryPanel(){
         AppManager.getS_instance().getPrimaryPanel().repaint();
