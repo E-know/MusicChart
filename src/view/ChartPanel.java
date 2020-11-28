@@ -34,10 +34,10 @@ public class ChartPanel extends JPanel {
     private TableRowSorter<ChartModel> _tableSorter;
 
     //배경색과 전경색
-    private static final Color _ColorTitle = new Color(52, 54, 84);
-    private static final Color _ColorTextColor = Color.black;
-    private static final Color _ColorLblBackground = new Color(234, 234, 234);
-    private static final Color _ColorListBackground = Color.white;
+    private final Color _ColorTitle = new Color(52, 54, 84);
+    private final Color _ColorTextColor = Color.black;
+    private final Color _ColorLblBackground = new Color(234, 234, 234);
+    private final Color _ColorListBackground = Color.white;
 
     //이벤트 리스너 객체
 
