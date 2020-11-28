@@ -15,11 +15,14 @@ import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.sql.*;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 
 public class CommentPanel extends JPanel {
     private JPanel _pnlComment, _pnlMusicInfo;
     private JButton _btnRegister, _btnDelete, _btnBack, _btnYouTube;
+    private JScrollPane _scrollBar;
 
     public JTextField _txtComment, _txtPassword;
     public ArrayList<String> _arrComment;
@@ -27,12 +30,13 @@ public class CommentPanel extends JPanel {
 
     public JList<String> _listComment;
     public DefaultListModel<String> _modelList;
-    public String _strTitle, _strArtist, _sqlTitle;
+    public String _strTitle, _strArtist, _sqlTitle, _strAlbumId;
 
     private JLabel _lblTitle, _lblArtist, _lblImage;
 
     ConnectDB DB = new ConnectDB();
     public int _commmentPanelRank;
+
     /*
      * Description of Class
      *   음악 정보를 Paser에 AppManager를 통하여 직접 접근하여서 노래를 받아온다.
@@ -130,6 +134,7 @@ public class CommentPanel extends JPanel {
         setInitializationTxtPassword();
         setInitializationBtnRegister();
         setInitializationBtnDelete();
+        setInitializationScroll();
     }
 
     private void setInitializationListComment() { //Called by setInitializationPnlComment
@@ -170,6 +175,11 @@ public class CommentPanel extends JPanel {
         _pnlComment.add(_btnDelete);
     }
 
+    private void setInitializationScroll() {
+        _scrollBar = new JScrollPane(_listComment, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);  // 스크롤패널을 선언
+        _scrollBar.setBounds(32, 260, 960, 400);
+        add(_scrollBar);
+    }
     //==================================================================================================================
 
     private void inputMusicInfoToPnlMusicInfo(int rank) {
@@ -193,35 +203,67 @@ public class CommentPanel extends JPanel {
         _listComment.setModel(_modelList);
     }
 
+    private void inputRecentList(int rank){
+        DB.getDB();
+        _sqlTitle = ChartData.getS_instance().getParser().getTitle(rank);
+        if (_sqlTitle.contains("'")) {
+            _sqlTitle = _sqlTitle.replace("'", ":");
+        }
+        if (_sqlTitle.contains(" ")) {
+            _sqlTitle = _sqlTitle.replace(" ", "");
+        }
+        if (_sqlTitle.contains("by")) {
+            _sqlTitle = _sqlTitle.replace("by", "");
+        }
+        try {
+            DB.insertRecentListDB(_sqlTitle, ChartData.getS_instance().getSite_M_B_G(), rank,InetAddress.getLocalHost().getHostName());
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void popUpCommentPanel(int rank) {
         this.setVisible(true);
 
         inputMusicInfoToPnlMusicInfo(rank);
         inputCommentToListComment(rank);
+        inputRecentList(rank);
         setCommnetPanelRank(rank);
     }
 
     /*Description of Method readComment
-     *   덧글과 각 비밀번호가 적혀있는 txt 파일을 읽어와 각각의 ArrayList에 저장하는 메소드
+     *   덧글과 각 비밀번호가 적혀있는 db 파일을 읽어와 각각의 ArrayList에 저장하는 메소드
      * */
     private void readCommentFromDB(int rank) {
         _sqlTitle = ChartData.getS_instance().getParser().getTitle(rank);
+        _strAlbumId = ChartData.getS_instance().getParser().getAlbumID(rank).replaceAll("[^0-9]", "");
         _strTitle = ChartData.getS_instance().getParser().getTitle(rank);
         _strArtist = ChartData.getS_instance().getParser().getArtistName(rank);
+
         if (_sqlTitle.contains("'")) {
             _sqlTitle = _sqlTitle.replace("'", ":");
         }
-        ArrayList<String> comment = DB.readCommentDB(_sqlTitle);
-        ArrayList<String> password = DB.readPwdDB(_sqlTitle);
-
-        System.out.println("comment " + comment + ", pwd" + password);
-        for (String ptr : comment) {
-            _arrComment.add(ptr);
+        if (_sqlTitle.contains(" ")) {
+            _sqlTitle = _sqlTitle.replace(" ", "");
         }
-        for (String ptr : password) {
-            _arrPassword.add(ptr);
+        if (_sqlTitle.contains("by")) {
+            _sqlTitle = _sqlTitle.replace("by", "");
+        }
+        DB.getDB();
+        ArrayList<String> albumIdList = DB.getAlbumId(_sqlTitle);
+        System.out.println("albumIdList : "+albumIdList);
+        for (String albumId : albumIdList) {
+            addArrayListString(_arrComment, DB.readCommentDB(albumId));
+            addArrayListString(_arrPassword, DB.readPwdDB(albumId));
+            System.out.println("comment " + _arrComment + ", pwd" + _arrPassword);
         }
     }//readComment
+
+    private void addArrayListString(ArrayList<String> commentList, ArrayList<String> siteComment){
+        for(String str : siteComment){
+            commentList.add(str);
+        }
+    }
 
     /*
      *Description of Method clearAll

@@ -1,5 +1,8 @@
 package view;
 
+import DB.ConnectDB;
+import model.InsertDatabase;
+
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
@@ -7,13 +10,14 @@ import java.awt.event.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-
 public class SiteChartsPanel extends JPanel{
     public ChartPanel _pnlChartPanel;
+
     private JButton _btnRefresh;
     private JButton _btnSite_Melon;
     private JButton _btnSite_Bugs;
     private JButton _btnSite_Genie;
+    private JButton _btnRecent;
 
     public JLabel _lblTime;
     public JComboBox<String> _strCombo;
@@ -27,6 +31,7 @@ public class SiteChartsPanel extends JPanel{
 
 
     public SiteChartsPanel(){
+        new InsertDatabase().insertChartDatabase(this);
 
         setBackground(new Color(255, 255, 255, 0));
         setBounds(1,0,1278,960);
@@ -93,6 +98,12 @@ public class SiteChartsPanel extends JPanel{
         _btnSite_Genie.setBounds(400,100,150,40);
         _btnSite_Genie.setBackground(Color.WHITE);
         this.add(_btnSite_Genie);
+
+        _btnRecent = new JButton("Recent Music");
+        _btnRecent.setFont(new Font("Verdana", Font.BOLD + Font.PLAIN, 16));
+        _btnRecent.setBounds(550,100,150,40);
+        _btnRecent.setBackground(Color.WHITE);
+        this.add(_btnRecent);
     }
 
     private void setInitPnlChartPanel(){
@@ -128,6 +139,9 @@ public class SiteChartsPanel extends JPanel{
 
     public void addBtnGenieListener(ActionListener listenForBtnGenie) {
         _btnSite_Genie.addActionListener((listenForBtnGenie));
+    }
+    public void addRecentListener(ActionListener listenForBtnRecent) {
+        _btnRecent.addActionListener((listenForBtnRecent));
     }
 
     public void addKeyActionListener(KeyListener listenForKey) {

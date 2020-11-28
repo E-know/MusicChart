@@ -3,6 +3,7 @@ package view;
 import java.awt.*;
 import java.awt.event.*;
 import java.net.*;
+import java.util.ArrayList;
 import java.util.Comparator;
 import javax.swing.*;
 import javax.swing.table.*;
@@ -11,52 +12,65 @@ import controller.ChartPanelController;
 import model.ChartData;
 import model.ChartModel;
 import model.SITE;
+import DB.ConnectDB;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 //encoding: UTF-8
 @SuppressWarnings("serial")
 public class ChartPanel extends JPanel {
-    // - - - - - 인스턴스 데이터 - - - - -
-    //차트 위에 표시되는 제목
-    private JLabel _lblTitle;
+	// - - - - - 인스턴스 데이터 - - - - -
+	//public JPanel _pnlChart, _pnlRecentList;
+	//차트 위에 표시되는 제목
+	private JLabel _lblTitle;
+	
+	//차트 제공자를 나타내는 문자열("Melon" 또는 "Bugs" 또는 "Genie")
+	private String _strChartName;
+	
+	//음악 차트를 담는 표
+	public JTable _tableChart;
 
-    //차트 제공자를 나타내는 문자열("Melon" 또는 "Bugs" 또는 "Genie")
-    private String _strChartName;
+	//최근 음악들 보여주는 리스트
+	public ArrayList<Integer> _recentArrayListSite;
+	public ArrayList<Integer> _recentArrayListRank;
+	public ArrayList<String> _recentArrayListTitle;
 
-    //음악 차트를 담는 표
-    public JTable _tableChart;
-
-    //표의 모델(셀의 크기, 개수, 표시 자료형 등을 결정)
-    public ChartModel _tableModel;
-
-    //표에서 정렬 및 필터링 기능을 담당
-    private TableRowSorter<ChartModel> _tableSorter;
+	public JList<String> _listComment;
+	public DefaultListModel<String> _modelList;
+	//표의 모델(셀의 크기, 개수, 표시 자료형 등을 결정)
+	public ChartModel _tableModel;
+	
+	//표에서 정렬 및 필터링 기능을 담당
+	private TableRowSorter<ChartModel> _tableSorter;
 
     //배경색과 전경색
-    private final Color _ColorTitle = new Color(52, 54, 84);
-    private final Color _ColorTextColor = Color.black;
-    private final Color _ColorLblBackground = new Color(234, 234, 234);
-    private final Color _ColorListBackground = Color.white;
+	private static final Color _ColorTitle = new Color(52,54,84);
+	private static final Color _ColorTextColor = Color.black;
+	private static final Color _ColorLblBackground = new Color(234, 234, 234);
+	private static final Color _ColorListBackground = Color.white;
+	
+	//이벤트 리스너 객체
 
-    //이벤트 리스너 객체
+	ConnectDB DB = new ConnectDB();
+	// - - - - - 생성자 - - - - -
+	public ChartPanel() {
+		_strChartName = "Melon"; //프로그램 실행 직후 Melon 차트를 표시하기 위함
+		
+		setBackground(_ColorLblBackground);
+		setLayout(null);
+		setFont(new Font("맑은 고딕", Font.BOLD, 64));
 
-    // - - - - - 생성자 - - - - -
-    public ChartPanel() {
-        _strChartName = "Melon"; //프로그램 실행 직후 Melon 차트를 표시하기 위함
+		setInitTableChart();
+		setInitScrollBar();
+		setInitLblTitle();
 
-        setBackground(_ColorLblBackground);
-        setLayout(null);
-        setFont(new Font("맑은 고딕", Font.BOLD, 64));
+		new ChartPanelController(this);
+	} //생성자 끝
 
-        setInitLblTitle();
-        setInitTableChart();
-        setInitScrollBar();
-
-        new ChartPanelController(this);
-    } //생성자 끝
-
-    private void setInitLblTitle() {
+    private void setInitLblTitle(){
         _lblTitle = new JLabel(_strChartName + " TOP 100");
         _lblTitle.setBackground(Color.white);
         _lblTitle.setForeground(_ColorTitle);
@@ -64,7 +78,7 @@ public class ChartPanel extends JPanel {
         _lblTitle.setFont(new Font("배달의민족 도현", Font.BOLD, 48));
         _lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
         _lblTitle.setVerticalAlignment(SwingConstants.CENTER);
-        add(_lblTitle);
+		add(_lblTitle);
     }
 
     private void setInitTableChart() {
@@ -78,8 +92,7 @@ public class ChartPanel extends JPanel {
         _tableChart.setRowHeight(60);
         makeTable();
         _tableChart.setRowSorter(_tableSorter);
-        add(_tableChart);
-
+		add(_tableChart);
     }
 
     private void setInitTableSorter() {
@@ -91,6 +104,7 @@ public class ChartPanel extends JPanel {
             }
         }); //표에서 순위를 기준으로 정렬되도록 설정(값이 작을수록 위에 있음)
     }
+
 
     private void setInitScrollBar() {
         //스크롤바 제공, 스크롤 가능한 요소(여기서는 tableChart)를 가진다
@@ -127,7 +141,7 @@ public class ChartPanel extends JPanel {
         _tableChart.getColumnModel().getColumn(3).setResizable(false);
         _tableChart.getColumnModel().getColumn(3).setPreferredWidth(10);
         _tableChart.getColumnModel().getColumn(3).setMinWidth(80);
-
+      
         _tableChart.getColumnModel().getColumn(4).setResizable(false);
         _tableChart.getColumnModel().getColumn(4).setPreferredWidth(40);
     } //method used in constructor & dataChange
@@ -176,6 +190,39 @@ public class ChartPanel extends JPanel {
         makeTable();
         _tableChart.repaint();
     }
+
+    public void recentData() {
+		    //_tableChart.setVisible(false);
+
+	    	_lblTitle.setText("List of recent views");
+		    DB.getDB();
+		    try {
+    			_recentArrayListSite = DB.readRecentListSite(InetAddress.getLocalHost().getHostName());
+		    	_recentArrayListRank = DB.readRecentListRank(InetAddress.getLocalHost().getHostName());
+    			_recentArrayListTitle = DB.readRecentList(InetAddress.getLocalHost().getHostName());
+		    } catch (UnknownHostException e) {
+    			e.printStackTrace();
+		    }
+    		inputRecentList();
+	    }
+	    public void inputRecentList(){
+		    _modelList = new DefaultListModel<String>();
+    		for (String ptr : _recentArrayListTitle) {
+    			_modelList.addElement(ptr);
+		    }
+		    _listComment = new JList<String>();
+    		_listComment.setFont(new Font("서울한강체 M", Font.PLAIN, 20));
+    		_listComment.setModel(_modelList);
+    		System.out.println(_listComment);
+   //		DefaultTableModel model = (DefaultTableModel) _tableChart.getModel();
+   //		model.setNumRows(0);//초기화
+   //		_tableChart.removeAll();
+    
+    		_tableModel.setRecentContents(_recentArrayListRank,_recentArrayListSite);
+    		makeTable();
+    		_tableChart.repaint();
+    	}
+
 
     /*
     Name: filter
