@@ -27,7 +27,7 @@ public class AppManager {
         primaryPanel.add(pnlCommentPanel);
         pnlCommentPanel.setVisible(false);
         primaryPanel.add(pnlSiteChartsPanel);
-        crawlingComments();
+        //crawlingComments();
 
     }
     
