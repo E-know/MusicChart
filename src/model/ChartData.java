@@ -18,7 +18,7 @@ public class ChartData extends SiteMBG{
 
     private ChartData() {
         s_instance = this;
-        setSite_M_B_G(1);
+        setSite_M_B_G(SITE.MELON);
         melon = new MelonChartParser();
         bugs = new BugsChartParser();
         genie = new GenieChartParser();
