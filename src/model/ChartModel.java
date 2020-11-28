@@ -12,21 +12,21 @@ import java.net.URL;
 public class ChartModel extends AbstractTableModel {
     // - - - - - 인스턴스 데이터 - - - - -
     //각각의 행 이름을 저장하는 배열
-    private String[] arrColumnName;
+    private String[] _arrColumnName;
     //각각의 셀의 항목을 저장하는 배열
-    private Object[][] chartData;
+    private Object[][] _chartData;
 
     // - - - - - 생성자 - - - - -
     public ChartModel(JSONArray musics) {
-        arrColumnName = new String[5];
-        arrColumnName[0] = "Rank";
-        arrColumnName[1] = "Album Image";
-        arrColumnName[2] = "Title";
-        arrColumnName[3] = "Singer";
-        arrColumnName[4] = "Album Title";
+        _arrColumnName = new String[5];
+        _arrColumnName[0] = "Rank";
+        _arrColumnName[1] = "Album Image";
+        _arrColumnName[2] = "Title";
+        _arrColumnName[3] = "Singer";
+        _arrColumnName[4] = "Album Title";
 
-        chartData = new Object[musics.size()][5];
-        for (int i = 0; i < musics.size(); i++) chartData[i] = new Object[5];
+        _chartData = new Object[musics.size()][5];
+        for (int i = 0; i < musics.size(); i++) _chartData[i] = new Object[5];
         setContents(musics);
     } //생성자 끝
 
@@ -39,50 +39,50 @@ public class ChartModel extends AbstractTableModel {
     public void setContents(JSONArray musics) {
         for (int i = 0; i < musics.size(); i++) {
             JSONObject obj = (JSONObject) musics.get(i);
-            chartData[i][0] = Integer.parseInt((String) (obj.get("rank")));
+            _chartData[i][0] = Integer.parseInt((String) (obj.get("rank")));
             try {
                 ImageIcon loadedImage = new ImageIcon(new URL((String) obj.get("smallImageUrl"))); //지정된 URL로부터 이미지를 받아옴
-                chartData[i][1] = new ImageIcon(loadedImage.getImage().getScaledInstance(50, 50, Image.SCALE_FAST)); //받은 이미지를 50 * 50 크기로 변환하여 사용
+                _chartData[i][1] = new ImageIcon(loadedImage.getImage().getScaledInstance(50, 50, Image.SCALE_FAST)); //받은 이미지를 50 * 50 크기로 변환하여 사용
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
-            chartData[i][2] = (String) obj.get("title");
-            chartData[i][3] = (String) obj.get("artist");
-            chartData[i][4] = (String) obj.get("albumName");
+            _chartData[i][2] = (String) obj.get("title");
+            _chartData[i][3] = (String) obj.get("artist");
+            _chartData[i][4] = (String) obj.get("albumName");
         }
     }
 
-    public Object[][] getChartData() {
-        return chartData;
+    public Object[][] get_chartData() {
+        return _chartData;
     }
 
     public Object[] getMusicData(int index) {
-        return chartData[index];
+        return _chartData[index];
     }
 
     @Override
     public int getColumnCount() {
-        return arrColumnName.length;
+        return _arrColumnName.length;
     }
 
     @Override
     public int getRowCount() {
-        return chartData.length;
+        return _chartData.length;
     }
 
     @Override
     public Object getValueAt(int row, int column) {
-        return chartData[row][column];
+        return _chartData[row][column];
     }
 
     @Override
     public void setValueAt(Object value, int row, int column) {
-        chartData[row][column] = value;
+        _chartData[row][column] = value;
     }
 
     @Override
     public String getColumnName(int column) {
-        return arrColumnName[column];
+        return _arrColumnName[column];
     }
 
     @Override
