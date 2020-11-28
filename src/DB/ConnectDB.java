@@ -18,6 +18,8 @@ public class ConnectDB {
     Statement _stmt = null;
     Connection _con = null;
 
+    private String _sql;
+
     public void getDB() {
         String url = "jdbc:mysql://database-2.cqcrpm8zqs1t.ap-northeast-2.rds.amazonaws.com:3306/charts_db?&serverTimezone=Asia/Seoul&useSSL=false";
         String userid = "admin";
@@ -45,8 +47,8 @@ public class ConnectDB {
         java.util.Date utilDate = new java.util.Date();
         java.sql.Time sqlTime = new java.sql.Time(utilDate.getTime());
         try {
-            String sql = "INSERT INTO recentList VALUES (?, ?, ?, ?, ?)";
-            _pstmt = _con.prepareStatement(sql);
+            _sql = "INSERT INTO recentList VALUES (?, ?, ?, ?, ?)";
+            _pstmt = _con.prepareStatement(_sql);
             _pstmt.setString(1, title);
             _pstmt.setInt(2, siteNum);
             _pstmt.setInt(3, rank);
@@ -61,8 +63,23 @@ public class ConnectDB {
         ArrayList<String> recentListSite = new ArrayList<>();
         try {
             _stmt = _con.createStatement();
-            String sql = "SELECT title  FROM recentList WHERE hostName = '" + hostName + "' ORDER BY clickTime DESC";
-            _rs = _stmt.executeQuery(sql);
+            _sql = "SELECT title  FROM recentList WHERE hostName = '" + hostName + "' ORDER BY clickTime DESC";
+            _rs = _stmt.executeQuery(_sql);
+            while (_rs.next()) {
+                recentListSite.add(_rs.getString("title"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return recentListSite;
+    }
+    public ArrayList<String> readRecentList(String hostName, String title){
+        ArrayList<String> recentListSite = new ArrayList<>();
+        try {
+            _stmt = _con.createStatement();
+            _sql = "SELECT title  FROM recentList WHERE hostName = '" + hostName + "' ORDER BY clickTime DESC";
+            _rs = _stmt.executeQuery(_sql);
             while (_rs.next()) {
                 recentListSite.add(_rs.getString("title"));
             }
@@ -76,8 +93,8 @@ public class ConnectDB {
         ArrayList<Integer> recentListSite = new ArrayList<>();
         try {
             _stmt = _con.createStatement();
-            String sql = "SELECT siteNum  FROM recentList WHERE hostName = '" + hostName + "' ORDER BY clickTime DESC";
-             _rs = _stmt.executeQuery(sql);
+            _sql = "SELECT siteNum  FROM recentList WHERE hostName = '" + hostName + "' ORDER BY clickTime DESC";
+             _rs = _stmt.executeQuery(_sql);
             while (_rs.next()) {
                 recentListSite.add(_rs.getInt("siteNum"));
             }
@@ -91,8 +108,8 @@ public class ConnectDB {
         ArrayList<Integer> recentListRank = new ArrayList<>();
         try {
             _stmt = _con.createStatement();
-            String sql = "SELECT rankNum  FROM recentList WHERE hostName = '" + hostName + "' ORDER BY clickTime DESC";
-            _rs = _stmt.executeQuery(sql);
+            _sql = "SELECT rankNum  FROM recentList WHERE hostName = '" + hostName + "' ORDER BY clickTime DESC";
+            _rs = _stmt.executeQuery(_sql);
             while (_rs.next()) {
                 recentListRank.add(_rs.getInt("rankNum"));
             }
@@ -104,8 +121,8 @@ public class ConnectDB {
     }
     public void deleteRecentDB(String hostName){
         try {
-            String sql = "DELETE FROM recentList WHERE hostName = ?";
-            _pstmt = _con.prepareStatement(sql);
+            _sql = "DELETE FROM recentList WHERE hostName = ?";
+            _pstmt = _con.prepareStatement(_sql);
             _pstmt.setString(1, hostName);
             _pstmt.executeUpdate();
         } catch (SQLException e1) {
@@ -115,8 +132,8 @@ public class ConnectDB {
     //////////////////////////////크롤링한 댓글들 DB에 넣는 관련 메소드
     public void insertCommentDB(String albumID, int order, String comment, String pwd){
         try {
-            String sql = "INSERT INTO commentList VALUES (?, ?, ?, ?)";
-            _pstmt = _con.prepareStatement(sql);
+            _sql = "INSERT INTO commentList VALUES (?, ?, ?, ?)";
+            _pstmt = _con.prepareStatement(_sql);
             _pstmt.setString(1, albumID);
             _pstmt.setInt(2, order);
             _pstmt.setString(3, comment);
@@ -129,8 +146,8 @@ public class ConnectDB {
 
     public void deleteDB(String albumId, String pwd){
         try {
-            String sql = "DELETE FROM commentList WHERE albumId = ? AND pwd = ?";
-            _pstmt = _con.prepareStatement(sql);
+            _sql = "DELETE FROM commentList WHERE albumId = ? AND pwd = ?";
+            _pstmt = _con.prepareStatement(_sql);
             _pstmt.setString(1, albumId);
             _pstmt.setString(2, pwd);
             _pstmt.executeUpdate();
@@ -141,8 +158,8 @@ public class ConnectDB {
 
     public void deleteCommentDB(String albumID){
         try {
-            String sql = "DELETE FROM commentList WHERE albumID = ?";
-            _pstmt = _con.prepareStatement(sql);
+            _sql = "DELETE FROM commentList WHERE albumID = ?";
+            _pstmt = _con.prepareStatement(_sql);
             _pstmt.setString(1, albumID);
             _pstmt.executeUpdate();
         } catch (SQLException e1) {
@@ -152,8 +169,8 @@ public class ConnectDB {
     public ResultSet getCommentInfo(String albumID){
         try {
             _stmt = _con.createStatement();
-            String sql = "SELECT * FROM commentList WHERE albumID = '" + albumID + "'";
-            _rs = _stmt.executeQuery(sql);
+            _sql = "SELECT * FROM commentList WHERE albumID = '" + albumID + "'";
+            _rs = _stmt.executeQuery(_sql);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -164,8 +181,8 @@ public class ConnectDB {
     public ResultSet getSongInfo(String title, int siteNum){
         try {
             _stmt = _con.createStatement();
-            String sql = "SELECT * FROM chartInfo WHERE title = '" + title + "' AND siteNum = " + siteNum + "";
-            _rs = _stmt.executeQuery(sql);
+            _sql = "SELECT * FROM chartInfo WHERE title = '" + title + "' AND siteNum = " + siteNum + "";
+            _rs = _stmt.executeQuery(_sql);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -175,8 +192,8 @@ public class ConnectDB {
 
     public void insertChartDB(String title, String artist, String albumName, int siteNum, String albumId){
         try {
-            String sql = "INSERT INTO chartInfo VALUES (?, ?, ?, ?, ?)";
-            _pstmt = _con.prepareStatement(sql);
+            _sql = "INSERT INTO chartInfo VALUES (?, ?, ?, ?, ?)";
+            _pstmt = _con.prepareStatement(_sql);
             _pstmt.setString(1, title);
             _pstmt.setString(2, artist);
             _pstmt.setString(3, albumName);
@@ -192,8 +209,8 @@ public class ConnectDB {
         ArrayList<String> albumId = new ArrayList<String>();
         try {
             _stmt = _con.createStatement();
-            String sql = "SELECT albumId FROM chartInfo WHERE title = '" + title + "'";
-            _rs = _stmt.executeQuery(sql);
+            _sql = "SELECT albumId FROM chartInfo WHERE title = '" + title + "'";
+            _rs = _stmt.executeQuery(_sql);
             while (_rs.next()) {
                 albumId.add(_rs.getString("albumId"));
             }
@@ -206,8 +223,8 @@ public class ConnectDB {
         ArrayList<String> comment = new ArrayList<String>();
         try {
             _stmt = _con.createStatement();
-            String sql = "SELECT comment FROM commentList WHERE albumId = '" + albumId + "'";
-            _rs = _stmt.executeQuery(sql);
+            _sql = "SELECT comment FROM commentList WHERE albumId = '" + albumId + "'";
+            _rs = _stmt.executeQuery(_sql);
             while (_rs.next()) {
                 comment.add(_rs.getString("comment"));
             }
@@ -220,8 +237,8 @@ public class ConnectDB {
         ArrayList<String> password = new ArrayList<String>();
         try {
             _stmt = _con.createStatement();
-            String sql = "SELECT pwd FROM commentList WHERE albumId = '" + albumId + "'";
-            _rs = _stmt.executeQuery(sql);
+            _sql = "SELECT pwd FROM commentList WHERE albumId = '" + albumId + "'";
+            _rs = _stmt.executeQuery(_sql);
             while (_rs.next()) {
                 password.add(_rs.getString("pwd"));
             }
