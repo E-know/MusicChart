@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.awt.Desktop;
+import java.net.URLEncoder;
 
 public class CommentPanelController {
     ConnectDB DB = new ConnectDB();
@@ -104,7 +105,7 @@ public class CommentPanelController {
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
-                Desktop.getDesktop().browse(new URI("https://www.youtube.com/results?search_query=" + the_Comment_Panel._strTitle));
+                Desktop.getDesktop().browse(new URI("https://www.youtube.com/results?search_query=" + URLEncoder.encode(the_Comment_Panel._strTitle, "UTF-8")));
             } catch (IOException ex) {
                 ex.printStackTrace();
             } catch (URISyntaxException ex) {
