@@ -1,9 +1,9 @@
 package main;
 
 import controller.*;
-import model.BugsAlbumCommentParser;
-import model.GenieAlbumCommentParser;
-import model.MelonAlbumCommentParser;
+import model.commentParser.BugsAlbumCommentParser;
+import model.commentParser.GenieAlbumCommentParser;
+import model.commentParser.MelonAlbumCommentParser;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import view.SiteChartsPanel;
@@ -12,9 +12,6 @@ import model.InsertDatabase;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.List;
-import java.util.Map;
-import java.sql.*;
 
 public class AppManager {
     private static AppManager s_instance;
