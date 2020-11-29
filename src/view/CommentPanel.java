@@ -203,7 +203,7 @@ public class CommentPanel extends JPanel {
         _listComment.setModel(_modelList);
     }
 
-    private void inputRecentList(int rank){
+    private void inputRecentList(int rank) {
         DB.getDB();
         _sqlTitle = ChartData.getS_instance().getParser().getTitle(rank);
         if (_sqlTitle.contains("'")) {
@@ -216,7 +216,7 @@ public class CommentPanel extends JPanel {
             _sqlTitle = _sqlTitle.replace("by", "");
         }
         try {
-            DB.insertRecentListDB(_sqlTitle, ChartData.getS_instance().getSite_M_B_G(), rank,InetAddress.getLocalHost().getHostName());
+            DB.insertRecentListDB(_sqlTitle, ChartData.getS_instance().getSite_M_B_G(), rank, InetAddress.getLocalHost().getHostName());
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
@@ -251,7 +251,7 @@ public class CommentPanel extends JPanel {
         }
         DB.getDB();
         ArrayList<String> albumIdList = DB.getAlbumId(_sqlTitle);
-        System.out.println("albumIdList : "+albumIdList);
+        System.out.println("albumIdList : " + albumIdList);
         for (String albumId : albumIdList) {
             addArrayListString(_arrComment, DB.readCommentDB(albumId));
             addArrayListString(_arrPassword, DB.readPwdDB(albumId));
@@ -259,8 +259,8 @@ public class CommentPanel extends JPanel {
         }
     }//readComment
 
-    private void addArrayListString(ArrayList<String> commentList, ArrayList<String> siteComment){
-        for(String str : siteComment){
+    private void addArrayListString(ArrayList<String> commentList, ArrayList<String> siteComment) {
+        for (String str : siteComment) {
             commentList.add(str);
         }
     }
@@ -275,20 +275,33 @@ public class CommentPanel extends JPanel {
         _arrComment.clear();
         _arrPassword.clear();
     }
-    public void clearPanelTxt(){
+
+    public void clearPanelTxt() {
         _txtPassword.setText("");
         _txtComment.setText("");
     }
 
-    public void addBtnRegisterListener(ActionListener listenForBtnRegister) { _btnRegister.addActionListener((listenForBtnRegister)); }
-    public void addBtnDeleteListener(ActionListener listenForBtnDelete) { _btnDelete.addActionListener((listenForBtnDelete)); }
-    public void addBtnBackListener(ActionListener listenForBtnBack) { _btnBack.addActionListener((listenForBtnBack)); }
-    public void addBtnYouTubeListener(ActionListener listenForBtnYouTube) { _btnYouTube.addActionListener((listenForBtnYouTube)); }
+    public void addBtnRegisterListener(ActionListener listenForBtnRegister) {
+        _btnRegister.addActionListener((listenForBtnRegister));
+    }
 
-    public void setCommnetPanelRank(int rank){
+    public void addBtnDeleteListener(ActionListener listenForBtnDelete) {
+        _btnDelete.addActionListener((listenForBtnDelete));
+    }
+
+    public void addBtnBackListener(ActionListener listenForBtnBack) {
+        _btnBack.addActionListener((listenForBtnBack));
+    }
+
+    public void addBtnYouTubeListener(ActionListener listenForBtnYouTube) {
+        _btnYouTube.addActionListener((listenForBtnYouTube));
+    }
+
+    public void setCommnetPanelRank(int rank) {
         _commmentPanelRank = rank;
     }
-    public int getCommentPanelRank(){
+
+    public int getCommentPanelRank() {
         return _commmentPanelRank;
     }
 }//CommentUI
