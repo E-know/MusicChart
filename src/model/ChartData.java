@@ -2,45 +2,52 @@ package model;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import java.awt.*;
 
-public class ChartData {
+import java.awt.*;
+import java.util.HashSet;
+import java.util.Set;
+
+public class ChartData{
     private static ChartData s_instance;
 
-    private int Site_M_B_G;
+    private int _siteMBG;
     private MelonChartParser melon;
     private BugsChartParser bugs;
     private GenieChartParser genie;
     private JSONArray[] chartData;
-    private ChartData(){
+
+    private ChartData() {
         s_instance = this;
-        Site_M_B_G = 1;
+        _siteMBG=1;
         melon = new MelonChartParser();
         bugs = new BugsChartParser();
         genie = new GenieChartParser();
     }
-    public void setSite_M_B_G(int M_B_G){
-        Site_M_B_G = M_B_G;
+    public void setSiteMBG(int type){
+        _siteMBG = type;
     }
-    public int getSite_M_B_G() {
-        return Site_M_B_G;
+    public int getSiteMBG() {
+        return _siteMBG;
     }
-
     public MelonChartParser getMelonChartParser() {
         return melon;
     }
-    public BugsChartParser getBugsChartParser() { return bugs; }
+
+    public BugsChartParser getBugsChartParser() {
+        return bugs;
+    }
+
     public GenieChartParser getGenieChartParser() {
         return genie;
     }
 
     public MusicChartParser getParser() {
-        switch (Site_M_B_G) {
-            case 1:
+        switch (_siteMBG) {
+            case SITE.MELON:
                 return melon;
-            case 2:
+            case SITE.BUGS:
                 return bugs;
-            case 3:
+            case SITE.GENIE:
                 return genie;
             default:
                 return null;
@@ -53,7 +60,7 @@ public class ChartData {
     }
 
     public static ChartData getS_instance() {
-        if(s_instance == null) s_instance = new ChartData();
+        if (s_instance == null) s_instance = new ChartData();
         return s_instance;
     }
 }
