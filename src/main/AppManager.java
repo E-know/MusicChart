@@ -12,9 +12,6 @@ import model.InsertDatabase;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.List;
-import java.util.Map;
-import java.sql.*;
 
 public class AppManager {
     private static AppManager s_instance;
@@ -69,7 +66,7 @@ public class AppManager {
     public void setInitSiteChartsPanel(){
         pnlSiteChartsPanel = new SiteChartsPanel();
         pnlSiteChartsPanel.setLayout(null);
-        new ChartPrimaryPanelController(pnlSiteChartsPanel);
+        new SiteChartsPanelController(pnlSiteChartsPanel);
     }
 
     public JPanel getPrimaryPanel(){
