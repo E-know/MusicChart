@@ -1,9 +1,9 @@
 package main;
 
 import controller.*;
-import model.BugsAlbumCommentParser;
-import model.GenieAlbumCommentParser;
-import model.MelonAlbumCommentParser;
+import model.commentParser.BugsAlbumCommentParser;
+import model.commentParser.GenieAlbumCommentParser;
+import model.commentParser.MelonAlbumCommentParser;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import view.SiteChartsPanel;

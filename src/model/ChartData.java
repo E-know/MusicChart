@@ -18,6 +18,7 @@ public class ChartData{
 
     private ChartData() {
         s_instance = this;
+
         _siteMBG=1;
         melon = new MelonChartParser();
         bugs = new BugsChartParser();
