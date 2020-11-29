@@ -17,7 +17,7 @@ public class DetailData{
         detailGenie = new GenieChartParser();
     }
     public MusicChartParser getParser() {
-        switch (ChartData.getS_instance().getSite_M_B_G()) {
+        switch (ChartData.getS_instance().getSiteMBG()) {
             case SITE.MELON:
                 return detailMelon;
             case SITE.BUGS:
