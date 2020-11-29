@@ -1,6 +1,7 @@
-package model;
+package model.DB;
 
-import DB.ConnectDB;
+import model.ChartData;
+import model.DB.ConnectDB;
 
 import java.awt.*;
 import java.sql.SQLException;
@@ -11,8 +12,9 @@ import java.util.Random;
 public class InsertDatabase {
     ConnectDB DB = new ConnectDB();
     public void insertChartDatabase(Component parentComponent){
-        DB.getDB();
         String title, artist, albumName, albumId;
+        DB.connectionDB();
+        System.out.println("1");
 
         for (int i = 1; i <= 3; i++){
             ChartData.getS_instance().setSite_M_B_G(i);
@@ -23,18 +25,9 @@ public class InsertDatabase {
                 albumName = ChartData.getS_instance().getParser().getAlbumName(k);
                 albumId = ChartData.getS_instance().getParser().getAlbumID(k).replaceAll("[^0-9]", "");
 
-                if(title.contains("'")){//노래 제목에 '가 들어간 경우 sql쿼리문에게 따로 처리를 해줘야함
-                    title = title.replace("'",":");
-                }
-                if (title.contains(" ")) {//노래 제목에 공백이 들어간 경우 통일을 위해 따로 처리를 해줘야함
-                    title = title.replace(" ", "");
-                }
-                if (title.contains("by")) {//노래 제목에 by가 들어간 경우 통일을 위해 따로 처리를 해줘야함
-                    title = title.replace("by", "");
-                }
                 try {
-                    if(!DB.getSongInfo(title, i).next()){
-                        DB.insertChartDB(title, artist, albumName, i, albumId);
+                    if(!DB.getSongInfo(replaceTitle(title), i).next()){
+                        DB.insertChartDB(replaceTitle(title), artist, albumName, i, albumId);
                     }
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
@@ -42,10 +35,28 @@ public class InsertDatabase {
             }//for(k)
         }//for(i)
     }
+    private String replaceTitle(String strTitle){
+        //노래 제목이 사이트마다 다른 기호들의 경우 처리해줌
+        if (strTitle.contains("'")) {
+            strTitle = strTitle.replace("'", ":");
+        }
+        if (strTitle.contains(" ")) {
+            strTitle = strTitle.replace(" ", "");
+        }
+        if (strTitle.contains("by")) {
+            strTitle = strTitle.replace("by", "");
+        }
+        if (strTitle.contains(",")) {
+            strTitle = strTitle.replace(",", "");
+        }
+        if (strTitle.contains("&")) {
+            strTitle = strTitle.replace("&", "");
+        }
+        return strTitle;
+    }
 
     public void insertCommentDatabase(Map<String, List<String>> albumAndComment){
-        DB.getDB();
-
+        DB.connectionDB();
         for (String albumId : albumAndComment.keySet()){
             int order = 0;
             for (String comment : albumAndComment.get(albumId)){

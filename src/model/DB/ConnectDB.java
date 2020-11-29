@@ -1,37 +1,29 @@
-package DB;
+package model.DB;
 
-import main.AppManager;
-import model.ChartData;
-import view.CommentPanel;
-
-import java.awt.*;
 import java.sql.*;
 import java.util.ArrayList;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import org.json.simple.JSONArray;
 
 public class ConnectDB {
-    PreparedStatement _pstmt = null;
-    ResultSet _rs = null;
-    Statement _stmt = null;
-    Connection _con = null;
-
+    private PreparedStatement _pstmt = null;
+    private ResultSet _rs = null;
+    private Statement _stmt = null;
+    private Connection _con = null;
     private String _sql;
 
-    public void getDB() {
-        String url = "jdbc:mysql://database-2.cqcrpm8zqs1t.ap-northeast-2.rds.amazonaws.com:3306/charts_db?&serverTimezone=Asia/Seoul&useSSL=false";
-        String userid = "admin";
-        String pwd = "refactoring";
-
-        // 1.드라이버 로딩
+    public void driverLoad(){// 1.드라이버 로딩
         try {
             Class.forName("com.mysql.jdbc.Driver");
             System.out.println("드라이버 로드 성공");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    public void connectionDB() {
+        String url = "jdbc:mysql://database-2.cqcrpm8zqs1t.ap-northeast-2.rds.amazonaws.com:3306/charts_db?&serverTimezone=Asia/Seoul&useSSL=false";
+        String userid = "admin";
+        String pwd = "refactoring";
+
         // 2.연결
         try {
             System.out.println("데이터베이스 연결 준비...");
@@ -59,66 +51,6 @@ public class ConnectDB {
             e1.printStackTrace();
         }
     }
-    public ArrayList<String> readRecentList(String hostName){
-        ArrayList<String> recentListSite = new ArrayList<>();
-        try {
-            _stmt = _con.createStatement();
-            _sql = "SELECT title  FROM recentList WHERE hostName = '" + hostName + "' ORDER BY clickTime DESC";
-            _rs = _stmt.executeQuery(_sql);
-            while (_rs.next()) {
-                recentListSite.add(_rs.getString("title"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return recentListSite;
-    }
-    public ArrayList<String> readRecentList(String hostName, String title){
-        ArrayList<String> recentListSite = new ArrayList<>();
-        try {
-            _stmt = _con.createStatement();
-            _sql = "SELECT title  FROM recentList WHERE hostName = '" + hostName + "' ORDER BY clickTime DESC";
-            _rs = _stmt.executeQuery(_sql);
-            while (_rs.next()) {
-                recentListSite.add(_rs.getString("title"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return recentListSite;
-    }
-    public ArrayList<Integer> readRecentListSite(String hostName){
-        ArrayList<Integer> recentListSite = new ArrayList<>();
-        try {
-            _stmt = _con.createStatement();
-            _sql = "SELECT siteNum  FROM recentList WHERE hostName = '" + hostName + "' ORDER BY clickTime DESC";
-             _rs = _stmt.executeQuery(_sql);
-            while (_rs.next()) {
-                recentListSite.add(_rs.getInt("siteNum"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return recentListSite;
-    }
-    public ArrayList<Integer> readRecentListRank(String hostName){
-        ArrayList<Integer> recentListRank = new ArrayList<>();
-        try {
-            _stmt = _con.createStatement();
-            _sql = "SELECT rankNum  FROM recentList WHERE hostName = '" + hostName + "' ORDER BY clickTime DESC";
-            _rs = _stmt.executeQuery(_sql);
-            while (_rs.next()) {
-                recentListRank.add(_rs.getInt("rankNum"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return recentListRank;
-    }
     public void deleteRecentDB(String hostName){
         try {
             _sql = "DELETE FROM recentList WHERE hostName = ?";
@@ -128,6 +60,42 @@ public class ConnectDB {
         } catch (SQLException e1) {
             e1.printStackTrace();
         }
+    }
+
+    public ArrayList<RecentListDTO> readRecentList(String hostName){
+        ArrayList<RecentListDTO> recentListDTO = new ArrayList<RecentListDTO>();
+        try {
+            _stmt = _con.createStatement();
+            _sql = "SELECT * FROM recentList WHERE hostName = '" + hostName + "' ORDER BY clickTime DESC";
+            _rs = _stmt.executeQuery(_sql);
+            while (_rs.next()) {
+                RecentListDTO list = new RecentListDTO();
+                list.setTitle(_rs.getString("title"));
+                list.setSiteNum(_rs.getInt("siteNum"));
+                list.setRank(_rs.getInt("rankNum"));
+                recentListDTO.add(list);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return recentListDTO;
+    }
+
+    public ArrayList<String> readRecentListl(String hostName, String title){
+        ArrayList<String> recentListSite = new ArrayList<>();
+        try {
+            _stmt = _con.createStatement();
+            _sql = "SELECT title  FROM recentList WHERE hostName = '" + hostName + "' ORDER BY clickTime DESC";
+            _rs = _stmt.executeQuery(_sql);
+            while (_rs.next()) {
+                recentListSite.add(_rs.getString("title"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return recentListSite;
     }
     //////////////////////////////크롤링한 댓글들 DB에 넣는 관련 메소드
     public void insertCommentDB(String albumID, int order, String comment, String pwd){
@@ -219,33 +187,24 @@ public class ConnectDB {
         }
         return albumId;
     }
-    public ArrayList<String> readCommentDB(String albumId){
-        ArrayList<String> comment = new ArrayList<String>();
-        try {
-            _stmt = _con.createStatement();
-            _sql = "SELECT comment FROM commentList WHERE albumId = '" + albumId + "'";
-            _rs = _stmt.executeQuery(_sql);
-            while (_rs.next()) {
-                comment.add(_rs.getString("comment"));
+    public ArrayList<CommentDTO> readCommentDB(ArrayList<String> albumIdList){
+        ArrayList<CommentDTO> commentDTO = new ArrayList<CommentDTO>();
+        for (String albumId : albumIdList) {
+            try {
+                _stmt = _con.createStatement();
+                _sql = "SELECT * FROM commentList WHERE albumId = '" + albumId + "'";
+                _rs = _stmt.executeQuery(_sql);
+                while (_rs.next()) {
+                    CommentDTO list = new CommentDTO();
+                    list.setComment(_rs.getString("comment"));
+                    list.setPassword(_rs.getString("pwd"));
+                    commentDTO.add(list);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
-        return comment;
-    }
-    public ArrayList<String> readPwdDB(String albumId){
-        ArrayList<String> password = new ArrayList<String>();
-        try {
-            _stmt = _con.createStatement();
-            _sql = "SELECT pwd FROM commentList WHERE albumId = '" + albumId + "'";
-            _rs = _stmt.executeQuery(_sql);
-            while (_rs.next()) {
-                password.add(_rs.getString("pwd"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return password;
-    }
 
+        return commentDTO;
+    }
 }
