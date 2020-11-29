@@ -174,7 +174,7 @@ public class ChartPanel extends JPanel {
     Description: 다른 사이트의 차트를 표시하거나 새로고침할 때 표시되는 내용을 변경
     */
     public void changeData() {
-        switch (ChartData.getS_instance().getSiteMBG()) {
+        switch (ChartData.getS_instance().getSite_M_B_G()) {
             case SITE.MELON:
                 _strChartName = "Melon";
                 break;

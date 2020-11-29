@@ -216,7 +216,7 @@ public class CommentPanel extends JPanel {
             _sqlTitle = _sqlTitle.replace("by", "");
         }
         try {
-            DB.insertRecentListDB(_sqlTitle, ChartData.getS_instance().getSiteMBG(), rank,InetAddress.getLocalHost().getHostName());
+            DB.insertRecentListDB(_sqlTitle, ChartData.getS_instance().getSite_M_B_G(), rank,InetAddress.getLocalHost().getHostName());
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
