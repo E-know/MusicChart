@@ -7,10 +7,10 @@ import java.awt.*;
 import java.util.HashSet;
 import java.util.Set;
 
-public class ChartData extends SiteMBG{
+public class ChartData{
     private static ChartData s_instance;
 
-    //private int Site_M_B_G;
+    private int _siteMBG;
     private MelonChartParser melon;
     private BugsChartParser bugs;
     private GenieChartParser genie;
@@ -18,12 +18,18 @@ public class ChartData extends SiteMBG{
 
     private ChartData() {
         s_instance = this;
-        setSite_M_B_G(SITE.MELON);
+
+        _siteMBG=1;
         melon = new MelonChartParser();
         bugs = new BugsChartParser();
         genie = new GenieChartParser();
     }
-
+    public void setSite_M_B_G(int type){
+        _siteMBG = type;
+    }
+    public int getSite_M_B_G() {
+        return _siteMBG;
+    }
     public MelonChartParser getMelonChartParser() {
         return melon;
     }
@@ -37,12 +43,12 @@ public class ChartData extends SiteMBG{
     }
 
     public MusicChartParser getParser() {
-        switch (_type) {
-            case MELON:
+        switch (_siteMBG) {
+            case SITE.MELON:
                 return melon;
-            case BUGS:
+            case SITE.BUGS:
                 return bugs;
-            case GENIE:
+            case SITE.GENIE:
                 return genie;
             default:
                 return null;

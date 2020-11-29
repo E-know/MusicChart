@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import model.DB.RecentListDTO;
+
 public class ChartModel extends AbstractTableModel {
     // - - - - - 인스턴스 데이터 - - - - -
     //각각의 행 이름을 저장하는 배열
@@ -53,10 +55,27 @@ public class ChartModel extends AbstractTableModel {
             _chartData[i][4] = obj.get("albumName").toString();
         }
     }
-    public void setRecentContents(ArrayList<Integer> rankNum, ArrayList<Integer> siteNum) {
-        for(int i = 0; i < rankNum.size(); i++) {
-            ChartData.getS_instance().setSite_M_B_G(siteNum.get(i));
-            int rank = rankNum.get(i);
+//    public void setRecentContents(ArrayList<Integer> rankNum, ArrayList<Integer> siteNum) {
+//        for(int i = 0; i < rankNum.size(); i++) {
+//            ChartData.getS_instance().setSite_M_B_G(siteNum.get(i));
+//            int rank = rankNum.get(i);
+//            _chartData[i][0] = rank;
+//            try {
+//                ImageIcon loadedImage = new ImageIcon(new URL(ChartData.getS_instance().getParser().getImageUrl(rank))); //지정된 URL로부터 이미지를 받아옴
+//                _chartData[i][1] = new ImageIcon(loadedImage.getImage().getScaledInstance(50, 50, Image.SCALE_FAST)); //받은 이미지를 50 * 50 크기로 변환하여 사용
+//            } catch (MalformedURLException e) {
+//                e.printStackTrace();
+//            }
+//            _chartData[i][2] = (String) ChartData.getS_instance().getParser().getTitle(rank);
+//            _chartData[i][3] = (String) ChartData.getS_instance().getParser().getArtistName(rank);
+//            _chartData[i][4] = (String) ChartData.getS_instance().getParser().getAlbumName(rank);
+//        }
+//    }
+
+    public void setRecentContents(ArrayList<RecentListDTO> recentListDTO) {
+        for(int i = 0; i < recentListDTO.size(); i++) {            ;
+            ChartData.getS_instance().setSite_M_B_G(recentListDTO.get(i).getSiteNum());
+            int rank = recentListDTO.get(i).getRank();
             _chartData[i][0] = rank;
             try {
                 ImageIcon loadedImage = new ImageIcon(new URL(ChartData.getS_instance().getParser().getImageUrl(rank))); //지정된 URL로부터 이미지를 받아옴
