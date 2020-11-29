@@ -1,7 +1,6 @@
 package view;
 
-import DB.ConnectDB;
-import model.InsertDatabase;
+import model.DB.InsertDatabase;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;

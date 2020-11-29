@@ -8,13 +8,10 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import view.SiteChartsPanel;
 import view.CommentPanel;
-import model.InsertDatabase;
+import model.DB.InsertDatabase;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.List;
-import java.util.Map;
-import java.sql.*;
 
 public class AppManager {
     private static AppManager s_instance;
