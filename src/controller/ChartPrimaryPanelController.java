@@ -55,7 +55,7 @@ public class ChartPrimaryPanelController {
     }//ButtonRefreshListener
 
     public void setChartTime() {
-        switch (ChartData.getS_instance().getSiteMBG()) {
+        switch (ChartData.getS_instance().getSite_M_B_G()) {
             case 1:
                 the_Chart_Primary_Panel._formatted_Melon = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
                 break;
@@ -69,7 +69,7 @@ public class ChartPrimaryPanelController {
     }
 
     public String getChartTime() {
-        switch (ChartData.getS_instance().getSiteMBG()) {
+        switch (ChartData.getS_instance().getSite_M_B_G()) {
             case 1:
                 return the_Chart_Primary_Panel._formatted_Melon;
             case 2:
@@ -98,8 +98,8 @@ public class ChartPrimaryPanelController {
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            if(ChartData.getS_instance().getSiteMBG() == 1) return;
-            ChartData.getS_instance().setSiteMBG(1);
+            if(ChartData.getS_instance().getSite_M_B_G() == 1) return;
+            ChartData.getS_instance().setSite_M_B_G(1);
             if(!ChartData.getS_instance().getParser().isParsed()) ChartData.getS_instance().DataPassing(view_Loading);
             //System.out.println("Melon");
             renewalChartTime();
@@ -116,8 +116,8 @@ public class ChartPrimaryPanelController {
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            if(ChartData.getS_instance().getSiteMBG() == 2) return;
-            ChartData.getS_instance().setSiteMBG(2);
+            if(ChartData.getS_instance().getSite_M_B_G() == 2) return;
+            ChartData.getS_instance().setSite_M_B_G(2);
             if(!ChartData.getS_instance().getParser().isParsed()) ChartData.getS_instance().DataPassing(view_Loading);
             //System.out.println("Bugs");
             renewalChartTime();
@@ -133,8 +133,8 @@ public class ChartPrimaryPanelController {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            if(ChartData.getS_instance().getSiteMBG() == 3) return;
-            ChartData.getS_instance().setSiteMBG(3);
+            if(ChartData.getS_instance().getSite_M_B_G() == 3) return;
+            ChartData.getS_instance().setSite_M_B_G(3);
             if(!ChartData.getS_instance().getParser().isParsed()) ChartData.getS_instance().DataPassing(view_Loading);
             //System.out.println("Genie");
             renewalChartTime();
@@ -150,8 +150,8 @@ public class ChartPrimaryPanelController {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            if(ChartData.getS_instance().getSiteMBG() == 4) return;
-            ChartData.getS_instance().setSiteMBG(4);
+            if(ChartData.getS_instance().getSite_M_B_G() == 4) return;
+            ChartData.getS_instance().setSite_M_B_G(4);
             System.out.println("Recent");
             the_Chart_Primary_Panel._pnlChartPanel.recentData();
             the_Chart_Primary_Panel._lblTime.setText("Renewal time : ");

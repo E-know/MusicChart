@@ -2,7 +2,6 @@ package view;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.net.*;
 import java.util.ArrayList;
 import java.util.Comparator;
 import javax.swing.*;
@@ -12,10 +11,9 @@ import controller.ChartPanelController;
 import model.ChartData;
 import model.ChartModel;
 import model.SITE;
-import DB.ConnectDB;
+import model.DB.ConnectDB;
+import model.DB.RecentListDTO;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
@@ -34,9 +32,7 @@ public class ChartPanel extends JPanel {
 	public JTable _tableChart;
 
 	//최근 음악들 보여주는 리스트
-	public ArrayList<Integer> _recentArrayListSite;
-	public ArrayList<Integer> _recentArrayListRank;
-	public ArrayList<String> _recentArrayListTitle;
+    public ArrayList<RecentListDTO> _recentListDTO;
 
 	public JList<String> _listComment;
 	public DefaultListModel<String> _modelList;
@@ -114,6 +110,7 @@ public class ChartPanel extends JPanel {
     }
 
     private void setInitTableModel() {
+	    ChartData.getS_instance().setSite_M_B_G(SITE.MELON);
         if (!ChartData.getS_instance().getParser().isParsed())
             ChartData.getS_instance().getParser().chartDataParsing(this); //Melon 차트 정보 받아옴
 
@@ -174,7 +171,7 @@ public class ChartPanel extends JPanel {
     Description: 다른 사이트의 차트를 표시하거나 새로고침할 때 표시되는 내용을 변경
     */
     public void changeData() {
-        switch (ChartData.getS_instance().getSiteMBG()) {
+        switch (ChartData.getS_instance().getSite_M_B_G()) {
             case SITE.MELON:
                 _strChartName = "Melon";
                 break;
@@ -195,11 +192,10 @@ public class ChartPanel extends JPanel {
 		    //_tableChart.setVisible(false);
 
 	    	_lblTitle.setText("List of recent views");
-		    DB.getDB();
+
+            DB.connectionDB();
 		    try {
-    			_recentArrayListSite = DB.readRecentListSite(InetAddress.getLocalHost().getHostName());
-		    	_recentArrayListRank = DB.readRecentListRank(InetAddress.getLocalHost().getHostName());
-    			_recentArrayListTitle = DB.readRecentList(InetAddress.getLocalHost().getHostName());
+                _recentListDTO = DB.readRecentList(InetAddress.getLocalHost().getHostName());
 		    } catch (UnknownHostException e) {
     			e.printStackTrace();
 		    }
@@ -207,18 +203,17 @@ public class ChartPanel extends JPanel {
 	    }
 	    public void inputRecentList(){
 		    _modelList = new DefaultListModel<String>();
-    		for (String ptr : _recentArrayListTitle) {
-    			_modelList.addElement(ptr);
-		    }
+            for (RecentListDTO list : _recentListDTO){
+                _modelList.addElement(list.getTitle());
+            }
 		    _listComment = new JList<String>();
     		_listComment.setFont(new Font("서울한강체 M", Font.PLAIN, 20));
     		_listComment.setModel(_modelList);
-    		System.out.println(_listComment);
    //		DefaultTableModel model = (DefaultTableModel) _tableChart.getModel();
    //		model.setNumRows(0);//초기화
    //		_tableChart.removeAll();
-    
-    		_tableModel.setRecentContents(_recentArrayListRank,_recentArrayListSite);
+
+            _tableModel.setRecentContents(_recentListDTO);
     		makeTable();
     		_tableChart.repaint();
     	}
