@@ -258,7 +258,15 @@ public class BugsChartParser extends MusicChartParser {
             e.printStackTrace();
         }
     } // chartDataParsing(Component parentComponent)
-
+    @Override
+    public void songDetailDataParsing(int rank, JSONArray chartListData, Component parentComponent) { // 노래 한 곡에 대한 상세 정보를 파싱하는 Thread를 시작하는 메소드
+        if (chartListData == null) {
+            System.out.println("차트 파싱된 데이터가 없어 메소드 실행을 종료합니다 :(");
+            return;
+        }
+        JSONObject jObj = (JSONObject) chartListData.get(rank - 1);
+        detailDataparsing(jObj, parentComponent);
+    } // songDetailDataParsing(int rank, JSONArray chartListData, Component parentComponent)
     @Override
     public void songDetailDataParsing(JSONObject obj, Component parentComponent) { // 노래 한 곡에 대한 상세 정보를 파싱하는 Thread를 시작하는 메소드
         if (obj == null) {
@@ -270,7 +278,13 @@ public class BugsChartParser extends MusicChartParser {
             System.out.println(_jsonDontHaveKey);
             return;
         }
-        _url = "https://music.bugs.co.kr/track/" + obj.get("songId").toString() + "?wl_ref=list_tr_08_chart"; // 파싱할 url을 만듬
+        JSONObject _jObj = obj;
+        detailDataparsing(_jObj, parentComponent);
+
+    } // songDetailDataParsing(JSONObject jObj, Component parentComponent)
+    @Override
+    void detailDataparsing(JSONObject jObj, Component parentComponent){
+        _url = "https://music.bugs.co.kr/track/" + jObj.get("songId").toString() + "?wl_ref=list_tr_08_chart"; // 파싱할 url을 만듬
         if (_songDetailThread != null) { // Thread를 사용하는 게 처음이 아닐 때
             if (_songDetailThread.isAlive()) // Thread가 살아있으면 정지
                 _songDetailThread.stop();
@@ -282,18 +296,12 @@ public class BugsChartParser extends MusicChartParser {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-    } // songDetailDataParsing(JSONObject jObj, Component parentComponent)
-
+    }
     // songDetailDataParsing 후에만 사용가능한 메소드
     public String getLikeNum() { // 노래 한 곡에 대한 상세 파싱이 이루어졌다면 그 곡의 좋아요 개수를 반환하는 메소드
-        if (!isParsed()) { // 파싱이 이루어지지 않았다면
-            System.out.println(_isNotParsed);
-            return null;
+        if(isSongDetailParsed("likeNum") != null){
+            return isSongDetailParsed("likeNum");
         }
-        if (_songCount == 1) // 노래 한 곡에 대한 상세 파싱이 이루어졌다면
-            return _songDetailInfo.get("likeNum").toString();
-
-        System.out.println("getLikeNum() : " + _isOnlyDetailParse);
         return null;
     } // String getLikeNum()
 
@@ -302,15 +310,28 @@ public class BugsChartParser extends MusicChartParser {
 
     // songDetailDataParsing 후에만 사용가능한 메소드
     public String getSongTime() { // 노래 한 곡에 대한 상세 파싱이 이루어졌다면 그 곡의 재생 시간을 반환하는 메소드
+        if(isSongDetailParsed("songTime") != null){
+            return isSongDetailParsed("songTime");
+        }
+        return null;
+    } // String getSongTime()
+
+    // songDetailDataParsing 후에만 사용가능한 메소드
+    public String getSongTime(JSONObject jObj) { // 노래 한 곡에 대한 상세 파싱이 이루어졌다면 JSONObject를 이용하여 그 곡의 재생 시간을 반환하는 메소드
         if (!isParsed()) { // 파싱이 이루어지지 않았다면
             System.out.println(_isNotParsed);
             return null;
         }
-        if (_songCount == 1) // 노래 한 곡에 대한 상세 파싱이 이루어졌다면
-            return _songDetailInfo.get("songTime").toString();
 
-        System.out.println("getSongTime() : " + _isOnlyDetailParse);
+        if (_songCount == 1) {// 노래 한 곡에 대한 상세 파싱이 이루어졌다면
+            JSONObject _jobj = jObj;
+            if(isJSONObject("songTime",_jobj) != null){
+                return isJSONObject("songTime",_jobj);
+            }
+            return null;
+        }
         return null;
-    } // String getSongTime()
+    } // String getSongTime(JSONObject jObj)
+
 
 }
