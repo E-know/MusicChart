@@ -11,6 +11,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.io.*;
 import java.net.URL;
+import java.sql.Array;
 import java.util.ArrayList;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -202,15 +203,7 @@ public class CommentPanel extends JPanel {
 
     private void inputRecentList(int rank){
         _sqlTitle = ChartData.getS_instance().getParser().getTitle(rank);
-        if (_sqlTitle.contains("'")) {
-            _sqlTitle = _sqlTitle.replace("'", ":");
-        }
-        if (_sqlTitle.contains(" ")) {
-            _sqlTitle = _sqlTitle.replace(" ", "");
-        }
-        if (_sqlTitle.contains("by")) {
-            _sqlTitle = _sqlTitle.replace("by", "");
-        }
+        _sqlTitle = replaceTitle(_strTitle);
         DB.connectionDB();
         try {
             DB.insertRecentListDB(_sqlTitle, ChartData.getS_instance().getSite_M_B_G(), rank,InetAddress.getLocalHost().getHostName());
@@ -224,7 +217,6 @@ public class CommentPanel extends JPanel {
 
         inputMusicInfoToPnlMusicInfo(rank);
         inputCommentToListComment(rank);
-        //readCommentFromDB(rank);
         inputRecentList(rank);
         setCommnetPanelRank(rank);
     }
@@ -246,22 +238,29 @@ public class CommentPanel extends JPanel {
     }//readComment
 
     private String replaceTitle(String strTitle){
+        String[] strArray = new String[] {"'", " ", "by", ",", "&"};
         //노래 제목이 사이트마다 다른 기호들의 경우 처리해줌
-        if (strTitle.contains("'")) {
-            strTitle = strTitle.replace("'", ":");
+        for (String needReplace : strArray){
+            if (strTitle.contains(needReplace)) {
+                strTitle = strTitle.replace(needReplace, "");
+            }
         }
-        if (strTitle.contains(" ")) {
-            strTitle = strTitle.replace(" ", "");
-        }
-        if (strTitle.contains("by")) {
-            strTitle = strTitle.replace("by", "");
-        }
-        if (strTitle.contains(",")) {
-            strTitle = strTitle.replace(",", "");
-        }
-        if (strTitle.contains("&")) {
-            strTitle = strTitle.replace("&", "");
-        }
+//        if (strTitle.contains("'")) {
+//            strTitle = strTitle.replace("'", ":");
+//        }
+//        if (strTitle.contains(" ")) {
+//            strTitle = strTitle.replace(" ", "");
+//        }
+//        if (strTitle.contains("by")) {
+//            strTitle = strTitle.replace("by", "");
+//        }
+//        if (strTitle.contains(",")) {
+//            strTitle = strTitle.replace(",", "");
+//        }
+//        if (strTitle.contains("&")) {
+//            strTitle = strTitle.replace("&", "");
+//        }
+
         return strTitle;
     }
 
