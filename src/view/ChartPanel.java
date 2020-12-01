@@ -171,6 +171,7 @@ public class ChartPanel extends JPanel {
     Description: 다른 사이트의 차트를 표시하거나 새로고침할 때 표시되는 내용을 변경
     */
     public void changeData() {
+        SITE.RECENT = false;
         switch (ChartData.getS_instance().getSite_M_B_G()) {
             case SITE.MELON:
                 _strChartName = "Melon";
@@ -184,40 +185,46 @@ public class ChartPanel extends JPanel {
         }
         _lblTitle.setText(_strChartName + " TOP 100");
         _tableModel.setContents(ChartData.getS_instance().getParser().getChartList());
-        makeTable();
-        _tableChart.repaint();
+        makeAndRepaintTable();
     }
 
     public void recentData() {
-		    //_tableChart.setVisible(false);
+        //_tableChart.setVisible(false);
+        SITE.RECENT = true;
+	    _lblTitle.setText("List of recent views");
+        clearTable();
+        DB.connectionDB();
+		try {
+            _recentListDTO = DB.readRecentList(InetAddress.getLocalHost().getHostName());
+		} catch (UnknownHostException e) {
+    		e.printStackTrace();
+		}
+    	inputRecentList();
+	}
+	public void inputRecentList(){
+	    _modelList = new DefaultListModel<String>();
+        for (RecentListDTO list : _recentListDTO){
+            _modelList.addElement(list.getTitle());
+        }
+	    _listComment = new JList<String>();
+    	_listComment.setFont(new Font("서울한강체 M", Font.PLAIN, 20));
+    	_listComment.setModel(_modelList);
 
-	    	_lblTitle.setText("List of recent views");
-
-            DB.connectionDB();
-		    try {
-                _recentListDTO = DB.readRecentList(InetAddress.getLocalHost().getHostName());
-		    } catch (UnknownHostException e) {
-    			e.printStackTrace();
-		    }
-    		inputRecentList();
-	    }
-	    public void inputRecentList(){
-		    _modelList = new DefaultListModel<String>();
-            for (RecentListDTO list : _recentListDTO){
-                _modelList.addElement(list.getTitle());
+        _tableModel.setRecentContents(_recentListDTO);
+        makeAndRepaintTable();
+    }
+    private void clearTable(){
+        for (int i = 0; i < _tableModel.getRowCount(); i++) {
+            for(int j = 0; j < _tableModel.getColumnCount(); j++) {
+                _tableModel.setValueAt("", i, j);
             }
-		    _listComment = new JList<String>();
-    		_listComment.setFont(new Font("서울한강체 M", Font.PLAIN, 20));
-    		_listComment.setModel(_modelList);
-   //		DefaultTableModel model = (DefaultTableModel) _tableChart.getModel();
-   //		model.setNumRows(0);//초기화
-   //		_tableChart.removeAll();
+        }
+    }
 
-            _tableModel.setRecentContents(_recentListDTO);
-    		makeTable();
-    		_tableChart.repaint();
-    	}
-
+    private void makeAndRepaintTable(){
+        makeTable();
+        _tableChart.repaint();
+    }
 
     /*
     Name: filter
