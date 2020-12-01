@@ -311,6 +311,15 @@ public class GenieChartParser extends MusicChartParser {
         }
     } // chartDataParsing(Component parentComponent)
     @Override
+    public void songDetailDataParsing(int rank, JSONArray chartListData, Component parentComponent) { // 노래 한 곡에 대한 상세 정보를 파싱하는 Thread를 시작하는 메소드
+        if (chartListData == null) {
+            System.out.println("차트 파싱된 데이터가 없어 메소드 실행을 종료합니다 :(");
+            return;
+        }
+        JSONObject jObj = (JSONObject) chartListData.get(rank - 1);
+        detailDataparsing(jObj, parentComponent);
+    } // songDetailDataParsing(int rank, JSONArray chartListData, Component parentComponent)
+    @Override
     public void songDetailDataParsing(JSONObject obj, Component parentComponent) { // 노래 한 곡에 대한 상세 정보를 파싱하는 Thread를 시작하는 메소드
         if (obj == null) {
             System.out.println(_plzUseRightJSONObject);
@@ -321,7 +330,13 @@ public class GenieChartParser extends MusicChartParser {
             System.out.println(_jsonDontHaveKey);
             return;
         }
-        _url = "https://www.genie.co.kr/detail/songInfo?xgnm=" + obj.get("songId").toString(); // 파싱할 url을 만듬
+        JSONObject _jObj = obj;
+        detailDataparsing(_jObj, parentComponent);
+    } // songDetailDataParsing(JSONObject jObj, Component parentComponent)
+    // 지니는 발매일(releaseDate)를 웹 페이지에서 보여주지 않아 getReleaseDate 메소드가 없음
+    @Override
+    void detailDataparsing(JSONObject jObj, Component parentComponent){
+        _url = "https://www.genie.co.kr/detail/songInfo?xgnm=" + jObj.get("songId").toString(); // 파싱할 url을 만듬
         if (_songDetailThread != null) { // Thread를 사용하는 게 처음이 아닐 때
             if (_songDetailThread.isAlive()) // Thread가 살아있으면 정지
                 _songDetailThread.stop();
@@ -333,33 +348,64 @@ public class GenieChartParser extends MusicChartParser {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-    } // songDetailDataParsing(JSONObject jObj, Component parentComponent)
+
+    }
     // 지니는 발매일(releaseDate)를 웹 페이지에서 보여주지 않아 getReleaseDate 메소드가 없음
 
     // songDetailDataParsing 후에만 사용가능한 메소드
     public String getGenre() { // 노래 한 곡에 대한 상세 파싱이 이루어졌다면 그 곡의 장르를 반환하는 메소드
-        if (!isParsed()) { // 파싱이 이루어졌다면
-            System.out.println(_isNotParsed);
-            return null;
+        if(isSongDetailParsed("genre") != null){
+            return isSongDetailParsed("genre");
         }
-        if (_songCount == 1) // 노래 한 곡에 대한 상세 파싱이 이루어졌다면
-            return _songDetailInfo.get("genre").toString();
-
-        System.out.println("getGenre() : " + _isOnlyDetailParse);
         return null;
     } // String getGenre()
 
     // songDetailDataParsing 후에만 사용가능한 메소드
-    public String getSongTime() { // 노래 한 곡에 대한 상세 파싱이 이루어졌다면 그 곡의 재생 시간을 반환하는 메소드
+    public String getGenre(JSONObject jObj) { // 노래 한 곡에 대한 상세 파싱이 이루어졌다면 JSONObject를 이용하여 그 곡의 장르를 반환하는 메소드
         if (!isParsed()) { // 파싱이 이루어졌다면
             System.out.println(_isNotParsed);
             return null;
         }
-        if (_songCount == 1) // 노래 한 곡에 대한 상세 파싱이 이루어졌다면
-            return _songDetailInfo.get("songTime").toString();
+        if (_songCount == 1) { // 노래 한 곡에 대한 상세 파싱이 이루어졌다면
+            JSONObject _jobj = jObj;
+            if(isJSONObject("genre",_jobj) != null){
+                return isJSONObject("genre",_jobj);
+            }
+            return null;
+        }
+        return null;
+    } // String getGenre(JSONObject jObj)
 
-        System.out.println("getSongTime() : " + _isOnlyDetailParse);
+    // songDetailDataParsing 후에만 사용가능한 메소드
+    public String getSongTime() { // 노래 한 곡에 대한 상세 파싱이 이루어졌다면 그 곡의 재생 시간을 반환하는 메소드
+        if(isSongDetailParsed("songTime") != null){
+            return isSongDetailParsed("songTime");
+        }
         return null;
     } // String getSongTime()
+
+    // songDetailDataParsing 후에만 사용가능한 메소드
+    public String getSongTime(JSONObject jObj) { // 노래 한 곡에 대한 상세 파싱이 이루어졌다면 JSONObject를 이용하여 그 곡의 재생 시간을 반환하는 메소드
+        if (!isParsed()) { // 파싱이 이루어졌다면
+            System.out.println(_isNotParsed);
+            return null;
+        }
+        if (_songCount == 1) { // 노래 한 곡에 대한 상세 파싱이 이루어졌다면
+            JSONObject _jobj = jObj;
+            if(isJSONObject("songTime",_jobj) != null){
+                return isJSONObject("songTime",_jobj);
+            }
+            return null;
+        }
+        return null;
+    } // String getSongTime(JSONObject jObj)
+
+    // songDetailDataParsing 후에만 사용가능한 메소드
+    public String getLikeNum() { // 노래 한 곡에 대한 상세 파싱이 이루어졌다면 그 곡의 좋아요 개수를 반환하는 메소드
+        if(isSongDetailParsed("likeNum") != null){
+            return isSongDetailParsed("likeNum");
+        }
+        return null;
+    } // String getLikeNum()
 
 } // GenieChartParser class
