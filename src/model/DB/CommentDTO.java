@@ -7,16 +7,8 @@ public class CommentDTO {
     public String getComment() {
         return _comment;
     }
+    public String getPassword() { return _password; }
 
-    public String getPassword() {
-        return _password;
-    }
-
-    public void setComment(String comment) {
-        this._comment = comment;
-    }
-
-    public void setPassword(String password) {
-        this._password = password;
-    }
+    public void setComment(String comment) { this._comment = comment; }
+    public void setPassword(String password) { this._password = password; }
 }

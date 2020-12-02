@@ -10,7 +10,11 @@ public class ConnectDB {
     private Connection _con = null;
     private String _sql;
 
-    public void driverLoad(){// 1.드라이버 로딩
+    final private String _url = "jdbc:mysql://database-2.cqcrpm8zqs1t.ap-northeast-2.rds.amazonaws.com:3306/charts_db?&serverTimezone=Asia/Seoul&useSSL=false";
+    final private String _userId = "admin";
+    final private String _password = "refactoring";
+
+    public void driverLoad(){//드라이버 로딩
         try {
             Class.forName("com.mysql.jdbc.Driver");
             System.out.println("드라이버 로드 성공");
@@ -18,16 +22,10 @@ public class ConnectDB {
             e.printStackTrace();
         }
     }
-
-    public void connectionDB() {
-        String url = "jdbc:mysql://database-2.cqcrpm8zqs1t.ap-northeast-2.rds.amazonaws.com:3306/charts_db?&serverTimezone=Asia/Seoul&useSSL=false";
-        String userid = "admin";
-        String pwd = "refactoring";
-
-        // 2.연결
+    public void connectionDB() {//연결
         try {
             System.out.println("데이터베이스 연결 준비...");
-            _con = DriverManager.getConnection(url, userid, pwd);
+            _con = DriverManager.getConnection(_url, _userId, _password);
             System.out.println("데이터베이스 연결 성공");
         } catch (SQLException e) {
             e.printStackTrace();
@@ -61,7 +59,6 @@ public class ConnectDB {
             e1.printStackTrace();
         }
     }
-
     public ArrayList<RecentListDTO> readRecentList(String hostName){
         ArrayList<RecentListDTO> recentListDTO = new ArrayList<RecentListDTO>();
         try {
@@ -81,7 +78,6 @@ public class ConnectDB {
 
         return recentListDTO;
     }
-
     public ArrayList<String> readRecentListl(String hostName, String title){
         ArrayList<String> recentListSite = new ArrayList<>();
         try {
@@ -97,6 +93,7 @@ public class ConnectDB {
 
         return recentListSite;
     }
+
     //////////////////////////////크롤링한 댓글들 DB에 넣는 관련 메소드
     public void insertCommentDB(String albumID, int order, String comment, String pwd){
         try {
@@ -111,7 +108,6 @@ public class ConnectDB {
             e1.printStackTrace();
         }
     }
-
     public void deleteDB(String albumId, String pwd){
         try {
             _sql = "DELETE FROM commentList WHERE albumId = ? AND pwd = ?";
@@ -123,7 +119,6 @@ public class ConnectDB {
             e1.printStackTrace();
         }
     }
-
     public void deleteCommentDB(String albumID){
         try {
             _sql = "DELETE FROM commentList WHERE albumID = ?";
@@ -145,6 +140,7 @@ public class ConnectDB {
 
         return _rs;
     }
+
     //////////////////////////////차트를 DB에 넣는 관련 메소드
     public ResultSet getSongInfo(String title, int siteNum){
         try {
@@ -157,7 +153,6 @@ public class ConnectDB {
 
         return _rs;
     }
-
     public void insertChartDB(String title, String artist, String albumName, int siteNum, String albumId){
         try {
             _sql = "INSERT INTO chartInfo VALUES (?, ?, ?, ?, ?)";
@@ -172,6 +167,7 @@ public class ConnectDB {
             e1.printStackTrace();
         }
     }
+
     //////////////////////////////CommentDB를 읽어오는 관련 메소드
     public ArrayList<String> getAlbumId(String title){
         ArrayList<String> albumId = new ArrayList<String>();
