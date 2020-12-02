@@ -37,7 +37,7 @@ public class SiteChartsPanelController {
     }//ButtonRefreshListener
 
     public void setChartTime() {
-        switch (ChartData.getS_instance().getSiteMBG()) {
+        switch (ChartData.getS_instance().getSite_M_B_G()) {
             case 1:
                 theSiteChartsPanel._formatted_Melon = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
                 break;
@@ -51,7 +51,7 @@ public class SiteChartsPanelController {
     }
 
     public String getChartTime() {
-        switch (ChartData.getS_instance().getSiteMBG()) {
+        switch (ChartData.getS_instance().getSite_M_B_G()) {
             case 1:
                 return theSiteChartsPanel._formatted_Melon;
             case 2:
@@ -63,7 +63,7 @@ public class SiteChartsPanelController {
         }
     }
 
-    private void renewalChartData() {
+    private void renewalChartTime() {
         theSiteChartsPanel._pnlChartPanel.changeData();
         theSiteChartsPanel._lblTime.setText("Renewal time : " + getChartTime());
         theSiteChartsPanel._txtSearch.setText("");
@@ -80,11 +80,11 @@ public class SiteChartsPanelController {
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            if(ChartData.getS_instance().getSiteMBG() == 1) return;
-            ChartData.getS_instance().setSiteMBG(1);
+            if(ChartData.getS_instance().getSite_M_B_G() == 1) return;
+            ChartData.getS_instance().setSite_M_B_G(1);
             if(!ChartData.getS_instance().getParser().isParsed()) ChartData.getS_instance().DataPassing(viewLoading);
             //System.out.println("Melon");
-            renewalChartData();
+            renewalChartTime();
         }
     }//ButtonMelonListener
 
@@ -98,11 +98,11 @@ public class SiteChartsPanelController {
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            if(ChartData.getS_instance().getSiteMBG() == 2) return;
-            ChartData.getS_instance().setSiteMBG(2);
+            if(ChartData.getS_instance().getSite_M_B_G() == 2) return;
+            ChartData.getS_instance().setSite_M_B_G(2);
             if(!ChartData.getS_instance().getParser().isParsed()) ChartData.getS_instance().DataPassing(viewLoading);
             //System.out.println("Bugs");
-            renewalChartData();
+            renewalChartTime();
         }
     }//ButtonBugsListener
 
@@ -115,11 +115,11 @@ public class SiteChartsPanelController {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            if(ChartData.getS_instance().getSiteMBG() == 3) return;
-            ChartData.getS_instance().setSiteMBG(3);
+            if(ChartData.getS_instance().getSite_M_B_G() == 3) return;
+            ChartData.getS_instance().setSite_M_B_G(3);
             if(!ChartData.getS_instance().getParser().isParsed()) ChartData.getS_instance().DataPassing(viewLoading);
             //System.out.println("Genie");
-            renewalChartData();
+            renewalChartTime();
         }
     }//ButtonGenieListener
 
@@ -132,8 +132,6 @@ public class SiteChartsPanelController {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            if(ChartData.getS_instance().getSiteMBG() == 4) return;
-            ChartData.getS_instance().setSiteMBG(4);
             System.out.println("Recent");
             theSiteChartsPanel._pnlChartPanel.recentData();
             theSiteChartsPanel._lblTime.setText("Renewal time : ");
@@ -145,17 +143,16 @@ public class SiteChartsPanelController {
     private class KeyActionListener implements KeyListener{
         private Component viewLoading;
         public KeyActionListener() { }
-        public KeyActionListener(Component parentComponent){
-            viewLoading = parentComponent;
-        }
+        public KeyActionListener(Component parentComponent){ viewLoading = parentComponent; }
 
         @Override
         public void keyTyped(KeyEvent e) { }
+
         @Override
         public void keyPressed(KeyEvent e) { }
+
         @Override
         public void keyReleased(KeyEvent e) {
-
             Object obj = e.getSource();
 
             if(obj == theSiteChartsPanel._txtSearch){
@@ -165,6 +162,8 @@ public class SiteChartsPanelController {
                 if(1 == theSiteChartsPanel._strCombo.getSelectedIndex())//Artist
                     theSiteChartsPanel._pnlChartPanel.filterTitleANDArtist(theSiteChartsPanel._txtSearch.getText(),3);
             }//comboBox 0, 1
+
         }//KeyReleased
+
     }//KeyListener
 }

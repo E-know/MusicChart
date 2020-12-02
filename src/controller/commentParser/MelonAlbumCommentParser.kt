@@ -1,5 +1,6 @@
-package model
+package controller.commentParser
 
+import model.ChartData
 import org.openqa.selenium.WebDriver
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
@@ -15,7 +16,7 @@ class MelonAlbumCommentParser(var driver: WebDriver) {
 		System.setProperty(WEB_DRIVER_ID, WEB_DRIVER_PATH)
 	}
 
-	fun crawl(): MutableMap<String, List<String>> {
+	public fun crawl(): MutableMap<String, List<String>> {
 		val result = mutableMapOf<String, List<String>>()
 		val _setAlbumID = getAlbumIDtoSet()
 

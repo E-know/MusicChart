@@ -1,11 +1,12 @@
 package model;
 
+import controller.musicChartParser.BugsChartParser;
+import controller.musicChartParser.GenieChartParser;
+import controller.musicChartParser.MelonChartParser;
+import controller.musicChartParser.MusicChartParser;
 import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 
 import java.awt.*;
-import java.util.HashSet;
-import java.util.Set;
 
 public class ChartData{
     private static ChartData s_instance;
@@ -18,15 +19,16 @@ public class ChartData{
 
     private ChartData() {
         s_instance = this;
+
         _siteMBG=1;
         melon = new MelonChartParser();
         bugs = new BugsChartParser();
         genie = new GenieChartParser();
     }
-    public void setSiteMBG(int type){
+    public void setSite_M_B_G(int type){
         _siteMBG = type;
     }
-    public int getSiteMBG() {
+    public int getSite_M_B_G() {
         return _siteMBG;
     }
     public MelonChartParser getMelonChartParser() {

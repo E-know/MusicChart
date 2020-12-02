@@ -1,14 +1,14 @@
 package main;
 
 import controller.*;
-import model.BugsAlbumCommentParser;
-import model.GenieAlbumCommentParser;
-import model.MelonAlbumCommentParser;
+import controller.commentParser.BugsAlbumCommentParser;
+import controller.commentParser.GenieAlbumCommentParser;
+import controller.commentParser.MelonAlbumCommentParser;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import view.SiteChartsPanel;
 import view.CommentPanel;
-import model.InsertDatabase;
+import model.DB.InsertDatabase;
 
 import javax.swing.*;
 import java.awt.*;

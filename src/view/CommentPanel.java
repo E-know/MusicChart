@@ -1,19 +1,18 @@
 package view;
 
-import DB.ConnectDB;
-import main.AppManager;
+import model.DB.ConnectDB;
+import model.DB.CommentDTO;
+import model.DB.InsertDatabase;
 import model.ChartData;
 import model.DetailData;
-import org.json.simple.JSONObject;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
-import java.net.MalformedURLException;
 import java.net.URL;
+import java.sql.Array;
 import java.util.ArrayList;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -25,8 +24,8 @@ public class CommentPanel extends JPanel {
     private JScrollPane _scrollBar;
 
     public JTextField _txtComment, _txtPassword;
-    public ArrayList<String> _arrComment;
-    public ArrayList<String> _arrPassword;
+
+    public ArrayList<CommentDTO> _commentListDTO;
 
     public JList<String> _listComment;
     public DefaultListModel<String> _modelList;
@@ -138,8 +137,7 @@ public class CommentPanel extends JPanel {
     }
 
     private void setInitializationListComment() { //Called by setInitializationPnlComment
-        _arrComment = new ArrayList<>();
-        _arrPassword = new ArrayList<>();
+        _commentListDTO = new ArrayList<CommentDTO>();
         _modelList = new DefaultListModel<String>();
 
         _listComment = new JList<String>();
@@ -197,26 +195,19 @@ public class CommentPanel extends JPanel {
 
     private void inputCommentToListComment(int rank) {
         readCommentFromDB(rank);
-        for (String ptr : _arrComment) {
-            _modelList.addElement(ptr);
+        for (CommentDTO list : _commentListDTO) {
+            System.out.println("comment " + list.getComment() + ", pwd" + list.getPassword());
+            _modelList.addElement(list.getComment());
         }
         _listComment.setModel(_modelList);
     }
 
     private void inputRecentList(int rank){
-        DB.getDB();
         _sqlTitle = ChartData.getS_instance().getParser().getTitle(rank);
-        if (_sqlTitle.contains("'")) {
-            _sqlTitle = _sqlTitle.replace("'", ":");
-        }
-        if (_sqlTitle.contains(" ")) {
-            _sqlTitle = _sqlTitle.replace(" ", "");
-        }
-        if (_sqlTitle.contains("by")) {
-            _sqlTitle = _sqlTitle.replace("by", "");
-        }
+        _sqlTitle = replaceTitle(_strTitle);
+        DB.connectionDB();
         try {
-            DB.insertRecentListDB(_sqlTitle, ChartData.getS_instance().getSiteMBG(), rank,InetAddress.getLocalHost().getHostName());
+            DB.insertRecentListDB(_sqlTitle, ChartData.getS_instance().getSite_M_B_G(), rank,InetAddress.getLocalHost().getHostName());
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
@@ -235,34 +226,27 @@ public class CommentPanel extends JPanel {
      *   덧글과 각 비밀번호가 적혀있는 db 파일을 읽어와 각각의 ArrayList에 저장하는 메소드
      * */
     private void readCommentFromDB(int rank) {
-        _sqlTitle = ChartData.getS_instance().getParser().getTitle(rank);
         _strAlbumId = ChartData.getS_instance().getParser().getAlbumID(rank).replaceAll("[^0-9]", "");
         _strTitle = ChartData.getS_instance().getParser().getTitle(rank);
         _strArtist = ChartData.getS_instance().getParser().getArtistName(rank);
 
-        if (_sqlTitle.contains("'")) {
-            _sqlTitle = _sqlTitle.replace("'", ":");
-        }
-        if (_sqlTitle.contains(" ")) {
-            _sqlTitle = _sqlTitle.replace(" ", "");
-        }
-        if (_sqlTitle.contains("by")) {
-            _sqlTitle = _sqlTitle.replace("by", "");
-        }
-        DB.getDB();
+        _sqlTitle = replaceTitle(_strTitle);
+
+        DB.connectionDB();
         ArrayList<String> albumIdList = DB.getAlbumId(_sqlTitle);
         System.out.println("albumIdList : "+albumIdList);
-        for (String albumId : albumIdList) {
-            addArrayListString(_arrComment, DB.readCommentDB(albumId));
-            addArrayListString(_arrPassword, DB.readPwdDB(albumId));
-            System.out.println("comment " + _arrComment + ", pwd" + _arrPassword);
-        }
+        _commentListDTO = DB.readCommentDB(albumIdList);
     }//readComment
 
-    private void addArrayListString(ArrayList<String> commentList, ArrayList<String> siteComment){
-        for(String str : siteComment){
-            commentList.add(str);
+    private String replaceTitle(String strTitle){
+        String[] strArray = new String[] {"'", " ", "by", ",", "&"};
+        //노래 제목이 사이트마다 다른 기호들의 경우 처리해줌
+        for (String needReplace : strArray){
+            if (strTitle.contains(needReplace)) {
+                strTitle = strTitle.replace(needReplace, "");
+            }
         }
+        return strTitle;
     }
 
     /*
@@ -272,8 +256,7 @@ public class CommentPanel extends JPanel {
     public void clearMusicData() {
         clearPanelTxt();
         _modelList.clear();
-        _arrComment.clear();
-        _arrPassword.clear();
+        _commentListDTO.clear();
     }
     public void clearPanelTxt(){
         _txtPassword.setText("");

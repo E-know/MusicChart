@@ -1,7 +1,6 @@
 package view;
 
-import DB.ConnectDB;
-import model.InsertDatabase;
+import model.DB.InsertDatabase;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -125,15 +124,25 @@ public class SiteChartsPanel extends JPanel{
         this.add(_lblTime);
     }
 
-    public void addBtnRefreshListener(ActionListener listenForBtnRefresh) { _btnRefresh.addActionListener((listenForBtnRefresh)); }
+    public void addBtnRefreshListener(ActionListener listenForBtnRefresh) {
+        _btnRefresh.addActionListener((listenForBtnRefresh));
+    }
 
-    public void addBtnMelonListener(ActionListener listenForBtnMelon) { _btnSite_Melon.addActionListener((listenForBtnMelon)); }
+    public void addBtnMelonListener(ActionListener listenForBtnMelon) {
+        _btnSite_Melon.addActionListener((listenForBtnMelon));
+    }
 
-    public void addBtnBugsListener(ActionListener listenForBtnBugs) { _btnSite_Bugs.addActionListener((listenForBtnBugs)); }
+    public void addBtnBugsListener(ActionListener listenForBtnBugs) {
+        _btnSite_Bugs.addActionListener((listenForBtnBugs));
+    }
 
-    public void addBtnGenieListener(ActionListener listenForBtnGenie) { _btnSite_Genie.addActionListener((listenForBtnGenie)); }
+    public void addBtnGenieListener(ActionListener listenForBtnGenie) {
+        _btnSite_Genie.addActionListener((listenForBtnGenie));
+    }
 
-    public void addRecentListener(ActionListener listenForBtnRecent) { _btnRecent.addActionListener((listenForBtnRecent)); }
+    public void addRecentListener(ActionListener listenForBtnRecent) {
+        _btnRecent.addActionListener((listenForBtnRecent));
+    }
 
     public void addKeyActionListener(KeyListener listenForKey) {
         _txtSearch.addKeyListener((listenForKey));

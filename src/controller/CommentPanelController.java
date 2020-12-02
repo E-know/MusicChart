@@ -1,8 +1,9 @@
 package controller;
 
-import DB.ConnectDB;
 import main.AppManager;
 import view.CommentPanel;
+import model.DB.ConnectDB;
+import model.DB.CommentDTO;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -15,7 +16,6 @@ import java.awt.Desktop;
 import java.net.URLEncoder;
 
 public class CommentPanelController {
-
     ConnectDB DB = new ConnectDB();
 
     private final CommentPanel theCommentPanel;
@@ -38,19 +38,22 @@ public class CommentPanelController {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (!theCommentPanel._txtComment.getText().equals("")) {
-                DB.getDB();
+                DB.connectionDB();
                 DB.insertCommentDB(theCommentPanel._strAlbumId, 6,
                         theCommentPanel._txtComment.getText(),
                         theCommentPanel._txtPassword.getText());
 
                 theCommentPanel._modelList.addElement(theCommentPanel._txtComment.getText());
-                theCommentPanel._arrComment.add(theCommentPanel._txtComment.getText());
+
+                CommentDTO list = new CommentDTO();
+                list.setComment(theCommentPanel._txtComment.getText());
 
                 if (theCommentPanel._txtPassword.getText().equals(""))
-                    theCommentPanel._arrPassword.add("0000");
+                    list.setPassword("0000");
                 else
-                    theCommentPanel._arrPassword.add(theCommentPanel._txtPassword.getText());
+                    list.setPassword(theCommentPanel._txtPassword.getText());
 
+                theCommentPanel._commentListDTO.add(list);
                 theCommentPanel.clearPanelTxt();
             }//obj == btnRegister
         }//actionPerformed
@@ -65,13 +68,13 @@ public class CommentPanelController {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (Integer.parseInt(theCommentPanel._txtPassword.getText()) == Integer.parseInt(theCommentPanel._arrPassword.get(theCommentPanel._listComment.getSelectedIndex()))) {
+            if (Integer.parseInt(theCommentPanel._txtPassword.getText()) == Integer.parseInt(theCommentPanel._commentListDTO.get(theCommentPanel._listComment.getSelectedIndex()).getPassword())) {
                 System.out.println("Same Password! At : " + String.valueOf(theCommentPanel._listComment.getSelectedIndex()));
-                DB.getDB();
+
+                DB.connectionDB();
                 DB.deleteDB(theCommentPanel._strAlbumId, theCommentPanel._txtPassword.getText());
 
-                theCommentPanel._arrPassword.remove(theCommentPanel._listComment.getSelectedIndex());
-                theCommentPanel._arrComment.remove(theCommentPanel._listComment.getSelectedIndex());
+                theCommentPanel._commentListDTO.remove(theCommentPanel._listComment.getSelectedIndex());
                 theCommentPanel._modelList.removeElementAt(theCommentPanel._listComment.getSelectedIndex());
             }
             theCommentPanel._txtPassword.setText("");
