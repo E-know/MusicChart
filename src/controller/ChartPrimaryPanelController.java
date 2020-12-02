@@ -1,7 +1,6 @@
 package controller;
 
 import model.ChartData;
-import model.MusicChartParser;
 import view.SiteChartsPanel;
 import java.awt.*;
 import java.awt.event.*;

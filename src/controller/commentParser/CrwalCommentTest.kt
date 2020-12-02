@@ -1,4 +1,4 @@
-package model.commentParser
+package controller.commentParser
 
 import model.ChartData
 import org.jsoup.Jsoup

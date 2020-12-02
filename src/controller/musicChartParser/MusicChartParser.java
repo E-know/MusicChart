@@ -1,4 +1,4 @@
-package model;
+package controller.musicChartParser;
 
 import java.awt.Component;
 import java.util.HashMap;

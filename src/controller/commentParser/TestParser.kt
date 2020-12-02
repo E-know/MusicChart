@@ -1,4 +1,4 @@
-package model.commentParser
+package controller.commentParser
 
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
