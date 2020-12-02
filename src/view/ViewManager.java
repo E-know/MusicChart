@@ -1,4 +1,4 @@
-package main;
+package view;
 
 import controller.*;
 import controller.commentParser.BugsAlbumCommentParser;
@@ -6,21 +6,19 @@ import controller.commentParser.GenieAlbumCommentParser;
 import controller.commentParser.MelonAlbumCommentParser;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import view.SiteChartsPanel;
-import view.CommentPanel;
 import model.DB.InsertDatabase;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class AppManager {
-    private static AppManager s_instance;
+public class ViewManager {
+    private static ViewManager s_instance;
     private CommentPanel pnlCommentPanel;
     private SiteChartsPanel pnlSiteChartsPanel;
     private JPanel primaryPanel;
     InsertDatabase InsertDatabase = new InsertDatabase();
 
-    private AppManager(){
+    private ViewManager(){
     	setInitPrimaryPanel();
         setInitSiteChartsPanel();
         setInitCommentPanel();
@@ -66,7 +64,7 @@ public class AppManager {
     public void setInitSiteChartsPanel(){
         pnlSiteChartsPanel = new SiteChartsPanel();
         pnlSiteChartsPanel.setLayout(null);
-        new ChartPrimaryPanelController(pnlSiteChartsPanel);
+        new SiteChartsPanelController(pnlSiteChartsPanel);
     }
 
     public JPanel getPrimaryPanel(){
@@ -93,9 +91,9 @@ public class AppManager {
         return pnlSiteChartsPanel;
     }
 
-    public static AppManager getS_instance() {
+    public static ViewManager getS_instance() {
         if(s_instance == null)
-            s_instance = new AppManager();
+            s_instance = new ViewManager();
 
         return s_instance;
     }

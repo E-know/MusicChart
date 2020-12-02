@@ -2,6 +2,7 @@ package main;
 
 import javax.swing.*;
 import model.DB.ConnectDB;
+import view.ViewManager;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -27,7 +28,7 @@ public class Main {
             }
         });
 
-        frame.getContentPane().add(AppManager.getS_instance().getPnlPrimaryPanel());
+        frame.getContentPane().add(ViewManager.getS_instance().getPnlPrimaryPanel());
         //ChartData.getS_instance();
         //DetailData.getS_instance();
 
