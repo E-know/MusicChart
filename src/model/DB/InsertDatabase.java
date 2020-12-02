@@ -11,7 +11,7 @@ import java.util.Random;
 
 public class InsertDatabase {
     ConnectDB DB = new ConnectDB();
-    public void insertChartDatabase(Component parentComponent){
+    public void insertChartDatabase(Component parentComponent){// 파싱하면서 데이터베이스에 노래 정보 저장
         String title, artist, albumName, albumId;
         DB.connectionDB();
         for (int i = 1; i <= 3; i++){
@@ -44,12 +44,11 @@ public class InsertDatabase {
         return strTitle;
     }
 
-    public void insertCommentDatabase(Map<String, List<String>> albumAndComment){
+    public void insertCommentDatabase(Map<String, List<String>> albumAndComment){//
         DB.connectionDB();
         for (String albumId : albumAndComment.keySet()){
             int order = 0;
             for (String comment : albumAndComment.get(albumId)){
-                //System.out.println("key : " + key +" / value : " + str);
                 try {
                     order++;
                     if(DB.getCommentInfo(albumId).next() && order == 1){//최신 댓글들만 저장하기 위한 방법
@@ -64,7 +63,7 @@ public class InsertDatabase {
         }
     }//크롤링한 댓글들 저장
 
-    private String makePassword(){
+    private String makePassword(){//랜덤으로 비밃번호 생성
         Random rand = new Random();
         String passwd = "";
         for (int p = 0; p < 4; p++) {

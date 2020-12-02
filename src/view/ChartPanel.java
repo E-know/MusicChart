@@ -33,9 +33,6 @@ public class ChartPanel extends JPanel {
 
 	//최근 음악들 보여주는 리스트
     public ArrayList<RecentListDTO> _recentListDTO;
-
-	public JList<String> _listComment;
-	public DefaultListModel<String> _modelList;
 	//표의 모델(셀의 크기, 개수, 표시 자료형 등을 결정)
 	public ChartModel _tableModel;
 	
@@ -189,7 +186,6 @@ public class ChartPanel extends JPanel {
     }
 
     public void recentData() {
-        //_tableChart.setVisible(false);
         SITE.RECENT = true;
 	    _lblTitle.setText("List of recent views");
         clearTable();
@@ -201,18 +197,12 @@ public class ChartPanel extends JPanel {
 		}
     	inputRecentList();
 	}
-	public void inputRecentList(){
-	    _modelList = new DefaultListModel<String>();
-        for (RecentListDTO list : _recentListDTO){
-            _modelList.addElement(list.getTitle());
-        }
-	    _listComment = new JList<String>();
-    	_listComment.setFont(new Font("서울한강체 M", Font.PLAIN, 20));
-    	_listComment.setModel(_modelList);
 
+	private void inputRecentList(){
         _tableModel.setRecentContents(_recentListDTO);
         makeAndRepaintTable();
     }
+
     private void clearTable(){
         for (int i = 0; i < _tableModel.getRowCount(); i++) {
             for(int j = 0; j < _tableModel.getColumnCount(); j++) {

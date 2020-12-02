@@ -2,6 +2,7 @@ package view;
 
 import model.DB.ConnectDB;
 import model.DB.CommentDTO;
+import model.DB.InsertDatabase;
 import model.ChartData;
 import model.DetailData;
 
@@ -245,22 +246,6 @@ public class CommentPanel extends JPanel {
                 strTitle = strTitle.replace(needReplace, "");
             }
         }
-//        if (strTitle.contains("'")) {
-//            strTitle = strTitle.replace("'", ":");
-//        }
-//        if (strTitle.contains(" ")) {
-//            strTitle = strTitle.replace(" ", "");
-//        }
-//        if (strTitle.contains("by")) {
-//            strTitle = strTitle.replace("by", "");
-//        }
-//        if (strTitle.contains(",")) {
-//            strTitle = strTitle.replace(",", "");
-//        }
-//        if (strTitle.contains("&")) {
-//            strTitle = strTitle.replace("&", "");
-//        }
-
         return strTitle;
     }
 
