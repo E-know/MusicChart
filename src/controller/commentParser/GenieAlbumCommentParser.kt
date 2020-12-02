@@ -1,32 +1,20 @@
-package model
+package controller.commentParser
 
+import model.ChartData
 import org.openqa.selenium.WebDriver
-import org.openqa.selenium.chrome.ChromeDriver
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
-import org.jsoup.nodes.Element
 import org.jsoup.select.Elements
 import java.lang.Thread.sleep
 
 class GenieAlbumCommentParser(val driver: WebDriver) {
-	//Properties
-	private val WEB_DRIVER_ID = "webdriver.chrome.driver"
-	private val WEB_DRIVER_PATH = "src/driver/chromedriver.exe"
-	private val base_url: String = "https://www.genie.co.kr/detail/albumInfo?axnm="
-
 	init {
-		System.setProperty(WEB_DRIVER_ID, WEB_DRIVER_PATH)
+		System.setProperty("webdriver.chrome.driver", "src/driver/chromedriver.exe")
 	}
 
 	fun crawl(): MutableMap<String, List<String>> {
 		val result = mutableMapOf<String, List<String>>()
-		val _setAlbumID = mutableSetOf<String>()
-
-		for (i in 1..100) {
-			if (!ChartData.getS_instance().genieChartParser.isParsed)
-				ChartData.getS_instance().genieChartParser.chartDataParsing(null)
-			_setAlbumID.add(ChartData.getS_instance().genieChartParser.getAlbumID(i))
-		}
+		val _setAlbumID = getAlbumIDtoSet()
 
 		try {
 			var doc: Document
@@ -57,7 +45,6 @@ class GenieAlbumCommentParser(val driver: WebDriver) {
 					if(i == 4)
 						break
 				}
-
 				result[id] = strarr
 
 			}
@@ -67,6 +54,7 @@ class GenieAlbumCommentParser(val driver: WebDriver) {
 				for(str in ele.value)
 					println(str)
 			}
+
 		} catch (e: Exception) {
 			e.printStackTrace()
 		}
@@ -74,5 +62,13 @@ class GenieAlbumCommentParser(val driver: WebDriver) {
 		return result
 	}
 
-
+	private fun getAlbumIDtoSet(): Set<String> {
+		val result = mutableSetOf<String>()
+		for (i in 1..100) {
+			if (!ChartData.getS_instance().genieChartParser.isParsed)
+				ChartData.getS_instance().genieChartParser.chartDataParsing(null)
+			result.add(ChartData.getS_instance().genieChartParser.getAlbumID(i).filter { it in '0'..'9' })
+		}
+		return result
+	}
 }

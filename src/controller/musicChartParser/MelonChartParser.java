@@ -1,7 +1,8 @@
-package model;
+package controller.musicChartParser;
 
 import java.util.HashMap;
 
+import controller.musicChartParser.MusicChartParser;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -290,6 +291,16 @@ public class MelonChartParser extends MusicChartParser {
         }
     } // chartDataParsing(Component parentComponent)
     @Override
+    public void songDetailDataParsing(int rank, JSONArray chartListData, Component parentComponent) { // 노래 한 곡에 대한 상세 정보를 파싱하는 Thread를 시작하는 메소드
+        if (chartListData == null) {
+            System.out.println("차트 파싱된 데이터가 없어 메소드 실행을 종료합니다 :(");
+            return;
+        }
+        JSONObject jObj = (JSONObject) chartListData.get(rank - 1);
+
+        detailDataparsing(jObj, parentComponent);
+    } // songDetailDataParsing(int rank, JSONArray chartListData, Component parentComponent)
+    @Override
     public void songDetailDataParsing(JSONObject jObj, Component parentComponent) { // 노래 한 곡에 대한 상세 정보를 파싱하는 Thread를 시작하는 메소드
         if (jObj == null) {
             System.out.println(_plzUseRightJSONObject);
@@ -300,6 +311,12 @@ public class MelonChartParser extends MusicChartParser {
             System.out.println(_jsonDontHaveKey);
             return;
         }
+        JSONObject _jObj = jObj;
+        detailDataparsing(_jObj, parentComponent);
+
+    } // songDetailDataParsing(JSONObject jObj, Component parentComponent)
+    @Override
+    void detailDataparsing(JSONObject jObj, Component parentComponent){
         _url = "https://www.melon.com/song/detail.htm?songId=" + jObj.get("songId").toString(); // 파싱할 url을 만듬
         if (_songDetailThread != null) { // Thread를 사용하는 게 처음이 아닐 때
             if (_songDetailThread.isAlive()) // Thread가 살아있으면 정지
@@ -312,52 +329,79 @@ public class MelonChartParser extends MusicChartParser {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-    } // songDetailDataParsing(JSONObject jObj, Component parentComponent)
 
+    }
     // chartDataParsing 후에만 사용가능한 메소드
     public String getLikeNum(int rank) { // 노래 순위를 이용하여 해당 노래의 좋아요 개수를 반환하는 메소드
-        if (rank < 1 || rank > 100) { // 1 <= rank <= 100을 벗어나는 범위라면
-            System.out.println("1~100위 이내의 순위를 입력해주세요");
+        int _rank = rank;
+        if(!isRanked(_rank)){
             return null;
         }
 
-        if (!isParsed()) { // 파싱이 이루어지지 않았다면
-            System.out.println(_isNotParsed);
+        if(!isSongDetailParsed()){
             return null;
         }
 
-        if (_songCount == 1) { // 상세 파싱이 이루어졌다면
-            System.out.println("getLikeNum(int rank) : " + _isOnlyChartParse);
-            return null;
-        }
-
-        return ((JSONObject) _chartList.get(rank - 1)).get("likeNum").toString();
+        return ((JSONObject)_chartList.get(rank - 1)).get("likeNum").toString();
     } // String getLikeNum(int rank)
+
+    //chartDataParsing 후에만 사용가능한 메소드
+    public String getLikeNum(String title) { // 노래 제목을 이용하여 해당 노래의 좋아요 개수를 반환하는 메소드
+        if(!isSongDetailParsed()){
+            return null;
+        }
+        String _title = title;
+        if(foundByTitle(_title, "likeNum")!=null){
+            return foundByTitle(_title, "likeNum");
+        }
+        return null;
+    } // String getLikeNum(String title)
 
     // songDetailDataParsing 후에만 사용가능한 메소드
     public String getReleaseDate() { // 노래 한 곡에 대한 상세 파싱이 이루어졌다면 그 곡의 발매일을 반환하는 메소드
-        if (!isParsed()) { // 파싱이 이루어지지 않았다면
-            System.out.println(_isNotParsed);
-            return null;
+        if(isSongDetailParsed("releaseDate") != null){
+            return isSongDetailParsed("releaseDate");
         }
-        if (_songCount == 1) // 상세 파싱이 이루어졌다면
-            return _songDetailInfo.get("releaseDate").toString();
-
-        System.out.println("getReleaseDate() : " + _isOnlyDetailParse);
         return null;
     } // String getReleaseDate()
 
     // songDetailDataParsing 후에만 사용가능한 메소드
-    public String getGenre() { // 노래 한 곡에 대한 상세 정보 파싱이 이루어졌다면 그 곡의 장르를 반환하는 메소드
+    public String getReleaseDate(JSONObject jObj) { // 노래 한 곡에 대한 상세 파싱이 이루어졌다면 JSONObject를 이용하여 그 곡의 발매일을 반환하는 메소드
         if (!isParsed()) { // 파싱이 이루어지지 않았다면
             System.out.println(_isNotParsed);
             return null;
         }
-        if (_songCount == 1) // 상세 파싱이 이루어졌다면
-            return _songDetailInfo.get("genre").toString();
+        if (_songCount == 1) { // 상세 파싱이 이루어졌다면
+            JSONObject _jobj = jObj;
+            if(isJSONObject("releaseDate",_jobj) != null){
+                return isJSONObject("releaseDate",_jobj);
+            }
+            return null;
+        }
+        return null;
+    } // String getReleaseDate(JSONObject jObj)
 
-        System.out.println("getGenre() : " + _isOnlyDetailParse);
+    // songDetailDataParsing 후에만 사용가능한 메소드
+    public String getGenre() { // 노래 한 곡에 대한 상세 정보 파싱이 이루어졌다면 그 곡의 장르를 반환하는 메소드
+        if(isSongDetailParsed("genre") != null){
+            return isSongDetailParsed("genre");
+        }
         return null;
     } // String getGenre()
 
+    // songDetailDataParsing 후에만 사용가능한 메소드
+    public String getGenre(JSONObject jObj) { // 노래 한 곡에 대한 상세 정보 파싱이 이루어졌다면 JSONObject를 이용하여 그 곡의 장르를 반환하는 메소드
+        if (!isParsed()) { // 파싱이 이루어지지 않았다면
+            System.out.println(_isNotParsed);
+            return null;
+        }
+        if (_songCount == 1) { // 노래 한 곡에 대한 상세 파싱이 이루어졌다면
+            JSONObject _jobj = jObj;
+            if(isJSONObject("genre",_jobj) != null){
+                return isJSONObject("genre",_jobj);
+            }
+            return null;
+        }
+        return null;
+    } // String getGenre(JSONObject jObj)
 } // MelonChartParser class

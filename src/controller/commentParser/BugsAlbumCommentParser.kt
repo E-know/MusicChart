@@ -1,44 +1,29 @@
-package model
+package controller.commentParser
 
+import model.ChartData
 import org.openqa.selenium.WebDriver
-import org.openqa.selenium.chrome.ChromeDriver
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
-import org.jsoup.nodes.Element
 import org.jsoup.select.Elements
 import java.lang.Thread.sleep
 
 class BugsAlbumCommentParser(var driver: WebDriver) {
-	//System Property SetUp //Driver setup
 	//Properties
-	private val WEB_DRIVER_ID = "webdriver.chrome.driver"
-	private val WEB_DRIVER_PATH = "src/driver/chromedriver.exe"
-	private var base_url: String? = "https://music.bugs.co.kr/album/20361954?wl_ref=list_tr_11_chart"
 
 	init {
-		System.setProperty(WEB_DRIVER_ID, WEB_DRIVER_PATH)
+		System.setProperty("webdriver.chrome.driver", "src/driver/chromedriver.exe")
 	}
 
 	fun crawl(): MutableMap<String, List<String>> {
 		val result = mutableMapOf<String, List<String>>()
-		val _setAlbumID = mutableSetOf<String>()
-
-		if (base_url == null) {
-			println("Url is null")
-			return result
-		}
-
-		for (i in 1..100) {
-			if (!ChartData.getS_instance().bugsChartParser.isParsed)
-				ChartData.getS_instance().bugsChartParser.chartDataParsing(null)
-			_setAlbumID.add(ChartData.getS_instance().bugsChartParser.getAlbumID(i).filter { it in '0'..'9' })
-		}
+		val _setAlbumID = getAlbumIDtoSet()
 
 		try {
 			var doc: Document
 			var arr: Elements
 			var html: String
 			var sleepFlag = false
+
 			for (id in _setAlbumID) {
 				do {
 					sleep(1000)
@@ -78,6 +63,16 @@ class BugsAlbumCommentParser(var driver: WebDriver) {
 			e.printStackTrace()
 		}
 
+		return result
+	}
+
+	private fun getAlbumIDtoSet(): Set<String> {
+		val result = mutableSetOf<String>()
+		for (i in 1..100) {
+			if (!ChartData.getS_instance().bugsChartParser.isParsed)
+				ChartData.getS_instance().bugsChartParser.chartDataParsing(null)
+			result.add(ChartData.getS_instance().bugsChartParser.getAlbumID(i).filter { it in '0'..'9' })
+		}
 		return result
 	}
 }

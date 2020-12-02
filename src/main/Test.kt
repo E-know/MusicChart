@@ -1,9 +1,6 @@
 package main
 
-import model.BugsAlbumCommentParser
-import model.ChartData
-import model.GenieAlbumCommentParser
-import model.MelonAlbumCommentParser
+import controller.commentParser.MelonAlbumCommentParser
 import org.openqa.selenium.chrome.ChromeDriver
 
 fun main() {

@@ -1,7 +1,6 @@
 package controller;
 
 import model.ChartData;
-import model.MusicChartParser;
 import view.SiteChartsPanel;
 import java.awt.*;
 import java.awt.event.*;
@@ -150,8 +149,6 @@ public class ChartPrimaryPanelController {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            if(ChartData.getS_instance().getSite_M_B_G() == 4) return;
-            ChartData.getS_instance().setSite_M_B_G(4);
             System.out.println("Recent");
             the_Chart_Primary_Panel._pnlChartPanel.recentData();
             the_Chart_Primary_Panel._lblTime.setText("Renewal time : ");
