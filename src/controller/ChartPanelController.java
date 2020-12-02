@@ -5,7 +5,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.*;
 
-import view.ViewManager;
 import model.SITE;
 import view.ChartPanel;
 
@@ -46,8 +45,8 @@ public class ChartPanelController {
         public void mouseReleased(MouseEvent e) { }
     } //addClickListener
     public void PopUpCommentUI(int rank){
-        ViewManager.getS_instance().getPnlCommentPanel().popUpCommentPanel(rank);
-        ViewManager.getS_instance().getPnlCommentPanel().setVisible(true);
-        ViewManager.getS_instance().getChartPrimaryPanel().setVisible(false);
+        AppManager.getS_instance().getPnlCommentPanel().popUpCommentPanel(rank);
+        AppManager.getS_instance().getPnlCommentPanel().setVisible(true);
+        AppManager.getS_instance().getChartPrimaryPanel().setVisible(false);
     }
 }

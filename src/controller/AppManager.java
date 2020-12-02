@@ -1,24 +1,29 @@
-package view;
+package controller;
 
-import controller.*;
 import controller.commentParser.BugsAlbumCommentParser;
 import controller.commentParser.GenieAlbumCommentParser;
 import controller.commentParser.MelonAlbumCommentParser;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import model.DB.InsertDatabase;
+import view.CommentPanel;
+import view.SiteChartsPanel;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class ViewManager {
-    private static ViewManager s_instance;
+public class AppManager {
+    private static AppManager s_instance;
     private CommentPanel pnlCommentPanel;
     private SiteChartsPanel pnlSiteChartsPanel;
     private JPanel primaryPanel;
+    private JFrame _frame;
     InsertDatabase InsertDatabase = new InsertDatabase();
 
-    private ViewManager(){
+    private AppManager(){
+        _frame = new JFrame("The People of Music");
+        _frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
     	setInitPrimaryPanel();
         setInitSiteChartsPanel();
         setInitCommentPanel();
@@ -27,6 +32,9 @@ public class ViewManager {
         pnlCommentPanel.setVisible(false);
         primaryPanel.add(pnlSiteChartsPanel);
         //crawlingComments();
+
+        _frame.pack();
+        _frame.setVisible(true);
     }
     
       
@@ -53,6 +61,8 @@ public class ViewManager {
         primaryPanel.setLayout(null);
         primaryPanel.setPreferredSize(new Dimension(1280,960));
         primaryPanel.setBackground(Color.BLACK);
+
+        _frame.getContentPane().add(primaryPanel);
     }
 
 
@@ -91,9 +101,9 @@ public class ViewManager {
         return pnlSiteChartsPanel;
     }
 
-    public static ViewManager getS_instance() {
+    public static AppManager getS_instance() {
         if(s_instance == null)
-            s_instance = new ViewManager();
+            s_instance = new AppManager();
 
         return s_instance;
     }

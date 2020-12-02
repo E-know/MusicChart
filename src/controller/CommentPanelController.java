@@ -1,6 +1,5 @@
 package controller;
 
-import view.ViewManager;
 import view.CommentPanel;
 import model.DB.ConnectDB;
 import model.DB.CommentDTO;
@@ -117,8 +116,8 @@ public class CommentPanelController {
     }//ButtonYoutubeListener
 
     public void BackToChartPrimaryPanel(){
-        ViewManager.getS_instance().getPrimaryPanel().repaint();
-        ViewManager.getS_instance().getPnlCommentPanel().setVisible(false);
-        ViewManager.getS_instance().getChartPrimaryPanel().setVisible(true);
+        AppManager.getS_instance().getPrimaryPanel().repaint();
+        AppManager.getS_instance().getPnlCommentPanel().setVisible(false);
+        AppManager.getS_instance().getChartPrimaryPanel().setVisible(true);
     }
 }
