@@ -11,11 +11,9 @@ import java.util.Random;
 
 public class InsertDatabase {
     ConnectDB DB = new ConnectDB();
-    public void insertChartDatabase(Component parentComponent){
+    public void insertChartDatabase(Component parentComponent){// 파싱하면서 데이터베이스에 노래 정보 저장
         String title, artist, albumName, albumId;
         DB.connectionDB();
-        System.out.println("1");
-
         for (int i = 1; i <= 3; i++){
             ChartData.getS_instance().setSite_M_B_G(i);
             ChartData.getS_instance().DataPassing(parentComponent);
@@ -26,7 +24,7 @@ public class InsertDatabase {
                 albumId = ChartData.getS_instance().getParser().getAlbumID(k).replaceAll("[^0-9]", "");
 
                 try {
-                    if(!DB.getSongInfo(replaceTitle(title), i).next()){
+                    if(!DB.getSongInfo(replaceTitle(title), i).next()){//노래가 순위에 존재할 경우 생략
                         DB.insertChartDB(replaceTitle(title), artist, albumName, i, albumId);
                     }
                 } catch (SQLException throwables) {
@@ -36,41 +34,28 @@ public class InsertDatabase {
         }//for(i)
     }
     private String replaceTitle(String strTitle){
+        String[] strArray = new String[] {"'", " ", "by", ",", "&"};
         //노래 제목이 사이트마다 다른 기호들의 경우 처리해줌
-        if (strTitle.contains("'")) {
-            strTitle = strTitle.replace("'", ":");
-        }
-        if (strTitle.contains(" ")) {
-            strTitle = strTitle.replace(" ", "");
-        }
-        if (strTitle.contains("by")) {
-            strTitle = strTitle.replace("by", "");
-        }
-        if (strTitle.contains(",")) {
-            strTitle = strTitle.replace(",", "");
-        }
-        if (strTitle.contains("&")) {
-            strTitle = strTitle.replace("&", "");
+        for (String needReplace : strArray){
+            if (strTitle.contains(needReplace)) {
+                strTitle = strTitle.replace(needReplace, "");
+            }
         }
         return strTitle;
     }
 
-    public void insertCommentDatabase(Map<String, List<String>> albumAndComment){
+    public void insertCommentDatabase(Map<String, List<String>> albumAndComment){//
         DB.connectionDB();
         for (String albumId : albumAndComment.keySet()){
             int order = 0;
             for (String comment : albumAndComment.get(albumId)){
-                //System.out.println("key : " + key +" / value : " + str);
                 try {
                     order++;
-                    if(DB.getCommentInfo(albumId).next() && order == 1){
+                    if(DB.getCommentInfo(albumId).next() && order == 1){//최신 댓글들만 저장하기 위한 방법
                         //댓글이 이미 저장되어있다
                         DB.deleteCommentDB(albumId);//삭제
-                        DB.insertCommentDB(albumId, order, comment, makePassword());
-                    }//최신 댓글들만 저장하기 위한 방법
-                    else{
-                        DB.insertCommentDB(albumId, order, comment, makePassword());
                     }
+                    DB.insertCommentDB(albumId, order, comment, makePassword());
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }
@@ -78,7 +63,7 @@ public class InsertDatabase {
         }
     }//크롤링한 댓글들 저장
 
-    private String makePassword(){
+    private String makePassword(){//랜덤으로 비밃번호 생성
         Random rand = new Random();
         String passwd = "";
         for (int p = 0; p < 4; p++) {
