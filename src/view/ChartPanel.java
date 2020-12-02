@@ -7,7 +7,7 @@ import java.util.Comparator;
 import javax.swing.*;
 import javax.swing.table.*;
 
-import controller.ChartPanelController;
+import controller.panelController.ChartPanelController;
 import model.ChartData;
 import model.ChartModel;
 import model.SITE;

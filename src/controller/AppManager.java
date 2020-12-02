@@ -3,6 +3,8 @@ package controller;
 import controller.commentParser.BugsAlbumCommentParser;
 import controller.commentParser.GenieAlbumCommentParser;
 import controller.commentParser.MelonAlbumCommentParser;
+import controller.panelController.CommentPanelController;
+import controller.panelController.SiteChartsPanelController;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import model.DB.InsertDatabase;

@@ -1,4 +1,4 @@
-package controller;
+package controller.panelController;
 
 import model.ChartData;
 import view.SiteChartsPanel;
