@@ -1,7 +1,8 @@
-package model;
+package controller.musicChartParser;
 
 import java.util.HashMap;
 
+import controller.musicChartParser.MusicChartParser;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;

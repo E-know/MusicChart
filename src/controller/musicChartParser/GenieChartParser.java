@@ -1,6 +1,6 @@
-package model;
+package controller.musicChartParser;
 
-import java.awt.Component;
+import java.awt.*;
 import java.util.HashMap;
 
 import org.json.simple.JSONArray;
@@ -17,10 +17,10 @@ import org.jsoup.select.Elements;
  * @version 1.7
  **/
 
-public class BugsChartParser extends MusicChartParser {
+public class GenieChartParser extends MusicChartParser {
 
     /*
-     * BugsChartParser Description (KO_KR)
+     * GenieChartParser Description (KO_KR)
      *
      **************************************************
      *
@@ -54,6 +54,7 @@ public class BugsChartParser extends MusicChartParser {
      *
      * ** 노래 1개에 대한 상세 정보를 파싱할 시에 얻을 수 있는 것들 **
      * 노래 큰 이미지		(key : imageUrl)
+     * 노래 장르		(key : genre)
      * 노래 재생시간		(key : songTime)
      * 노래 좋아요 개수	(key : likeNum)
      *
@@ -71,6 +72,7 @@ public class BugsChartParser extends MusicChartParser {
      * <노래 1개에 대한 상세 정보 get 메소드>
      * [JSONObject]	getSongData()
      * [String]		getImageUrl()		getImageUrl(JSONObject jObj)	getImageUrl(int rank)	getImageUrl(String title)
+     * [String]		getGenre()			getGenre(JSONObject jObj)
      * [String]		getSongTime()		getSongTime(JSONObject jObj)
      * [String]		getLikeNum()		getLikeNum(JSONObject jObj)
      *
@@ -78,10 +80,10 @@ public class BugsChartParser extends MusicChartParser {
      *
      */
 
-    private String bugsChartParsingTitle = "벅스 차트 파싱중..";
-    private String bugsChartParsingMessage = "벅스 차트 100곡에 대한 정보를 불러오는 중 입니다 :)";
+    private String genieChartParsingTitle = "지니 차트 파싱중..";
+    private String genieChartParsingMessage = "지니 차트 100곡에 대한 정보를 불러오는 중 입니다 :)";
 
-    public BugsChartParser() { // 초기화 작업을 진행함
+    public GenieChartParser() { // 초기화 작업을 진행함
         _songCount = 0;                // 파싱한 노래 개수(초기값은 0)
         _chartList = null;            // 차트 100곡에 대한 정보를 담을 JSONArray
         _songDetailInfo = null;        // 노래 한 곡에 대한 상세 정보를 담을 JSONObject
@@ -94,50 +96,101 @@ public class BugsChartParser extends MusicChartParser {
     private class ChartDataParsingThread implements Runnable { // 차트 100곡 파싱을 하는 Runnable class
         @Override
         public void run() {
-            // 벅스 차트 1~100위의 노래를 파싱함
+            // 지니 차트 1~100위의 노래를 파싱함
             _songCount = 0;
-            _url = "https://music.bugs.co.kr/chart";
+            _url = "https://www.genie.co.kr/chart/top200";
 
             try {
-                // 벅스 차트 연결에 필요한 header 설정 및 연결
-                Connection bugsConnection = Jsoup.connect(_url).header("Accept",
+                // 지니 차트 연결에 필요한 header 설정 및 연결
+                Connection genieConnection1_50 = Jsoup.connect(_url).header("Accept",
                         "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3")
-                        .header("Sec-Fetch-User", "?1").header("Upgrade-Insecure-Requests", "1")
+                        .header("Upgrade-Insecure-Requests", "1")
                         .header("User-Agent",
                                 "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36")
                         .method(Connection.Method.GET);
 
                 // 연결 후 웹페이지를 긁어옴
-                Document bugsDocument = bugsConnection.get();
+                Document genieDocument1_50 = genieConnection1_50.get();
 
-                // 1~100위에 대한 정보를 불러옴, 순위와 곡의 상세한 정보를 뽑기 위한 링크를 뽑는 용도로 사용
-                Elements data1st100 = bugsDocument.select("table.list").first().select("tr[rowtype=track]");
+                // 1~50위에 대한 정보를 불러옴
+                Elements data1st50 = genieDocument1_50.select("table.list-wrap").first().select("tbody > tr.list");
 
                 _chartList = new JSONArray();
 
-                for (Element elem : data1st100) { // 1~100위에 대한 내용 파싱
+                for (Element elem : data1st50) { // 1~50위에 대한 내용 파싱
                     // JSONObject에 데이터를 넣기 위한 작업
                     HashMap<String, Object> songAllInfo = new HashMap<String, Object>();
 
-                    // key : rank, value : 순위
-                    songAllInfo.put("rank", elem.select("div.ranking > strong").first().text().toString());
-
-                    // key : smallImageUrl, value : 작은 이미지 url
-                    songAllInfo.put("smallImageUrl", elem.select("img").attr("src").toString());
-
                     // key : songId, value : 노래 아이디
-                    songAllInfo.put("songId", elem.select("tr").attr("trackid").toString());
+                    songAllInfo.put("songId", elem.attr("songId").toString());
 
-                    // key : title, value : 제목
-                    songAllInfo.put("title", elem.select("th[scope=row]").first().select("a").first().text().toString());
+                    // key : rank, value : 순위
+                    songAllInfo.put("rank", elem.select("td.number").first().text().toString().split(" ")[0]);
+
+                    // key : smallImageUrl, value : 작은 이미지 url 링크
+                    songAllInfo.put("smallImageUrl",
+                            "https:" + elem.select("td").get(2).select("img").first().attr("src").toString());
+
+                    // key : title, value : 노래 제목
+                    songAllInfo.put("title", elem.select("td.info").first().select("a").first().text().toString());
 
                     // key : artist, value : 가수 이름
-                    songAllInfo.put("artist", elem.select("td.left").first().select("a").first().text().toString());
+                    songAllInfo.put("artist", elem.select("td.info").first().select("a").get(1).text().toString());
 
                     // key : albumName, value : 앨범 이름
-                    songAllInfo.put("albumName", elem.select("td.left").get(1).select("a").first().text().toString());
+                    songAllInfo.put("albumName", elem.select("td.info").first().select("a").get(2).text().toString());
 
-                    songAllInfo.put("albumID", elem.select("td.left").get(1).select("a").attr("href").substring(31,39));
+                    // key : albumUrl value : 앨범 Num
+                    songAllInfo.put("albumID",elem.select("td.info").first().select("a").get(2).attr("onclick").substring(18,26));
+
+                    // 값들을 JSONObject로 변환
+                    JSONObject jsonSongInfo = new JSONObject(songAllInfo);
+
+                    // JSONArray에 값 추가
+                    _chartList.add(jsonSongInfo);
+                    _songCount++;
+                    //	progressMonitor.setProgress(songCount);
+                }
+
+                String url51_100 = genieDocument1_50.select("div.page-nav.rank-page-nav").first().select("a").get(1).attr("href").toString();
+
+                // 지니 차트 연결에 필요한 header 설정 및 연결
+                Connection genieConnection51_100 = Jsoup.connect(_url + url51_100).header("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3")
+                        .header("Sec-Fetch-User", "?1")
+                        .header("Upgrade-Insecure-Requests", "1")
+                        .header("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36")
+                        .method(Connection.Method.GET);
+
+                // 연결 후 웹페이지를 긁어옴
+                Document genieDocument51_100 = genieConnection51_100.get();
+
+                // 51~100위에 대한 정보를 불러옴
+                Elements data51st100 = genieDocument51_100.select("table.list-wrap").first().select("tbody > tr.list");
+
+                for (Element elem : data51st100) { // 51~100위에 대한 내용 파싱
+                    // JSONObject에 데이터를 넣기 위한 작업
+                    HashMap<String, Object> songAllInfo = new HashMap<String, Object>();
+
+                    // key : songId, value : 노래 아이디
+                    songAllInfo.put("songId", elem.attr("songId").toString());
+
+                    // key : rank, value : 순위
+                    songAllInfo.put("rank", elem.select("td.number").first().text().toString().split(" ")[0]);
+
+                    // key : smallImageUrl, value : 작은 이미지 url 링크
+                    songAllInfo.put("smallImageUrl", "https:" + elem.select("td").get(2).select("img").first().attr("src").toString());
+
+                    // key : title, value : 노래 제목
+                    songAllInfo.put("title", elem.select("td.info").first().select("a").first().text().toString());
+
+                    // key : artist, value : 가수 이름
+                    songAllInfo.put("artist", elem.select("td.info").first().select("a").get(1).text().toString());
+
+                    // key : albumName, value : 앨범 이름
+                    songAllInfo.put("albumName", elem.select("td.info").first().select("a").get(2).text().toString());
+
+                    // key : albumUrl value : 앨범 Num
+                    songAllInfo.put("albumID",elem.select("td.info").first().select("a").get(2).attr("onclick").substring(18,26));
 
                     // 값들을 JSONObject로 변환
                     JSONObject jsonSongInfo = new JSONObject(songAllInfo);
@@ -145,7 +198,7 @@ public class BugsChartParser extends MusicChartParser {
                     // JSONArray에 값 추가, 노래 개수 증가
                     _chartList.add(jsonSongInfo);
                     _songCount++;
-                    // progressMonitor.setProgress(songCount);
+                    //progressMonitor.setProgress(songCount);
                 }
 
                 // 파싱 결과 출력(테스트용)
@@ -190,31 +243,30 @@ public class BugsChartParser extends MusicChartParser {
 
             try {
                 // songId를 통해 곡에 대한 상세한 정보를 얻기 위한 접근
-                Connection songDetailConnection = Jsoup.connect(_url).header("Accept",
-                        "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3")
-                        .header("Sec-Fetch-User", "?1").header("Upgrade-Insecure-Requests", "1")
-                        .header("User-Agent",
-                                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36")
+                Connection songDetailConnection = Jsoup.connect(_url).header("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3")
+                        .header("Sec-Fetch-User", "?1")
+                        .header("Upgrade-Insecure-Requests", "1")
+                        .header("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36")
                         .method(Connection.Method.GET);
 
                 // 곡에 대한 상세한 정보 웹 페이지를 긁어옴
                 Document songDetailDocument = songDetailConnection.get();
-                Element songDetailInfo = songDetailDocument.select("div.basicInfo").first();
+                Element songDetailInfo = songDetailDocument.select("div.song-main-infos").first();
 
-                Element songDetailAlbumInfo = songDetailInfo.select("table.info").first().select("tbody").first();
-                Element songDetailLikeInfo = songDetailDocument.select("div.etcInfo").first();
+                Element songDetailAlbumInfo = songDetailInfo.select("div.info-zone").first();
 
                 // key : imageUrl, value : 큰 이미지 url 링크
-                songAllInfo.put("imageUrl",
-                        songDetailInfo.select("div.photos").first().select("ul > li > a > img").attr("src").toString());
+                songAllInfo.put("imageUrl", "https:" + songDetailInfo.select("div.photo-zone > a").first().attr("href").toString());
+
+
+                // key : genre, value : 노래 장르
+                songAllInfo.put("genre", songDetailAlbumInfo.select("ul.info-data > li").get(2).select("span.value").first().text().toString());
 
                 // key : songTime, value : 재생 시간
-                songAllInfo.put("songTime",
-                        songDetailAlbumInfo.select("tr").get(3).select("td > time").get(0).text().toString());
+                songAllInfo.put("songTime", songDetailAlbumInfo.select("ul.info-data > li").get(3).select("span.value").first().text().toString());
 
                 // key : likeNum, value : 좋아요 개수
-                songAllInfo.put("likeNum",
-                        songDetailLikeInfo.select("span").first().select("a > span > em").first().text().toString());
+                songAllInfo.put("likeNum", songDetailAlbumInfo.select("p.song-button-zone > span.sns-like > a.like.radius > em#emLikeCount").first().text().toString());
 
             } catch (HttpStatusException e) {
                 e.printStackTrace();
@@ -250,7 +302,7 @@ public class BugsChartParser extends MusicChartParser {
                 _chartThread.stop();
         }
         _chartThread = new Thread(new ChartDataParsingThread()); // Thread는 재사용이 안되기 때문에 다시 객체를 생성함
-        // progressMonitorManager(parentComponent, bugsChartParsingTitle, bugsChartParsingTitle);
+        // progressMonitorManager(parentComponent, genieChartParsingTitle, genieChartParsingMessage);
         _chartThread.start(); // Thread 시작
         try {
             _chartThread.join(); // ChartDataParsingThread가 종료되기전까지 대기
@@ -280,11 +332,11 @@ public class BugsChartParser extends MusicChartParser {
         }
         JSONObject _jObj = obj;
         detailDataparsing(_jObj, parentComponent);
-
     } // songDetailDataParsing(JSONObject jObj, Component parentComponent)
+    // 지니는 발매일(releaseDate)를 웹 페이지에서 보여주지 않아 getReleaseDate 메소드가 없음
     @Override
     void detailDataparsing(JSONObject jObj, Component parentComponent){
-        _url = "https://music.bugs.co.kr/track/" + jObj.get("songId").toString() + "?wl_ref=list_tr_08_chart"; // 파싱할 url을 만듬
+        _url = "https://www.genie.co.kr/detail/songInfo?xgnm=" + jObj.get("songId").toString(); // 파싱할 url을 만듬
         if (_songDetailThread != null) { // Thread를 사용하는 게 처음이 아닐 때
             if (_songDetailThread.isAlive()) // Thread가 살아있으면 정지
                 _songDetailThread.stop();
@@ -296,17 +348,33 @@ public class BugsChartParser extends MusicChartParser {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
     }
+    // 지니는 발매일(releaseDate)를 웹 페이지에서 보여주지 않아 getReleaseDate 메소드가 없음
+
     // songDetailDataParsing 후에만 사용가능한 메소드
-    public String getLikeNum() { // 노래 한 곡에 대한 상세 파싱이 이루어졌다면 그 곡의 좋아요 개수를 반환하는 메소드
-        if(isSongDetailParsed("likeNum") != null){
-            return isSongDetailParsed("likeNum");
+    public String getGenre() { // 노래 한 곡에 대한 상세 파싱이 이루어졌다면 그 곡의 장르를 반환하는 메소드
+        if(isSongDetailParsed("genre") != null){
+            return isSongDetailParsed("genre");
         }
         return null;
-    } // String getLikeNum()
+    } // String getGenre()
 
-	/*  벅스는 발매일(releaseDate)와 장르(genre)를
-	 	웹 페이지에서 보여주지 않아 getReleaseDate 메소드와 getGenre메소드가 없음		*/
+    // songDetailDataParsing 후에만 사용가능한 메소드
+    public String getGenre(JSONObject jObj) { // 노래 한 곡에 대한 상세 파싱이 이루어졌다면 JSONObject를 이용하여 그 곡의 장르를 반환하는 메소드
+        if (!isParsed()) { // 파싱이 이루어졌다면
+            System.out.println(_isNotParsed);
+            return null;
+        }
+        if (_songCount == 1) { // 노래 한 곡에 대한 상세 파싱이 이루어졌다면
+            JSONObject _jobj = jObj;
+            if(isJSONObject("genre",_jobj) != null){
+                return isJSONObject("genre",_jobj);
+            }
+            return null;
+        }
+        return null;
+    } // String getGenre(JSONObject jObj)
 
     // songDetailDataParsing 후에만 사용가능한 메소드
     public String getSongTime() { // 노래 한 곡에 대한 상세 파싱이 이루어졌다면 그 곡의 재생 시간을 반환하는 메소드
@@ -318,12 +386,11 @@ public class BugsChartParser extends MusicChartParser {
 
     // songDetailDataParsing 후에만 사용가능한 메소드
     public String getSongTime(JSONObject jObj) { // 노래 한 곡에 대한 상세 파싱이 이루어졌다면 JSONObject를 이용하여 그 곡의 재생 시간을 반환하는 메소드
-        if (!isParsed()) { // 파싱이 이루어지지 않았다면
+        if (!isParsed()) { // 파싱이 이루어졌다면
             System.out.println(_isNotParsed);
             return null;
         }
-
-        if (_songCount == 1) {// 노래 한 곡에 대한 상세 파싱이 이루어졌다면
+        if (_songCount == 1) { // 노래 한 곡에 대한 상세 파싱이 이루어졌다면
             JSONObject _jobj = jObj;
             if(isJSONObject("songTime",_jobj) != null){
                 return isJSONObject("songTime",_jobj);
@@ -333,5 +400,12 @@ public class BugsChartParser extends MusicChartParser {
         return null;
     } // String getSongTime(JSONObject jObj)
 
+    // songDetailDataParsing 후에만 사용가능한 메소드
+    public String getLikeNum() { // 노래 한 곡에 대한 상세 파싱이 이루어졌다면 그 곡의 좋아요 개수를 반환하는 메소드
+        if(isSongDetailParsed("likeNum") != null){
+            return isSongDetailParsed("likeNum");
+        }
+        return null;
+    } // String getLikeNum()
 
-}
+} // GenieChartParser class

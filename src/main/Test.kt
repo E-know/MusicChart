@@ -1,6 +1,6 @@
 package main
 
-import model.commentParser.MelonAlbumCommentParser
+import controller.commentParser.MelonAlbumCommentParser
 import org.openqa.selenium.chrome.ChromeDriver
 
 fun main() {
