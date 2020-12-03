@@ -1,14 +1,15 @@
-package main;
+package controller;
 
-import controller.*;
-import model.commentParser.BugsAlbumCommentParser;
-import model.commentParser.GenieAlbumCommentParser;
-import model.commentParser.MelonAlbumCommentParser;
+import controller.commentParser.BugsAlbumCommentParser;
+import controller.commentParser.GenieAlbumCommentParser;
+import controller.commentParser.MelonAlbumCommentParser;
+import controller.panelController.CommentPanelController;
+import controller.panelController.SiteChartsPanelController;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import view.SiteChartsPanel;
-import view.CommentPanel;
 import model.DB.InsertDatabase;
+import view.CommentPanel;
+import view.SiteChartsPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,9 +19,13 @@ public class AppManager {
     private CommentPanel pnlCommentPanel;
     private SiteChartsPanel pnlSiteChartsPanel;
     private JPanel primaryPanel;
+    private JFrame _frame;
     InsertDatabase InsertDatabase = new InsertDatabase();
 
     private AppManager(){
+        _frame = new JFrame("The People of Music");
+        _frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
     	setInitPrimaryPanel();
         setInitSiteChartsPanel();
         setInitCommentPanel();
@@ -29,6 +34,9 @@ public class AppManager {
         pnlCommentPanel.setVisible(false);
         primaryPanel.add(pnlSiteChartsPanel);
         //crawlingComments();
+
+        _frame.pack();
+        _frame.setVisible(true);
     }
     
       
@@ -55,6 +63,8 @@ public class AppManager {
         primaryPanel.setLayout(null);
         primaryPanel.setPreferredSize(new Dimension(1280,960));
         primaryPanel.setBackground(Color.BLACK);
+
+        _frame.getContentPane().add(primaryPanel);
     }
 
 
@@ -66,7 +76,7 @@ public class AppManager {
     public void setInitSiteChartsPanel(){
         pnlSiteChartsPanel = new SiteChartsPanel();
         pnlSiteChartsPanel.setLayout(null);
-        new ChartPrimaryPanelController(pnlSiteChartsPanel);
+        new SiteChartsPanelController(pnlSiteChartsPanel);
     }
 
     public JPanel getPrimaryPanel(){

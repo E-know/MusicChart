@@ -7,7 +7,7 @@ import java.util.Comparator;
 import javax.swing.*;
 import javax.swing.table.*;
 
-import controller.ChartPanelController;
+import controller.panelController.ChartPanelController;
 import model.ChartData;
 import model.ChartModel;
 import model.SITE;
@@ -169,17 +169,7 @@ public class ChartPanel extends JPanel {
     */
     public void changeData() {
         SITE.RECENT = false;
-        switch (ChartData.getS_instance().getSite_M_B_G()) {
-            case SITE.MELON:
-                _strChartName = "Melon";
-                break;
-            case SITE.BUGS:
-                _strChartName = "Bugs";
-                break;
-            case SITE.GENIE:
-                _strChartName = "Genie";
-                break;
-        }
+        _strChartName = SITE.SITENAME[ChartData.getS_instance().getSite_M_B_G()];
         _lblTitle.setText(_strChartName + " TOP 100");
         _tableModel.setContents(ChartData.getS_instance().getParser().getChartList());
         makeAndRepaintTable();

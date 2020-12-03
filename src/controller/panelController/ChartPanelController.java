@@ -1,12 +1,11 @@
-package controller;
+package controller.panelController;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.*;
 
-import main.AppManager;
-import model.ChartData;
+import controller.AppManager;
 import model.SITE;
 import view.ChartPanel;
 

@@ -207,7 +207,7 @@ public class CommentPanel extends JPanel {
         _sqlTitle = replaceTitle(_strTitle);
         DB.connectionDB();
         try {
-            DB.insertRecentListDB(_sqlTitle, ChartData.getS_instance().getSite_M_B_G(), rank,InetAddress.getLocalHost().getHostName());
+            DB.insertRecentListDB(_sqlTitle, ChartData.getS_instance().getSite_M_B_G(), rank, InetAddress.getLocalHost().getHostName());
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
@@ -258,20 +258,33 @@ public class CommentPanel extends JPanel {
         _modelList.clear();
         _commentListDTO.clear();
     }
-    public void clearPanelTxt(){
+
+    public void clearPanelTxt() {
         _txtPassword.setText("");
         _txtComment.setText("");
     }
 
-    public void addBtnRegisterListener(ActionListener listenForBtnRegister) { _btnRegister.addActionListener((listenForBtnRegister)); }
-    public void addBtnDeleteListener(ActionListener listenForBtnDelete) { _btnDelete.addActionListener((listenForBtnDelete)); }
-    public void addBtnBackListener(ActionListener listenForBtnBack) { _btnBack.addActionListener((listenForBtnBack)); }
-    public void addBtnYouTubeListener(ActionListener listenForBtnYouTube) { _btnYouTube.addActionListener((listenForBtnYouTube)); }
+    public void addBtnRegisterListener(ActionListener listenForBtnRegister) {
+        _btnRegister.addActionListener((listenForBtnRegister));
+    }
 
-    public void setCommnetPanelRank(int rank){
+    public void addBtnDeleteListener(ActionListener listenForBtnDelete) {
+        _btnDelete.addActionListener((listenForBtnDelete));
+    }
+
+    public void addBtnBackListener(ActionListener listenForBtnBack) {
+        _btnBack.addActionListener((listenForBtnBack));
+    }
+
+    public void addBtnYouTubeListener(ActionListener listenForBtnYouTube) {
+        _btnYouTube.addActionListener((listenForBtnYouTube));
+    }
+
+    public void setCommnetPanelRank(int rank) {
         _commmentPanelRank = rank;
     }
-    public int getCommentPanelRank(){
+
+    public int getCommentPanelRank() {
         return _commmentPanelRank;
     }
 }//CommentUI
