@@ -1,4 +1,8 @@
 package model;
+import controller.musicChartParser.BugsChartParser;
+import controller.musicChartParser.GenieChartParser;
+import controller.musicChartParser.MelonChartParser;
+import controller.musicChartParser.MusicChartParser;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import java.awt.*;
@@ -17,7 +21,7 @@ public class DetailData{
         detailGenie = new GenieChartParser();
     }
     public MusicChartParser getParser() {
-        switch (ChartData.getS_instance().getSite_M_B_G()) {
+        switch (ChartData.getS_instance().getSiteMBG()) {
             case SITE.MELON:
                 return detailMelon;
             case SITE.BUGS:

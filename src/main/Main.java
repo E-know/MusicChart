@@ -1,7 +1,7 @@
 package main;
 
-import javax.swing.*;
 import model.DB.ConnectDB;
+import controller.AppManager;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -10,8 +10,6 @@ public class Main {
     static ConnectDB DB = new ConnectDB();
 
     public static void main(String[] args){
-        JFrame frame = new JFrame("The People of Music");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         // JVM이 종료할 때 특정 작업 무조건 수행하기.
         DB.driverLoad();
 
@@ -27,11 +25,6 @@ public class Main {
             }
         });
 
-        frame.getContentPane().add(AppManager.getS_instance().getPnlPrimaryPanel());
-        //ChartData.getS_instance();
-        //DetailData.getS_instance();
-
-        frame.pack();
-        frame.setVisible(true);
+        AppManager.getS_instance();
     }
 }
