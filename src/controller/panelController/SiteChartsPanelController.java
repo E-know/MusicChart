@@ -1,7 +1,7 @@
-package controller;
+package controller.panelController;
 
 import model.ChartData;
-import view.SiteChartsPanel;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.time.LocalDateTime;
@@ -9,9 +9,9 @@ import java.time.format.DateTimeFormatter;
 
 public class SiteChartsPanelController {
 
-    private SiteChartsPanel theSiteChartsPanel;
+    private view.SiteChartsPanel theSiteChartsPanel;
 
-    public SiteChartsPanelController(SiteChartsPanel TheSiteChartsPanel) {
+    public SiteChartsPanelController(view.SiteChartsPanel TheSiteChartsPanel) {
         this.theSiteChartsPanel = TheSiteChartsPanel;
         this.theSiteChartsPanel.addBtnRefreshListener(new ButtonRefreshListener());
         this.theSiteChartsPanel.addBtnMelonListener(new ButtonMelonListener());
@@ -143,14 +143,14 @@ public class SiteChartsPanelController {
     private class KeyActionListener implements KeyListener{
         private Component viewLoading;
         public KeyActionListener() { }
-        public KeyActionListener(Component parentComponent){ viewLoading = parentComponent; }
+        public KeyActionListener(Component parentComponent){
+            viewLoading = parentComponent;
+        }
 
         @Override
         public void keyTyped(KeyEvent e) { }
-
         @Override
         public void keyPressed(KeyEvent e) { }
-
         @Override
         public void keyReleased(KeyEvent e) {
             Object obj = e.getSource();
@@ -162,8 +162,6 @@ public class SiteChartsPanelController {
                 if(1 == theSiteChartsPanel._strCombo.getSelectedIndex())//Artist
                     theSiteChartsPanel._pnlChartPanel.filterTitleANDArtist(theSiteChartsPanel._txtSearch.getText(),3);
             }//comboBox 0, 1
-
         }//KeyReleased
-
     }//KeyListener
 }

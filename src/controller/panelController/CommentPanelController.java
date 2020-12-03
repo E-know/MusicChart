@@ -1,6 +1,6 @@
-package controller;
+package controller.panelController;
 
-import main.AppManager;
+import controller.AppManager;
 import view.CommentPanel;
 import model.DB.ConnectDB;
 import model.DB.CommentDTO;
