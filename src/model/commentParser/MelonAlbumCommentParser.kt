@@ -1,4 +1,4 @@
-package controller.commentParser
+package model.commentParser
 
 import model.ChartData
 import org.openqa.selenium.WebDriver

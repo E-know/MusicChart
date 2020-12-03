@@ -1,8 +1,4 @@
 package model;
-import controller.musicChartParser.BugsChartParser;
-import controller.musicChartParser.GenieChartParser;
-import controller.musicChartParser.MelonChartParser;
-import controller.musicChartParser.MusicChartParser;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import java.awt.*;

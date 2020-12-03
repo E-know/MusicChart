@@ -1,17 +1,18 @@
-package controller.panelController;
+package controller;
 
 import model.ChartData;
+import model.MusicChartParser;
 import view.SiteChartsPanel;
 import java.awt.*;
 import java.awt.event.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class SiteChartsPanelController {
+public class ChartPrimaryPanelController {
 
-    private view.SiteChartsPanel the_Chart_Primary_Panel;
+    private SiteChartsPanel the_Chart_Primary_Panel;
 
-    public SiteChartsPanelController(view.SiteChartsPanel theSiteChartsPanel) {
+    public ChartPrimaryPanelController(SiteChartsPanel theSiteChartsPanel) {
         this.the_Chart_Primary_Panel = theSiteChartsPanel;
         this.the_Chart_Primary_Panel.addBtnRefreshListener(new ButtonRefreshListener());
         this.the_Chart_Primary_Panel.addBtnMelonListener(new ButtonMelonListener());
