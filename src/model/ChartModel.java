@@ -58,7 +58,7 @@ public class ChartModel extends AbstractTableModel {
 
     public void setRecentContents(ArrayList<RecentListDTO> recentListDTO) {
         for(int i = 0; i < recentListDTO.size(); i++) {            ;
-            ChartData.getS_instance().setSite_M_B_G(recentListDTO.get(i).getSiteNum());
+            ChartData.getS_instance().setSiteMBG(recentListDTO.get(i).getSiteNum());
             int rank = recentListDTO.get(i).getRank();
             _chartData[i][0] = rank;
             try {

@@ -15,7 +15,7 @@ public class InsertDatabase {
         String title, artist, albumName, albumId;
         DB.connectionDB();
         for (int i = 1; i <= 3; i++){
-            ChartData.getS_instance().setSite_M_B_G(i);
+            ChartData.getS_instance().setSiteMBG(i);
             ChartData.getS_instance().DataPassing(parentComponent);
             for (int k = 1; k <= 100; k++) {
                 title = ChartData.getS_instance().getParser().getTitle(k);

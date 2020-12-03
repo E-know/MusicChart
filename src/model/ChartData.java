@@ -25,10 +25,10 @@ public class ChartData{
         bugs = new BugsChartParser();
         genie = new GenieChartParser();
     }
-    public void setSite_M_B_G(int type){
+    public void setSiteMBG(int type){
         _siteMBG = type;
     }
-    public int getSite_M_B_G() {
+    public int getSiteMBG() {
         return _siteMBG;
     }
     public MelonChartParser getMelonChartParser() {

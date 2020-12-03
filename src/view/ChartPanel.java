@@ -107,7 +107,7 @@ public class ChartPanel extends JPanel {
     }
 
     private void setInitTableModel() {
-	    ChartData.getS_instance().setSite_M_B_G(SITE.MELON);
+	    ChartData.getS_instance().setSiteMBG(SITE.MELON);
         if (!ChartData.getS_instance().getParser().isParsed())
             ChartData.getS_instance().getParser().chartDataParsing(this); //Melon 차트 정보 받아옴
 
@@ -169,7 +169,7 @@ public class ChartPanel extends JPanel {
     */
     public void changeData() {
         SITE.RECENT = false;
-        _strChartName = SITE.SITENAME[ChartData.getS_instance().getSite_M_B_G()];
+        _strChartName = SITE.SITENAME[ChartData.getS_instance().getSiteMBG()-1];
         _lblTitle.setText(_strChartName + " TOP 100");
         _tableModel.setContents(ChartData.getS_instance().getParser().getChartList());
         makeAndRepaintTable();
