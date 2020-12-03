@@ -66,6 +66,7 @@ public class AppManager {
     public void setInitSiteChartsPanel(){
         pnlSiteChartsPanel = new SiteChartsPanel();
         pnlSiteChartsPanel.setLayout(null);
+        new InsertDatabase().insertChartDatabase(pnlSiteChartsPanel);
         new ChartPrimaryPanelController(pnlSiteChartsPanel);
     }
 
