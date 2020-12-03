@@ -1,7 +1,5 @@
 package view;
 
-import model.DB.InsertDatabase;
-
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
@@ -31,8 +29,6 @@ public class SiteChartsPanel extends JPanel {
 
 
     public SiteChartsPanel() {
-        new InsertDatabase().insertChartDatabase(this);
-
         setBackground(new Color(255, 255, 255, 0));
         setBounds(1, 0, 1278, 960);
         setLayout(null);
