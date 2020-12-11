@@ -15,11 +15,6 @@ import org.jsoup.select.Elements;
 
 import java.awt.*;
 
-/**
- * @author SejongUniv 오창한
- * @version 1.7
- **/
-
 public class MelonChartParser extends MusicChartParser {
 
     /*
@@ -67,10 +62,8 @@ public class MelonChartParser extends MusicChartParser {
      * - [반환형] 메소드이름() 과 같이 표기했다.
      *
      * <노래 1개에 대한 상세 정보 파싱 관련 메소드>
-     * [void]		songDetailDataParsing(String songId, Component parentComponent)
      * [void]		songDetailDataParsing(JSONObject jObj, Component parentComponent)
      * [void]		songDetailDataParsing(int rank, JSONArray chartListData, Component parentComponent)
-     * [void]		songDetailDataParsing(String title, JSONArray chartListData, Component parentComponent)
      * [boolean]	isParsed()
      *
      * <노래 1개에 대한 상세 정보 get 메소드>

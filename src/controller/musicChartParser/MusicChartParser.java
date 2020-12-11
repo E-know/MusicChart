@@ -15,10 +15,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-/**
- * @author SejongUniv 오창한
- * @version 1.7
- **/
 
 public abstract class MusicChartParser {
 
