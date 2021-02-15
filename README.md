@@ -38,4 +38,4 @@ switch문이 꼭 나쁜 것은 아니지만, 에러가 발생할 여지가 있�
 <img src="https://me2.do/F36rBkib" width="20%"><img src="https://me2.do/FNmEbLkn" width="20%">
 
 # 프로그램 시연
-<img src="https://ifh.cc/g/8uaE7U.jpg">
+<img src="https://ifh.cc/g/8uaE7U.jpg" width="40%"> <img src="https://ifh.cc/g/3C3yaf.jpg" width="40">
