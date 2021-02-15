@@ -5,7 +5,6 @@
 # 프로젝트 목표
 여러 음원사이트에 나와있는 TOP100차트를 가져와서 한번에 비교해주고 각 사이트별 앨범 댓글들을 한눈에 보여주는 프로그램입니다.
 
-
 # 리팩토링 내용
 + MVC 패턴 분리
 기존 MVC 패턴이 미 적용된 자바 프로젝트였습니다. 코드 리펙토링 전에 MVC패턴으로 분리했습니다.
@@ -27,6 +26,9 @@ switch문이 꼭 나쁜 것은 아니지만, 에러가 발생할 여지가 있�
 박기춘 ( 데이터 베이스 구축 및 최근 본 목록 생성)   
 김성수 ( 컨트롤러 리팩토링 및 유튜브 스트리밍 연결)
 
+# 프로젝트 구조도
+<img src="https://ifh.cc/g/hxS2CP.png" width="50%">
+
 # 사용된 라이브러리, 프레임워크, 데이터베이스
 ## 라이브러리
 <img src="https://bit.ly/3jZxrBD" width="30%">
@@ -38,4 +40,4 @@ switch문이 꼭 나쁜 것은 아니지만, 에러가 발생할 여지가 있�
 <img src="https://me2.do/F36rBkib" width="20%"><img src="https://me2.do/FNmEbLkn" width="20%">
 
 # 프로그램 시연
-<img src="https://ifh.cc/g/8uaE7U.jpg" width="40%"> <img src="https://ifh.cc/g/3C3yaf.jpg" width="40">
+<img src="https://ifh.cc/g/8uaE7U.jpg" width="40%"> <img src="https://ifh.cc/g/3C3yaf.jpg" width="40%">
