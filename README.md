@@ -17,22 +17,25 @@ switch문이 꼭 나쁜 것은 아니지만, 에러가 발생할 여지가 있�
 지난 프로젝트에서 시간에 쫓겨 하지 못했던 부분들을 완성시켰습니다.
   - 각 사이트 댓글 크롤링
   - 데이터 베이스 구축
+자세한 리팩토링 내용은 [최종보고서](https://me2.do/GWFZGvud)내용 참고바람
 
 # 팀 구성
 ## 팀장
 최인호 ( 각 사이트 댓글 크롤링, View 리팩토링 및 서류&발표자료 준비 )    
 ## 팀원
 안건우 ( 차트 크롤링 리팩토링 및 Model 리팩토링 )  
-박기춘 ( 데이터 베이스 구축 )   
-김성수 ( 컨트롤러 리팩토링 )
+박기춘 ( 데이터 베이스 구축 및 최근 본 목록 생성)   
+김성수 ( 컨트롤러 리팩토링 및 유튜브 스트리밍 연결)
 
 # 사용된 라이브러리, 프레임워크, 데이터베이스
 ## 라이브러리
 <img src="https://bit.ly/3jZxrBD" width="30%">
 
 ## 프레임워크  
-<img src="https://me2.do/FYu8pEeM" width="30%">
+<img src="https://me2.do/FYu8pEeM" width="20%">
 
 ## 데이터베이스
-<img src="https://me2.do/F36rBkib" width="30%">
+<img src="https://me2.do/F36rBkib" width="20%"><img src="https://me2.do/FNmEbLkn" width="20%">
 
+# 프로그램 시연
+<img src="https://ifh.cc/g/8uaE7U.jpg">
